@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -5,15 +6,17 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     GENDER_CHOICES = ((0, 'Male'), (1, 'Female'))
-    year = models.IntegerField(core=True)
     gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES, core=True)
+    year = models.IntegerField(null=True, blank=True)
+    living_group = models.CharField(maxlength=30, blank=True)
+    experience = models.TextField(blank=True)
+    photo = models.ImageField(upload_to=settings.PROFILE_IMAGE_DIR, 
+                              blank=True)
     user = models.ForeignKey(User, unique=True, edit_inline=models.STACKED,
                                    num_in_admin=1, max_num_in_admin=1,
                                    min_num_in_admin=1, num_extra_on_change=0)
     def __str__(self):
         return self.user.username
-    class Admin:
-        pass
 
 class Dance(models.Model):
     LEVEL_CHOICES = (
@@ -23,15 +26,15 @@ class Dance(models.Model):
         (3, 'Advanced')
     )
     name = models.CharField(maxlength = 255)
-    description = models.TextField()
     style = models.CharField(maxlength = 255)
     level = models.PositiveSmallIntegerField(choices=LEVEL_CHOICES)
+    description = models.TextField()
     choreographers = models.ManyToManyField(User, 
                                             related_name='choreographed')
     dancers = models.ManyToManyField(User, related_name='danced_in')
-    show = models.ForeignKey('Show')
+    show = models.ForeignKey('Show', related_name='dances')
     class Admin:
-        pass
+        list_display = ('name', 'show', 'style', 'level')
 
 class Show(models.Model):
     SEMESTER_CHOICES = ((0, 'Spring'), (1, 'Fall'))
