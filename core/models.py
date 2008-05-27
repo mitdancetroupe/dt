@@ -2,21 +2,22 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
-
-class UserProfile(models.Model):
-    GENDER_CHOICES = ((0, 'Male'), (1, 'Female'))
-    gender = models.PositiveSmallIntegerField(choices=GENDER_CHOICES, core=True)
+class Dancer(models.Model):
+    GENDER_CHOICES = (('M', 'Male'), ('F', 'Female'))
+    first_name = models.CharField(maxlength=30)
+    last_name = models.CharField(maxlength=30)
+    gender = models.CharField(maxlength=1, choices=GENDER_CHOICES, core=True)
+    email = models.EmailField()
     year = models.IntegerField(null=True, blank=True)
     living_group = models.CharField(maxlength=30, blank=True)
     experience = models.TextField(blank=True)
-    photo = models.ImageField(upload_to=settings.PROFILE_IMAGE_DIR, 
-                              blank=True)
-    user = models.ForeignKey(User, unique=True, edit_inline=models.STACKED,
-                                   num_in_admin=1, max_num_in_admin=1,
-                                   min_num_in_admin=1, num_extra_on_change=0)
+    photo = models.ImageField(upload_to=settings.DANCER_IMAGE_DIR, blank=True)
     def __str__(self):
-        return self.user.username
+        return self.first_name + " " + self.last_name
+    class Admin:
+        list_display = ('email', 'first_name', 'last_name', 'year',)
+    class Meta:
+        unique_together = (('email',),)
 
 class Dance(models.Model):
     LEVEL_CHOICES = (
@@ -28,11 +29,13 @@ class Dance(models.Model):
     name = models.CharField(maxlength = 255)
     style = models.CharField(maxlength = 255)
     level = models.PositiveSmallIntegerField(choices=LEVEL_CHOICES)
-    description = models.TextField()
-    choreographers = models.ManyToManyField(User, 
+    description = models.TextField(blank=True)
+    choreographers = models.ManyToManyField(Dancer, 
                                             related_name='choreographed')
-    dancers = models.ManyToManyField(User, related_name='danced_in')
+    dancers = models.ManyToManyField(Dancer, related_name='danced_in')
     show = models.ForeignKey('Show', related_name='dances')
+    def __str__(self):
+        return self.name
     class Admin:
         list_display = ('name', 'show', 'style', 'level')
 
