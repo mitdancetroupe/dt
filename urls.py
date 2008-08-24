@@ -23,5 +23,5 @@ urlpatterns = patterns('',
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
     (r'^accounts/profile/$', 'dt.core.views.profile'),
 
-    (r'^auditions/prefsheet/$', 'dt.auditions.views.prefsheet'),
+    (r'^auditions/(\D{1})(\d{2})/prefsheet/$', 'dt.auditions.views.prefsheet'),
 )

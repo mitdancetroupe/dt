@@ -1,7 +1,9 @@
-from django import newforms as forms
+from django.forms.models import inlineformset_factory, ModelForm
+from dt.auditions.models import *
 
-from dt import auditions
+class PrefSheetForm(ModelForm):
+    class Meta:
+        model = PrefSheet
+        exclude = ('user','show')
+PrefFormSet = inlineformset_factory(PrefSheet, Pref)
 
-class PrefSheetForm(forms.Form):
-    pass
-    

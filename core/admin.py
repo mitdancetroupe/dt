@@ -2,6 +2,7 @@ from django.contrib import admin
 from dt.core.models import *
 
 from django.contrib import auth
+
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
     extra = 1

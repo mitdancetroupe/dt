@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Preferences Sheet{% endblock %}
+
+{% block body %}
+<form id="prefsheet-form" action="" method="post">
+  <table>
+    {{ prefsheet_form }}
+  </table>
+  <table>
+    {{ pref_formset }}
+  </table>
+  <input type="submit" value="Submit"/>
+</form>
+{% endblock %}

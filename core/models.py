@@ -13,7 +13,8 @@ class UserProfile(models.Model):
         return "%s/%s-%s" % (settings.DANCER_IMAGE_DIR, instance.user.username,
                              filename)
     photo = models.ImageField(upload_to=photo_path, blank=True)
-
+    def __str__(self):
+        return "Profile for %s" % self.user
 
 class Dance(models.Model):
     LEVEL_CHOICES = (

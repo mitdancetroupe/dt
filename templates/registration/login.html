@@ -1,24 +1,29 @@
 {% extends "base.html" %}
 
 {% block title %}
-  Login
+  Login / Create account
 {% endblock %}
 
 {% block body %}
+  <div id="login-box">
+    <h2>Login</h2>
+    {% if form.errors %}
+      <p class="error">Sorry, that's not a valid username or password</p>
+    {% endif %}
 
-  {% if form.errors %}
-    <p class="error">Sorry, that's not a valid username or password</p>
-  {% endif %}
+    <form action='.' method='post'>
+      <label for="username">Username:</label>
+      <input type="text" name="username" value="" id="username">
+      <label for="password">Password:</label>
+      <input type="password" name="password" value="" id="password">
 
-  <form action='.' method='post'>
-    <label for="username">User name:</label>
-    <input type="text" name="username" value="" id="username">
-    <label for="password">Password:</label>
-    <input type="password" name="password" value="" id="password">
-
-    <input type="submit" value="login" />
-    <input type="hidden" name="next" value="{{ next|escape }}" />
-  <form action='.' method='post'>
-
+      <input type="submit" value="Login" />
+      <input type="hidden" name="next" value="{{ next|escape }}" />
+    <form action='.' method='post'>
+  </div>
+  <div id="registration-box">
+    <h2>Create an account</h2>
+    <p>New to Dance Troupe?  Create an account!</p>
+  </div>
 {% endblock %}
 
