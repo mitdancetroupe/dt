@@ -16,8 +16,8 @@ class PrefSheet(models.Model):
 
 class Pref(models.Model):
     prefsheet = models.ForeignKey(PrefSheet, related_name='prefs')
-    dance = models.ForeignKey(core.models.Dance, core=True)
-    pref = models.PositiveSmallIntegerField(core=True)
+    dance = models.ForeignKey(core.models.Dance)
+    pref = models.PositiveSmallIntegerField()
     def __str__(self):
         return "%s: %s" % (self.dance, self.pref)
     class Meta:

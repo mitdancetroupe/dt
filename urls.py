@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     (r'^admin/(.*)', admin.site.root),
 
     # Accounts
+    (r'^accounts/register/$', 'dt.core.views.register'),
     (r'^accounts/login/$', 'django.contrib.auth.views.login'),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
     (r'^accounts/profile/$', 'dt.core.views.profile'),

@@ -11,8 +11,11 @@ class UserProfileInline(admin.StackedInline):
 class UserAdmin(auth.admin.UserAdmin):
     inlines = [ UserProfileInline ]
 
+class ShowAdmin(admin.ModelAdmin):
+    list_display = ('name', 'year', 'semester')
+
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
-admin.site.register(Show)
+admin.site.register(Show, ShowAdmin)
 admin.site.register(Dance) 

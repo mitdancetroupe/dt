@@ -4,11 +4,15 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     GENDER_CHOICES = (('M', 'Male'), ('F', 'Female'))
+    AFFILIATION_CHOICES = (('U', 'Undergraduate'), ('G', 'Graduate'),
+                           ('O', 'Other'), ('N', 'Non-MIT'))
     user = models.OneToOneField(User)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, core=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     year = models.IntegerField(null=True, blank=True)
+    affiliation = models.CharField(max_length=1, choices=AFFILIATION_CHOICES)
     living_group = models.CharField(max_length=30, blank=True)
     experience = models.TextField(blank=True)
+    phone_number = models.PhoneNumberField(blank=True)
     def photo_path(instance, filename):
         return "%s/%s-%s" % (settings.DANCER_IMAGE_DIR, instance.user.username,
                              filename)
@@ -43,6 +47,6 @@ class Show(models.Model):
     semester = models.PositiveSmallIntegerField(choices=SEMESTER_CHOICES)
     def __str__(self):
         return self.name
-    class Admin:
-        list_display = ('name', 'semester', 'year')
+    class Meta:
+        ordering = ('-year', '-semester')
 

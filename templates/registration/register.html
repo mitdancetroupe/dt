@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Registration{% endblock %}
+
+{% block body %}
+<form id="register-form" action="" method="post">
+  <table>
+    {{ user_form }}
+    {{ user_profile_form }}
+  </table>
+  <input type="hidden" name="next" value="{{ next|escape }}"/>
+  <input type="submit" value="Create"/>
+</form>
+{% endblock %}
+

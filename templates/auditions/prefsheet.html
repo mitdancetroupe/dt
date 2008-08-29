@@ -4,12 +4,30 @@
 
 {% block body %}
 <form id="prefsheet-form" action="" method="post">
-  <table>
-    {{ prefsheet_form }}
-  </table>
-  <table>
-    {{ pref_formset }}
-  </table>
+  <fieldset>
+    <legend>Scheduling Information</legend>
+    <table>
+      {{ prefsheet_form }}
+    </table>
+  </fieldset>
+  <fieldset>
+    <legend>Dance Preferences</legend>
+    <table>
+      {{ pref_formset.management_form }}
+      <tr>
+        <th>Rank</th>
+        <th>Dance</th>
+        <th>Delete?</th>
+      </tr>
+      {% for form in pref_formset.forms %}
+        <tr>
+          <td>{{ form.pref }}</td>
+          <td>{{ form.dance }}</td>
+          <td>{{ form.DELETE }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </fieldset>
   <input type="submit" value="Submit"/>
 </form>
 {% endblock %}

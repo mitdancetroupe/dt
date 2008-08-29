@@ -19,11 +19,11 @@
 
       <input type="submit" value="Login" />
       <input type="hidden" name="next" value="{{ next|escape }}" />
-    <form action='.' method='post'>
+    </form>
   </div>
   <div id="registration-box">
     <h2>Create an account</h2>
-    <p>New to Dance Troupe?  Create an account!</p>
+    <p>New to MIT Dance Troupe? <a href="{% url dt.core.views.register %}?next={{ next|escape }}">Create an account!</a></p>
   </div>
 {% endblock %}
 
