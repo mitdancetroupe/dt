@@ -3,7 +3,14 @@
 {% block title %}Preferences Sheet{% endblock %}
 
 {% block body %}
+<h1>{{ show }} Preferences Sheet</h1>
 <form id="prefsheet-form" action="" method="post">
+  <fieldset>
+    <legend>Personal Information</legend>
+    <table>
+      {{ user_profile_form }}
+    </table>
+  </fieldset>
   <fieldset>
     <legend>Scheduling Information</legend>
     <table>
@@ -21,7 +28,7 @@
       </tr>
       {% for form in pref_formset.forms %}
         <tr>
-          <td>{{ form.pref }}</td>
+          <td>{{ form.pref }}{{ form.id }}</td>
           <td>{{ form.dance }}</td>
           <td>{{ form.DELETE }}</td>
         </tr>

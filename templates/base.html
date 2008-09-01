@@ -4,13 +4,18 @@
 
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="/media/css/yui-all.css"/>
+    <link rel="stylesheet" type="text/css" href="/media/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="/media/css/form.css"/>
     <title>{% block title %}{% endblock %} | MIT Dance Troupe</title>
     {% block css %}{% endblock %}
   </head>
 
   <body>
-    {% block body %}
-    {% endblock %}
+    <div id="doc">
+      {% block body %}
+      {% endblock %}
+    </div>
   </body>
 
 </html>
