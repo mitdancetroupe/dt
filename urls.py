@@ -25,4 +25,5 @@ urlpatterns = patterns('',
     (r'^accounts/profile/$', 'dt.core.views.profile'),
 
     (r'^auditions/(\D{1})(\d{2})/prefsheet/$', 'dt.auditions.views.prefsheet'),
+    (r'^auditions/(\D{1})(\d{2})/thanks/$', 'dt.auditions.views.thanks'),
 )

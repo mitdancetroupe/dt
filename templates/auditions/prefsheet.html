@@ -4,9 +4,15 @@
 
 {% block body %}
 <h1>{{ show }} Preferences Sheet</h1>
-<form id="prefsheet-form" action="" method="post">
+<form id="prefsheet-form" enctype="multipart/form-data" action="" method="post">
   <fieldset>
     <legend>Personal Information</legend>
+    {% if user.get_profile.photo %}
+      <div id="user-photo">
+        <h3>Uploaded Photo</h3>
+        <img src="{{ user.get_profile.photo.url }}"/>
+      </div>
+    {% endif %}
     <table>
       {{ user_profile_form }}
     </table>

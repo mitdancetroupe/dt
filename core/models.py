@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.contrib.localflavor.us.models import PhoneNumberField
 from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
@@ -12,7 +13,7 @@ class UserProfile(models.Model):
     affiliation = models.CharField(max_length=1, choices=AFFILIATION_CHOICES)
     living_group = models.CharField(max_length=30, blank=True)
     experience = models.TextField(blank=True)
-    phone_number = models.PhoneNumberField(blank=True)
+    phone_number = PhoneNumberField(blank=True)
     def photo_path(instance, filename):
         return "%s/%s-%s" % (settings.DANCER_IMAGE_DIR, instance.user.username,
                              filename)

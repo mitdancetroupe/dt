@@ -3,6 +3,8 @@ from django.contrib import auth
 from dt.core import models
 
 class UserForm(auth.forms.UserCreationForm):
+    username = forms.CharField(max_length=8, 
+                               help_text='Please use your Athena username if you have one.')
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
     email = forms.EmailField()

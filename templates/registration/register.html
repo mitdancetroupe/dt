@@ -3,7 +3,8 @@
 {% block title %}Registration{% endblock %}
 
 {% block body %}
-<form id="register-form" action="" method="post">
+<h1>Registration</h1>
+<form id="register-form" enctype="multipart/form-data"  action="" method="post">
   <table>
     {{ user_form }}
     {{ user_profile_form }}

@@ -17,7 +17,7 @@ def register(request):
     redirect_to = request.REQUEST.get('next', '')
     if request.method == 'POST':
         user_form = UserForm(request.POST)
-        user_profile_form = UserProfileForm(request.POST)
+        user_profile_form = UserProfileForm(request.POST, request.FILES)
         if user_form.is_valid() and user_profile_form.is_valid():
             if not redirect_to or '//' in redirect_to or ' ' in redirect_to:
                 redirect_to = settings.LOGIN_REDIRECT_URL
