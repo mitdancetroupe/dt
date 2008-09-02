@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block includes %}{{ prefsheet_form.media }}{% endblock %}
+
 {% block title %}Preferences Sheet{% endblock %}
 
 {% block body %}
@@ -34,9 +36,12 @@
       </tr>
       {% for form in pref_formset.forms %}
         <tr>
-          <td>{{ form.pref }}{{ form.id }}</td>
-          <td>{{ form.dance }}</td>
-          <td>{{ form.DELETE }}</td>
+          <td>{{ form.pref.errors }}{{ form.id.errors }}
+              {{ form.pref }}{{ form.id }}</td>
+          <td>{{ form.dance.errors }}
+              {{ form.dance }}</td>
+          <td>{{ form.DELETE.errors }}
+              {{ form.DELETE }}</td>
         </tr>
       {% endfor %}
     </table>

@@ -21,5 +21,5 @@ class Pref(models.Model):
     def __str__(self):
         return "%s: %s" % (self.dance, self.pref)
     class Meta:
-        ordering = ('prefsheet', '-pref')
+        ordering = ('prefsheet', 'pref')
         unique_together = (('prefsheet', 'dance'), ('prefsheet', 'pref'),)

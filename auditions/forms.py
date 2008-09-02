@@ -5,5 +5,7 @@ class PrefSheetForm(ModelForm):
     class Meta:
         model = PrefSheet
         exclude = ('user','show')
-PrefFormSet = inlineformset_factory(PrefSheet, Pref)
+    class Media:
+        js = ('js/jquery.js', 'js/prefsheet.js',)
+PrefFormSet = inlineformset_factory(PrefSheet, Pref, extra=2)
 
