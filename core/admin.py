@@ -14,8 +14,12 @@ class UserAdmin(auth.admin.UserAdmin):
 class ShowAdmin(admin.ModelAdmin):
     list_display = ('name', 'year', 'semester')
 
+class DanceAdmin(admin.ModelAdmin):
+    list_display = ('name', 'show', 'style', 'level')
+
+
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
 admin.site.register(Show, ShowAdmin)
-admin.site.register(Dance) 
+admin.site.register(Dance, DanceAdmin) 

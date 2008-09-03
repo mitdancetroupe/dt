@@ -13,11 +13,11 @@ class UserProfile(models.Model):
     affiliation = models.CharField(max_length=1, choices=AFFILIATION_CHOICES)
     living_group = models.CharField(max_length=30, blank=True)
     experience = models.TextField(blank=True)
-    phone_number = PhoneNumberField(blank=True)
+    phone_number = PhoneNumberField(blank=True, help_text='An optional phone number we can use to reach you if necessary.')
     def photo_path(instance, filename):
         return "%s/%s-%s" % (settings.DANCER_IMAGE_DIR, instance.user.username,
                              filename)
-    photo = models.ImageField(upload_to=photo_path, blank=True)
+    photo = models.ImageField(upload_to=settings.DANCER_IMAGE_DIR, blank=True, help_text='An optional photo of yourself.')
     def __str__(self):
         return "Profile for %s" % self.user
 
@@ -32,9 +32,9 @@ class Dance(models.Model):
     style = models.CharField(max_length = 255)
     level = models.PositiveSmallIntegerField(choices=LEVEL_CHOICES)
     description = models.TextField(blank=True)
-    choreographers = models.ManyToManyField(User, 
+    choreographers = models.ManyToManyField(User, blank=True,
                                             related_name='choreographed')
-    dancers = models.ManyToManyField(User, related_name='danced_in')
+    dancers = models.ManyToManyField(User, blank=True, related_name='danced_in')
     show = models.ForeignKey('Show', related_name='dances')
     def __str__(self):
         return self.name

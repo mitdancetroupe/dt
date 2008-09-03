@@ -1,5 +1,7 @@
 from django import forms
+from django.forms import fields
 from django.contrib import auth
+from django.contrib.localflavor import us
 from dt.core import models
 
 class UserForm(auth.forms.UserCreationForm):

@@ -6,6 +6,9 @@
 
 {% block body %}
 <h1>{{ show }} Preferences Sheet</h1>
+<p>Welcome, {{ user.first_name }}!
+For descriptions of the dances, please click <a href="../dances/" target="_blank">here</a>.
+</p>
 <form id="prefsheet-form" enctype="multipart/form-data" action="" method="post">
   <fieldset>
     <legend>Personal Information</legend>
@@ -27,6 +30,7 @@
   </fieldset>
   <fieldset>
     <legend>Dance Preferences</legend>
+    <p>Please do not tie dances, and only pref dances you want to be in (i.e. you do not have to pref all of the dances).</p>
     <table>
       {{ pref_formset.management_form }}
       <tr>

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}{{ show }} Dances{% endblock %}
+
+{% block body %}
+  <h1>{{ show }} Dances</h1>
+  {% for dance in dances %}
+    <dl class="dance-info">
+      <dt>Choreographer(s):</dt>
+      <dd>
+        {% for user in dance.choreographers.all %}
+          {{ user.first_name }} {{ user.last_name }},
+        {% endfor %}
+      </dd>
+      <dt>Name:</dt>
+      <dd>{{ dance.name }}</dd>
+      <dt>Style:</dt>
+      <dd>{{ dance.style }}</dd>
+      <dt>Level:</dt>
+      <dd>{{ dance.get_level_display }}</dd>
+      <dt>Description:</dt>
+      <dd>{{ dance.description }}</dd>
+    </dl>
+  {% endfor %}
+
+{% endblock %}
