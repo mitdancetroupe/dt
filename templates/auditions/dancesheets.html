@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load filters %}
+
+{% block title %} {{ dance }} Audition Sheet{% endblock %}
+
+{% block includes %}
+<link rel="stylesheet" type="text/css" media="print" href="/media/css/dancesheet.css"/>
+{% endblock %}
+
+{% block body %}
+
+{% for dance in dances %}
+  <h1>{{ dance }} Audition Sheet</h1>
+  <h2>Dancers by Audition Number</h2>
+  <table class="dancer-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Pref</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pref in dance.prefs.all|order_by:"prefsheet,pref" %}
+        <tr class="{% cycle 'odd' 'even' %}">
+          <td>{{ pref.prefsheet.audition_number }}</td>
+          <td>{{ pref.pref }}</td>
+          <td>{{ pref.prefsheet.user.get_full_name }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Dancers by Pref</h2>
+  <table class="dancer-table">
+    <thead>
+      <tr>
+        <th>Pref</th>
+        <th>#</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pref in dance.prefs.all|order_by:"pref,prefsheet" %}
+        <tr class="{% cycle 'odd' 'even' %}">
+          <td>{{ pref.pref }}</td>
+          <td>{{ pref.prefsheet.audition_number }}</td>
+          <td>{{ pref.prefsheet.user.get_full_name }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endfor %}
+
+{% endblock %}

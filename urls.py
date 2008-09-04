@@ -27,4 +27,6 @@ urlpatterns = patterns('',
     (r'^auditions/(\D{1})(\d{2})/prefsheet/$', 'dt.auditions.views.prefsheet'),
     (r'^auditions/(\D{1})(\d{2})/thanks/$', 'dt.auditions.views.thanks'),
     (r'^auditions/(\D{1})(\d{2})/dances/$', 'dt.auditions.views.dances'),
+    (r'^auditions/(\D{1})(\d{2})/dancesheets/$', 'dt.auditions.views.dancesheets'),
+    (r'^auditions/(\D{1})(\d{2})/prefsheets/$', 'dt.auditions.views.prefsheets'),
 )

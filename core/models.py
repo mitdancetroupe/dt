@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.contrib.localflavor.us.models import PhoneNumberField
 from django.contrib.auth.models import User
+import Image
 
 class UserProfile(models.Model):
     GENDER_CHOICES = (('M', 'Male'), ('F', 'Female'))
@@ -20,7 +21,13 @@ class UserProfile(models.Model):
     photo = models.ImageField(upload_to=settings.DANCER_IMAGE_DIR, blank=True, help_text='An optional photo of yourself.')
     def __str__(self):
         return "Profile for %s" % self.user
-
+    def save(self, height=300, width=200):
+        super(UserProfile, self).save()
+        if self.photo:
+            filename = self.photo.path
+            image = Image.open(filename)
+            image.thumbnail((width, height), Image.ANTIALIAS)
+            image.save(filename)
 class Dance(models.Model):
     LEVEL_CHOICES = (
         (0, 'All'),

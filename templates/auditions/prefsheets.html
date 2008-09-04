@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load filters %}
+{% block title %}{{ show }} Prefsheets{% endblock %}
+
+{% block includes %}
+<link rel="stylesheet" type="text/css" media="all" href="/media/css/prefsheets.css"/>
+{% endblock %}
+
+{% block body %}
+{% for prefsheet in prefsheets %}
+  <div class="prefsheet">
+    <h1>#{{ prefsheet.audition_number }} -
+         {{ prefsheet.user.get_full_name }}</h1>
+    {% if prefsheet.user.get_profile.photo %}
+      <img class="dancer-photo"
+           src="{{ prefsheet.user.get_profile.photo.url }}"/>
+    {% endif %}
+    <dl>
+      <dt>E-mail</dt>
+      <dd>{{ prefsheet.user.email }}</dd>
+      <dt>Gender</dt>
+      <dd>{{ prefsheet.user.get_profile.get_gender_display }}</dd>
+      <dt>Year</dt>
+      <dd>{{ prefsheet.user.get_profile.year }}</dd>
+      <dt>Affiliation</dt>
+      <dd>{{ prefsheet.user.get_profile.get_affiliation_display }}</dd>
+      <dt>Living Group</dt>
+      <dd>{{ prefsheet.user.get_profile.living_group }}</dd>
+      <dt>Experience</dt>
+      <dd>{{ prefsheet.user.get_profile.experience }}</dd>
+      <dt>Prefs</dt>
+      <dd>
+        <table class="prefs-table">
+          <thead>
+            <th>Pref</th>
+            <th>Dance</th>
+          </thead>
+          <tbody>
+            {% for pref in prefsheet.prefs.all|order_by:"pref" %}
+              <tr>
+                <td>{{ pref.pref }}</td>
+                <td>{{ pref.dance }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </dd>
+    </dl>
+  </div>
+{% endfor %}
+
+{% endblock %}
