@@ -82,5 +82,15 @@ def prefsheets(request, semester, year):
                               {'prefsheets': prefsheets,
                                'show': show})
 
+@permission_required('prefsheet.can_list')
+def assignments(request, semester, year):
+    semester = {'S': 0, 'F': 1}[semester]
+    year = 2000 + int(year) # This is a really ugly hack, but whatever
+    show = get_object_or_404(Show, year=year, semester=semester)
+    prefsheets = PrefSheet.objects.filter(show=show).order_by('user__last_name',
+                                                              'user__first_name')
+    return render_to_response('auditions/assignments.html',
+                              {'prefsheets': prefsheets,
+                               'show': show})
 
 

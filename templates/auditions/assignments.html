@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load filters %}
+
+{% block title %}Audition Number Assignments{% endblock %}
+
+{% block includes %}
+<link rel="stylesheet" type="text/css" media="print" href="/media/css/assignments.css"/>
+{% endblock %}
+
+{% block body %}
+<h1>Audition Number Assignments</h1>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Last Name</th>
+      <th>First Name</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for prefsheet in prefsheets %}
+    <tr>
+      <td>{{ prefsheet.audition_number }}</td>
+      <td>{{ prefsheet.user.last_name }}</td>
+      <td>{{ prefsheet.user.first_name }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
