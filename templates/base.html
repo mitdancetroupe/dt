@@ -12,9 +12,32 @@
   </head>
 
   <body>
-    <div id="doc">
-      {% block body %}
-      {% endblock %}
+    <div id="doc" class="yui-t2">
+      <div id="hd"></div>
+      <div id="bd">
+        <div id="yui-main">
+          <div class="yui-b">
+            {% block body %}
+            {% endblock %}
+          </div>
+        </div>
+        <div class="yui-b">
+          <div id="sidebar">
+            {% block sidebar %}
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/about/">About Us</a></li>
+              <li><a href="/auditions/">Auditions</a></li>
+              <li><a href="/classes/">Classes</a></li>
+              <li><a href="/rehearsals/">Rehearsals</a></li>
+              <li><a href="/gallery/">Gallery</a></li>
+              <li><a href="/resources/">Resources</a></li>
+              <li><a href="/officers/">Officers</a></li>
+            </ul>
+            {% endblock %}
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 
