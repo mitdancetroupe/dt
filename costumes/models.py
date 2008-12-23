@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-from dt.core.models import Dance
+from dt.dances.models import Dance
 
 # Create your models here.
 class Costume(models.Model):

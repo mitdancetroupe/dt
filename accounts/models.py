@@ -1,4 +1,4 @@
-from django.conf import setting
+from django.conf import settings
 from django.db import models
 from django.contrib.localflavor.us.models import PhoneNumberField
 from django.contrib.auth.models import User

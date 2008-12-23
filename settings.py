@@ -84,6 +84,7 @@ INSTALLED_APPS = (
     'django.contrib.flatpages',
     'dt.accounts',
     'dt.shows',
+    'dt.dances',
     'dt.auditions',
     'dt.costumes',
 )
@@ -95,7 +96,7 @@ COSTUME_IMAGE_DIR = 'photos/costumes'
 APPEND_SLASH = True
 
 # User profiles
-AUTH_PROFILE_MODULE = 'core.userprofile'
+AUTH_PROFILE_MODULE = 'accounts.userprofile'
 
 
 from settings_local import *

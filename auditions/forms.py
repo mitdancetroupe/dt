@@ -2,7 +2,6 @@ from django.forms import fields, widgets
 from django.forms import ValidationError
 from django.forms.models import inlineformset_factory, ModelForm
 from dt.auditions.models import *
-from dt.core.models import *
 
 class PrefSheetForm(ModelForm):
     DESIRED_INTS = zip(range(1, 5), range(1, 5))

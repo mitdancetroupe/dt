@@ -6,8 +6,9 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.forms.models import inlineformset_factory, ModelForm
 from django.template import RequestContext
 
-from dt.core.models import Show, Dance
-from dt.core.forms import *
+from dt.shows.models import *
+from dt.dances.models import *
+from dt.accounts.forms import *
 from dt.auditions.models import *
 from dt.auditions.forms import *
 

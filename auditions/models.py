@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.contrib import auth
-from dt import core
+from dt import shows, dances
 
 class PrefSheetManager(models.Manager):
     def assign_numbers(self, show):
@@ -19,7 +19,7 @@ class PrefSheet(models.Model):
     user = models.ForeignKey(auth.models.User, related_name='prefsheets')
     conflicts = models.TextField(blank=True, help_text='Please list any scheduling conflicts you might have with rehearsals.')
     desired_dances = models.PositiveSmallIntegerField()
-    show = models.ForeignKey(core.models.Show)
+    show = models.ForeignKey(shows.models.Show)
     objects = PrefSheetManager()
     def __str__(self):
         return "%s / %s" % (self.user, self.show)
@@ -31,7 +31,7 @@ class PrefSheet(models.Model):
 
 class Pref(models.Model):
     prefsheet = models.ForeignKey(PrefSheet, related_name='prefs')
-    dance = models.ForeignKey(core.models.Dance, related_name='prefs')
+    dance = models.ForeignKey(dances.models.Dance, related_name='prefs')
     pref = models.PositiveSmallIntegerField()
     def __str__(self):
         return "%s: %s" % (self.dance, self.pref)
