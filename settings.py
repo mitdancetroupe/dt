@@ -82,7 +82,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.flatpages',
-    'dt.core',
+    'dt.accounts',
+    'dt.shows',
     'dt.auditions',
     'dt.costumes',
 )

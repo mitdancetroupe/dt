@@ -30,7 +30,7 @@ def register(request):
         user_form = UserForm()
         user_profile_form = UserProfileForm()
 
-    return render_to_response('registration/register.html',
+    return render_to_response('accounts/register.html',
                               {'user_form': user_form,
                                'user_profile_form': user_profile_form,
                                'next': redirect_to})
