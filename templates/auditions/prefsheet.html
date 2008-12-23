@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block includes %}{{ prefsheet_form.media }}{% endblock %}
+{% block extra_head %}{{ prefsheet_form.media }}{% endblock %}
 
 {% block title %}Preferences Sheet{% endblock %}
 
-{% block body %}
+{% block content %}
 <h1>{{ show }} Preferences Sheet</h1>
 <p>Welcome, {{ user.first_name }}!
 </p>
