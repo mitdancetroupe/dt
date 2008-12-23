@@ -26,6 +26,7 @@ urlpatterns = patterns('',
 
     # Shows
     (r'^shows/$', 'dt.shows.views.list'),
+    (r'^shows/(?P<show_id>\d+)/$', 'dt.shows.views.detail'),
 
     # Auditions
     (r'^auditions/(\D{1})(\d{2})/prefsheet/$', 'dt.auditions.views.prefsheet'),

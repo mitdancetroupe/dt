@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import *
 from django.core.urlresolvers import reverse
 
@@ -14,9 +14,10 @@ from dt.auditions.forms import *
 
 @login_required
 def prefsheet(request, semester, year):
-    semester = {'S': 0, 'F': 1}[semester]
-    year = 2000 + int(year) # This is a really ugly hack, but whatever
-    show = get_object_or_404(Show, year=year, semester=semester)
+    try:
+        show = Show.objects.get_by_semester(semester, year)
+    except Show.DoesNotExist:
+        raise Http404
     user = request.user
     
     try:
@@ -56,18 +57,20 @@ def thanks(request, semester, year):
     return render_to_response('auditions/thanks.html')
 
 def dances(request, semester, year):
-    semester = {'S': 0, 'F': 1}[semester]
-    year = 2000 + int(year) # This is a really ugly hack, but whatever
-    show = get_object_or_404(Show, year=year, semester=semester)
+    try:
+        show = Show.objects.get_by_semester(semester, year)
+    except Show.DoesNotExist:
+        raise Http404
     dances = get_list_or_404(Dance, show=show)
     return render_to_response('auditions/dances.html', 
                               {'show': show, 'dances': dances})
 
 @permission_required('prefsheet.can_list')
 def dancesheets(request, semester, year):
-    semester = {'S': 0, 'F': 1}[semester]
-    year = 2000 + int(year) # This is a really ugly hack, but whatever
-    show = get_object_or_404(Show, year=year, semester=semester)
+    try:
+        show = Show.objects.get_by_semester(semester, year)
+    except Show.DoesNotExist:
+        raise Http404
     dances = get_list_or_404(Dance, show=show)
     return render_to_response('auditions/dancesheets.html',
                               {'dances': dances,
@@ -75,9 +78,10 @@ def dancesheets(request, semester, year):
 
 @permission_required('prefsheet.can_list')
 def prefsheets(request, semester, year):
-    semester = {'S': 0, 'F': 1}[semester]
-    year = 2000 + int(year) # This is a really ugly hack, but whatever
-    show = get_object_or_404(Show, year=year, semester=semester)
+    try:
+        show = Show.objects.get_by_semester(semester, year)
+    except Show.DoesNotExist:
+        raise Http404
     prefsheets = PrefSheet.objects.filter(show=show)
     return render_to_response('auditions/prefsheets.html',
                               {'prefsheets': prefsheets,
@@ -85,9 +89,10 @@ def prefsheets(request, semester, year):
 
 @permission_required('prefsheet.can_list')
 def assignments(request, semester, year):
-    semester = {'S': 0, 'F': 1}[semester]
-    year = 2000 + int(year) # This is a really ugly hack, but whatever
-    show = get_object_or_404(Show, year=year, semester=semester)
+    try:
+        show = Show.objects.get_by_semester(semester, year)
+    except Show.DoesNotExist:
+        raise Http404
     prefsheets = PrefSheet.objects.filter(show=show).order_by('user__last_name',
                                                               'user__first_name')
     return render_to_response('auditions/assignments.html',
