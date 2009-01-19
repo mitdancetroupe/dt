@@ -18,7 +18,52 @@ class PrefForm(ModelForm):
     class Meta:
         model = Pref
 
-PrefFormSet = inlineformset_factory(PrefSheet, Pref, form=PrefForm, 
-                                    extra=10, max_num=10)
+BasePrefFormSet = inlineformset_factory(PrefSheet, Pref, form=PrefForm, 
+                                        extra=10, max_num=10)
+
+class PrefFormSet(BasePrefFormSet):
+    
+    def clean(self):
+        self.validate_unique()
+    
+    def validate_unique(self):
+        from django.db.models.fields import FieldDoesNotExist
+        unique_checks = []
+        for name, field in self.forms[0].fields.iteritems():
+            try:
+                f = self.forms[0].instance._meta.get_field_by_name(name)[0]
+            except FieldDoesNotExist:
+                continue
+            if f.unique:
+                unique_checks.append((name,))
+        unique_together = self.forms[0].instance._meta.unique_together
+        unique_together = [check for check in unique_together if [True for field in check if field in self.forms[0].fields]]
+        unique_checks.extend(unique_together)
+
+        errors = []
+        for unique_check in unique_checks:
+            data = set()
+            for i in xrange(self._total_form_count):
+                form = self.forms[i]
+                if not hasattr(form, 'cleaned_data'):
+                    continue
+                if [True for field in unique_check if field in form.cleaned_data and form.cleaned_data[field] is not None]:
+                    instance = tuple([form.cleaned_data[field] for field in unique_check])
+                    if instance in data:
+                        if len(unique_check) == 1:
+                            errors.append(_("You have entered duplicate data for %(field)s, all %(field)ss should be unique.") % {
+                                    'field': unique_check[0],
+                                })
+                        else:
+                            errors.append(_("You have entered duplicate data for %(field)s, %(field)s should be unique together.") % {
+                                    'field': get_text_list(unique_check, _("and")),
+                                })
+                        break
+                    else:
+                        data.add(instance)
+
+        if errors:
+            raise ValidationError(errors)
+
 
 

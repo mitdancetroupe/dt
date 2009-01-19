@@ -7,7 +7,6 @@ from django.forms.models import inlineformset_factory, ModelForm
 from django.template import RequestContext
 
 from dt.shows.models import *
-from dt.dances.models import *
 from dt.accounts.forms import *
 from dt.auditions.models import *
 from dt.auditions.forms import *
@@ -46,6 +45,8 @@ def prefsheet(request, semester, year):
         prefsheet_form = PrefSheetForm(instance=prefsheet)
         pref_formset = PrefFormSet(instance=prefsheet)
 
+    for pref_form in pref_formset.forms:
+        pref_form.fields['dance'].queryset = Dance.objects.filter(show=show)
     return render_to_response('auditions/prefsheet.html', 
                               {'show': show,
                                'user_profile_form': user_profile_form,

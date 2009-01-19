@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load markup %}
+
+{% block title %}
+{{ show }}
+{% endblock %}
+
+{% block content %}
+<h2>{{ show }}</h2>
+<h3>Dances</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Choreographer(s)</th>
+      <th>Style</th>
+      <th>Level</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for dance in show.dances.all %}
+    <tr>
+      <td>{{ dance.name }}</td>
+      <td>
+        {% for user in dance.choreographers.all %}
+          {{ user.get_full_name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      </td>
+      <td>{{ dance.style }}</td>
+      <td>{{ dance.get_level_display }}</td>
+      <td>{{ dance.description|textile }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4">
+        <p class="notice">No dances found for this show.</p>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

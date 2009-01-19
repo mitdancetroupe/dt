@@ -11,15 +11,20 @@
 <form id="prefsheet-form" enctype="multipart/form-data" action="" method="post">
   <fieldset>
     <legend>Personal Information</legend>
-    {% if user.get_profile.photo %}
-      <div id="user-photo">
-        <h3>Uploaded Photo</h3>
-        <img src="{{ user.get_profile.photo.url }}"/>
+    <div class="span-13">
+      {% for field in user_profile_form %}
+      <div>
+        <label for="{{ field.id }}">{{ field.label }}</label><br/>
+        {{ field }}
       </div>
+      {% endfor %}
+    </div>
+    {% if user.get_profile.photo %}
+    <div id="user-photo" class="span-6 last">
+      <h3>Uploaded Photo</h3>
+      <img src="{{ user.get_profile.photo.url }}"/>
+    </div>
     {% endif %}
-    <table>
-      {{ user_profile_form }}
-    </table>
   </fieldset>
   <fieldset>
     <legend>Scheduling Information</legend>
@@ -33,7 +38,7 @@
        do not tie dances, and it is advisable to rank more dances than your 
        desired.  However, please do not rank dances that you 
        do not actually want to be in.</p>
-     <p><strong>For descriptions of the dances, please click <a href="../dances/" target="_blank">here</a>.</strong></p>
+       <p><strong>For descriptions of the dances, please click <a href="{{ show.get_absolute_url }}" target="_blank">here</a>.</strong></p>
     <table>
       {{ pref_formset.management_form }}
       <tr>

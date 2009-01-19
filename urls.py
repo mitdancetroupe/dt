@@ -18,15 +18,19 @@ urlpatterns = patterns('',
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/(.*)', admin.site.root),
 
+    # Blog
+    (r'^$', 'dt.blog.views.latest'),
+
     # Accounts
     (r'^accounts/register/$', 'dt.accounts.views.register'),
-    (r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'accounts/login.html'}),
+    (r'^accounts/login/$', 'django.contrib.auth.views.login',
+                           {'template_name': 'accounts/login.html'}),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
     (r'^accounts/profile/$', 'dt.accounts.views.profile'),
 
     # Shows
-    (r'^shows/$', 'dt.shows.views.list'),
-    (r'^shows/(?P<show_id>\d+)/$', 'dt.shows.views.detail'),
+    (r'^shows/$', 'dt.shows.views.show_list'),
+    (r'^shows/(?P<show_id>\d+)/$', 'dt.shows.views.show_detail'),
 
     # Auditions
     (r'^auditions/(\D{1})(\d{2})/prefsheet/$', 'dt.auditions.views.prefsheet'),

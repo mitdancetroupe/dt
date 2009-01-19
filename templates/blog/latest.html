@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load markup %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="/media/css/blog.css" type="text/css" media="all"/>
+{% endblock %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+{% for post in posts.object_list %}
+<div class="post">
+  <h3>{{ post.title }}</h3>
+  {{ post.body|textile }}
+  <p class="post-details">
+    Posted by {{ post.author.get_full_name }} at 
+    {{ post.created|date:"g:i a o\n N j, Y" }} 
+  </p>
+</div>
+{% endfor %}
+
+<div class="pagination">
+  {% if posts.has_previous %}
+  <a href="?page={{ posts.previous_page_number }}">Newer</a>
+  {% endif %}
+  {% if posts.has_next %}
+  <a href="?page={{ posts.next_page_number }}">Older</a>
+  {% endif %}
+</div> 
+
+
+{% endblock %}

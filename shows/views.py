@@ -3,10 +3,10 @@ from django.shortcuts import *
 
 from dt.shows.models import *
 
-def list(request):
+def show_list(request):
     shows = Show.objects.all().order_by()
-    return render_to_response('shows/list.html', locals())
+    return render_to_response('shows/show_list.html', locals())
 
-def detail(request, show_id):
+def show_detail(request, show_id):
     show = get_object_or_404(Show, id=show_id)
-    return render_to_response('shows/detail.html', locals())
+    return render_to_response('shows/show_detail.html', locals())

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+Shows
+{% endblock %}
+
+{% block content %}
+<h2>Shows</h2>
+<ul>
+  {% for show in shows %}
+  <li>{{ show.get_semester_display }} {{ show.year }} &mdash; 
+    <a href="{% url dt.shows.views.show_detail show.id %}">{{ show }}</a>
+  </li>    
+  {% endfor %}
+</ul>
+
+{% endblock %}
