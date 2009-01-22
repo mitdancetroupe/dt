@@ -15,9 +15,6 @@ class UserProfile(models.Model):
     living_group = models.CharField(max_length=30, blank=True)
     experience = models.TextField(blank=True)
     phone_number = PhoneNumberField(blank=True, help_text='An optional phone number we can use to reach you if necessary.')
-    def photo_path(instance, filename):
-        return "%s/%s-%s" % (settings.DANCER_IMAGE_DIR, instance.user.username,
-                             filename)
     photo = models.ImageField(upload_to=settings.DANCER_IMAGE_DIR, blank=True, help_text='An optional photo of yourself.')
     def __str__(self):
         return "Profile for %s" % self.user

@@ -14,9 +14,17 @@
     <div class="span-13">
       {% for field in user_profile_form %}
       <div>
-        <label for="{{ field.id }}">{{ field.label }}</label><br/>
-        {{ field }}
+        <label for="{{ field.id }}">
+          {{ field.label }}{% if field.field.required %}*{% endif %}
+        </label><br/>
+        {{ field }}<br/>
+        {{ field.help_text }}
       </div>
+     
+      {% for error in field.errors %}
+      <p class="error">{{ error }}</p>
+      {% endfor %}
+
       {% endfor %}
     </div>
     {% if user.get_profile.photo %}
@@ -28,9 +36,20 @@
   </fieldset>
   <fieldset>
     <legend>Scheduling Information</legend>
-    <table>
-      {{ prefsheet_form }}
-    </table>
+    {% for field in prefsheet_form %}
+    <div>
+      <label for="{{ field.id }}">
+        {{ field.label }}{% if field.field.required %}*{% endif %}
+      </label><br/>
+      {{ field }}<br/>
+      {{ field.help_text }}
+    </div>
+   
+    {% for error in field.errors %}
+    <p class="error">{{ error }}</p>
+    {% endfor %}
+
+    {% endfor %}
   </fieldset>
   <fieldset>
     <legend>Dance Preferences</legend>
@@ -41,11 +60,14 @@
        <p><strong>For descriptions of the dances, please click <a href="{{ show.get_absolute_url }}" target="_blank">here</a>.</strong></p>
     <table>
       {{ pref_formset.management_form }}
-      <tr>
-        <th>Rank</th>
-        <th>Dance</th>
-        <th>Delete?</th>
-      </tr>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Dance</th>
+          <th>Delete?</th>
+        </tr>
+      </thead>
+      <tbody>
       {% for form in pref_formset.forms %}
         <tr>
           <td>{{ form.pref.errors }}{{ form.id.errors }}
@@ -56,6 +78,7 @@
               {{ form.DELETE }}</td>
         </tr>
       {% endfor %}
+      </tbody>
     </table>
   </fieldset>
   <input type="submit" value="Submit"/>

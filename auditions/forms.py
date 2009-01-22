@@ -10,7 +10,7 @@ class PrefSheetForm(ModelForm):
         model = PrefSheet
         exclude = ('user','show', 'audition_number',)
     class Media:
-        js = ('js/jquery.js', 'js/prefsheet.js',)
+        js = ('js/jquery.js',)
  
 class PrefForm(ModelForm):
     pref = fields.IntegerField(min_value=1, 
@@ -19,7 +19,7 @@ class PrefForm(ModelForm):
         model = Pref
 
 BasePrefFormSet = inlineformset_factory(PrefSheet, Pref, form=PrefForm, 
-                                        extra=10, max_num=10)
+                                        max_num=10, extra=10)
 
 class PrefFormSet(BasePrefFormSet):
     
