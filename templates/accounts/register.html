@@ -2,15 +2,46 @@
 
 {% block title %}Registration{% endblock %}
 
-{% block body %}
+{% block content %}
 <h1>Registration</h1>
 <form id="register-form" enctype="multipart/form-data"  action="" method="post">
-  <table>
-    {{ user_form }}
-    {{ user_profile_form }}
-  </table>
+  <fieldset>
+    <legend>Account Information</legend>
+    {% for field in user_form %}
+    <div>
+      <label for="{{ field.id }}">
+        {{ field.label }}{% if field.field.required %}*{% endif %}
+      </label><br/>
+      {{ field }} <br/>
+      {{ field.help_text }}
+    </div>
+
+    {% for error in field.errors %}
+    <p class="error">{{ error }}</p>
+    {% endfor %}
+
+    {% endfor %}
+  </fieldset>
+  <fieldset>
+    <legend>Profile Information</legend>
+
+    {% for field in user_profile_form %}
+    <div>
+      <label for="{{ field.id }}">
+        {{ field.label }}{% if field.field.required %}*{% endif %}
+      </label><br/>
+      {{ field }} <br/>
+      {{ field.help_text }}
+    </div>
+
+    {% for error in field.errors %}
+    <p class="error">{{ error }}</p>
+    {% endfor %}
+
+    {% endfor %}
+  </fieldset>
   <input type="hidden" name="next" value="{{ next|escape }}"/>
-  <input type="submit" value="Create"/>
+  <input type="submit" value="Register"/>
 </form>
 {% endblock %}
 
