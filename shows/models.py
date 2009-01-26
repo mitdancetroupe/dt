@@ -22,12 +22,13 @@ class Show(models.Model):
     name = models.CharField(max_length = 255)
     year = models.IntegerField()
     semester = models.PositiveSmallIntegerField(choices=SEMESTER_CHOICES)
+    slug = models.SlugField()
     objects = ShowManager()
     def __str__(self):
         return self.name
     @models.permalink
     def get_absolute_url(self):
-        return ('dt.shows.views.show_detail', [str(self.id)])
+        return ('dt.shows.views.show_detail', [self.slug])
     class Meta:
         ordering = ('-year', '-semester')
 

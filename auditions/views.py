@@ -12,13 +12,10 @@ from dt.auditions.models import *
 from dt.auditions.forms import *
 
 @login_required
-def prefsheet(request, semester, year):
-    try:
-        show = Show.objects.get_by_semester(semester, year)
-    except Show.DoesNotExist:
-        raise Http404
+def prefsheet(request, show_slug):
+    show = get_object_or_404(Show, slug=show_slug)
     user = request.user
-    
+
     try:
         prefsheet = PrefSheet.objects.get(user=user, show=show)
     except PrefSheet.DoesNotExist:
@@ -54,50 +51,44 @@ def prefsheet(request, semester, year):
                                'pref_formset': pref_formset},
                               context_instance = RequestContext(request)) 
 
-def thanks(request, semester, year):
+def thanks(request, show_slug):
     return render_to_response('auditions/thanks.html')
 
-def dances(request, semester, year):
-    try:
-        show = Show.objects.get_by_semester(semester, year)
-    except Show.DoesNotExist:
-        raise Http404
+def dances(request, show_slug):
+    show = get_object_or_404(Show, slug=show_slug)
     dances = get_list_or_404(Dance, show=show)
     return render_to_response('auditions/dances.html', 
                               {'show': show, 'dances': dances})
 
 @permission_required('prefsheet.can_list')
-def dancesheets(request, semester, year):
-    try:
-        show = Show.objects.get_by_semester(semester, year)
-    except Show.DoesNotExist:
-        raise Http404
+def dancesheets(request, show_slug):
+    show = get_object_or_404(Show, slug=show_slug)
     dances = get_list_or_404(Dance, show=show)
     return render_to_response('auditions/dancesheets.html',
                               {'dances': dances,
                                'show': show})
 
 @permission_required('prefsheet.can_list')
-def prefsheets(request, semester, year):
-    try:
-        show = Show.objects.get_by_semester(semester, year)
-    except Show.DoesNotExist:
-        raise Http404
+def prefsheets(request, show_slug):
+    show = get_object_or_404(Show, slug=show_slug)
     prefsheets = PrefSheet.objects.filter(show=show)
     return render_to_response('auditions/prefsheets.html',
                               {'prefsheets': prefsheets,
                                'show': show})
 
 @permission_required('prefsheet.can_list')
-def assignments(request, semester, year):
-    try:
-        show = Show.objects.get_by_semester(semester, year)
-    except Show.DoesNotExist:
-        raise Http404
+def assignments(request, show_slug):
+    show = get_object_or_404(Show, slug=show_slug)
     prefsheets = PrefSheet.objects.filter(show=show).order_by('user__last_name',
                                                               'user__first_name')
     return render_to_response('auditions/assignments.html',
                               {'prefsheets': prefsheets,
                                'show': show})
 
+@permission_required('prefsheet.can_list')
+def csv(request, show_slug):
+    """
+    Creates a CSV dump of dance sheets and assignments.
+    """
+    show = get_object_or_404(Show, slug=show_slug)
 

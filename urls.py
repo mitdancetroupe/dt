@@ -7,36 +7,16 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Example:
-    # (r'^dt/', include('dt.foo.urls')),
+    (r'^$', 'dt.blog.views.latest'),
+
+    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    (r'^admin/(.*)', admin.site.root),
+
+    (r'^accounts/', include('dt.accounts.urls')),
+    (r'^shows/', include('dt.shows.urls')),
+    (r'^auditions/(?P<show_slug>[\w-]+)/', include('dt.auditions.urls')),
 
     # Development version serving of static files
     (r'^media/(?P<path>.*)$', 'django.views.static.serve',
                               {'document_root': settings.MEDIA_ROOT}),
-
-    # Admin
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^admin/(.*)', admin.site.root),
-
-    # Blog
-    (r'^$', 'dt.blog.views.latest'),
-
-    # Accounts
-    (r'^accounts/register/$', 'dt.accounts.views.register'),
-    (r'^accounts/login/$', 'django.contrib.auth.views.login',
-                           {'template_name': 'accounts/login.html'}),
-    (r'^accounts/logout/$', 'django.contrib.auth.views.logout'),
-    (r'^accounts/profile/$', 'dt.accounts.views.profile'),
-
-    # Shows
-    (r'^shows/$', 'dt.shows.views.show_list'),
-    (r'^shows/(?P<show_id>\d+)/$', 'dt.shows.views.show_detail'),
-
-    # Auditions
-    (r'^auditions/(\D{1})(\d{2})/prefsheet/$', 'dt.auditions.views.prefsheet'),
-    (r'^auditions/(\D{1})(\d{2})/thanks/$', 'dt.auditions.views.thanks'),
-    (r'^auditions/(\D{1})(\d{2})/dances/$', 'dt.auditions.views.dances'),
-    (r'^auditions/(\D{1})(\d{2})/dancesheets/$', 'dt.auditions.views.dancesheets'),
-    (r'^auditions/(\D{1})(\d{2})/prefsheets/$', 'dt.auditions.views.prefsheets'),
-    (r'^auditions/(\D{1})(\d{2})/assignments/$', 'dt.auditions.views.assignments'),
 )
