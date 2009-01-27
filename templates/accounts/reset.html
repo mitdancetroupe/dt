@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+ 
+{% block title %}
+Reset password
+{% endblock %}
+
+{% block content %}
+  <h2>Reset password</h2>
+  <p>If you have forgotten your password, you can reset it to a randomly 
+  generated password by entering your e-mail address in the form below.  Please
+  note that you must use the same e-mail as the user account you are trying to
+  reset.</p>
+
+  <form action="" method="post">
+    {% for field in form %}
+    <div>
+      <label for="{{ field.id }}">{{ field.label }}:</label>
+      <br/>
+      {{ field }}<br/>
+      {{ field.help_text }}
+    </div>
+
+    {% for error in field.errors %}
+    <p class="error">{{ error }}</p>
+    {% endfor %}
+    {% endfor %}
+
+    <div>
+      <input type="submit" value="Send"/>
+    </div>
+  </form>
+{% endblock %}

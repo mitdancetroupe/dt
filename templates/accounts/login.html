@@ -26,6 +26,8 @@
       </div>
       <input type="hidden" name="next" value="{{ next|escape }}" />
     </form>
+
+    <p>Forgot your password? Use the <a href="{% url django.contrib.auth.views.password_reset %}">password reset form</a> to reset your password.</p>
   </div>
   <div id="registration-box">
     <h3>Create an account</h3>

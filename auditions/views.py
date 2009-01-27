@@ -54,12 +54,6 @@ def prefsheet(request, show_slug):
 def thanks(request, show_slug):
     return render_to_response('auditions/thanks.html')
 
-def dances(request, show_slug):
-    show = get_object_or_404(Show, slug=show_slug)
-    dances = get_list_or_404(Dance, show=show)
-    return render_to_response('auditions/dances.html', 
-                              {'show': show, 'dances': dances})
-
 @permission_required('prefsheet.can_list')
 def dancesheets(request, show_slug):
     show = get_object_or_404(Show, slug=show_slug)
@@ -85,10 +79,43 @@ def assignments(request, show_slug):
                               {'prefsheets': prefsheets,
                                'show': show})
 
+@login_required
 @permission_required('prefsheet.can_list')
 def csv(request, show_slug):
     """
     Creates a CSV dump of dance sheets and assignments.
     """
+    choreographer = request.user
     show = get_object_or_404(Show, slug=show_slug)
+    dances = choreographer.choreographed.filter(show=show)
+
+    import csv
+    response = HttpResponse(mimetype='text/csv')
+    filename = '%s-auditions.csv' % show_slug
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+    writer = csv.writer(response)
+
+    for dance in dances:
+        writer.writerow([dance])
+
+        prefs = dance.prefs.order_by('prefsheet', 'pref').all()
+        writer.writerow(["Dancers by Audition Number"])
+        writer.writerow(["Audition Number", "Pref", "Name"])
+        for pref in prefs:
+            writer.writerow([pref.prefsheet.audition_number,
+                             pref.pref,
+                             pref.prefsheet.user.get_full_name()])
+        writer.writerow([])
+
+        prefs = dance.prefs.order_by('pref', 'prefsheet').all()
+        writer.writerow(["Dancers by Pref"])
+        writer.writerow(["Pref", "Audition Number", "Name"])
+        for pref in prefs:
+            writer.writerow([pref.pref,
+                             pref.prefsheet.audition_number,
+                             pref.prefsheet.user.get_full_name()])
+        writer.writerow([])
+        writer.writerow([])
+
+    return response
 
