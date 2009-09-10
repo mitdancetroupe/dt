@@ -79,15 +79,13 @@ def assignments(request, show_slug):
                               {'prefsheets': prefsheets,
                                'show': show})
 
-@login_required
 @permission_required('prefsheet.can_list')
 def csv(request, show_slug):
     """
     Creates a CSV dump of dance sheets and assignments.
     """
-    choreographer = request.user
     show = get_object_or_404(Show, slug=show_slug)
-    dances = choreographer.choreographed.filter(show=show)
+    dances = get_list_or_404(Dance, show=show)
 
     import csv
     response = HttpResponse(mimetype='text/csv')

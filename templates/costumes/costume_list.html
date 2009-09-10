@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load markup %}
+
+{% block title %}
+Costumes
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="/media/css/datatable.css" type="text/css" media="screen, projection"/>
+<script type="text/javascript" src="/media/js/jquery.js"></script>
+<script type="text/javascript" src="/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+  // $(document).ready(function() {
+  //     $('#costumes-table').dataTable();
+  // });
+</script>
+{% endblock %}
+
+{% block content %}
+<h2>Costumes</h2>
+<table id="costumes-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Location</th>
+      <th>Color</th>
+      <th>Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for costume in object_list %}
+    <tr>
+      <td>{{ costume.name }}</td>
+      <td>{{ costume.location }}</td>
+      <td>{{ costume.color }}</td>
+      <td>{{ costume.quantity }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4">
+        <p class="notice">No costumes found.</p>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

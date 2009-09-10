@@ -8,6 +8,7 @@ class PrefInline(admin.TabularInline):
 
 class PrefSheetAdmin(admin.ModelAdmin):
     list_display = ('user', 'audition_number', 'show')
+    list_filter = ('show',)
     inlines = [ PrefInline ]
 
 

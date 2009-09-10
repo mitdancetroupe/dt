@@ -57,7 +57,12 @@
        do not tie dances, and it is advisable to rank more dances than your 
        desired.  However, please do not rank dances that you 
        do not actually want to be in.</p>
-       <p><strong>For descriptions of the dances, please click <a href="{{ show.get_absolute_url }}" target="_blank">here</a>.</strong></p>
+    <p><strong>For descriptions of the dances, please click <a href="{{ show.get_absolute_url }}" target="_blank">here</a>.</strong></p>
+
+    {% for error in pref_formset.non_form_errors %}
+    <p class="error">{{ error }}</p>
+    {% endfor %}
+
     <table>
       {{ pref_formset.management_form }}
       <thead>
