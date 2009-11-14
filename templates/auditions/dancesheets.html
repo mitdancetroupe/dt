@@ -18,6 +18,7 @@
         <th>#</th>
         <th>Pref</th>
         <th>Name</th>
+        <th>Desired</th>
       </tr>
     </thead>
     <tbody>
@@ -26,6 +27,7 @@
           <td>{{ pref.prefsheet.audition_number }}</td>
           <td>{{ pref.pref }}</td>
           <td>{{ pref.prefsheet.user.get_full_name }}</td>
+          <td>{{ pref.prefsheet.desired_dances }}</td>
         </tr>
       {% endfor %}
     </tbody>
@@ -38,6 +40,7 @@
         <th>Pref</th>
         <th>#</th>
         <th>Name</th>
+        <th>Desired</th>
       </tr>
     </thead>
     <tbody>
@@ -46,6 +49,7 @@
           <td>{{ pref.pref }}</td>
           <td>{{ pref.prefsheet.audition_number }}</td>
           <td>{{ pref.prefsheet.user.get_full_name }}</td>
+          <td>{{ pref.prefsheet.desired_dances }}</td>
         </tr>
       {% endfor %}
     </tbody>
