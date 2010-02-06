@@ -6,6 +6,7 @@ class ShowAdmin(admin.ModelAdmin):
 
 class DanceAdmin(admin.ModelAdmin):
     list_display = ('name', 'show', 'style', 'level')
+    filter_horizontal = ('choreographers', 'dancers')
 
 
 admin.site.register(Show, ShowAdmin)

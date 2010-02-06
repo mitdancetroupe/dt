@@ -12,7 +12,7 @@
       <p class="error">Sorry, that's not a valid username or password</p>
     {% endif %}
 
-    <form action='.' method='post'>
+    <form action='.' method='post'>{% csrf_token %}
       <div>
         <label for="username">Username:</label><br/>
         <input type="text" name="username" value="" id="username"><br/>

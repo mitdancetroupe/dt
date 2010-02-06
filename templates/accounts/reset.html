@@ -12,6 +12,7 @@ Reset password
   reset.</p>
 
   <form action="" method="post">
+    {% csrf_token %}
     {% for field in form %}
     <div>
       <label for="{{ field.id }}">{{ field.label }}:</label>

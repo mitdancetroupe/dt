@@ -1,7 +1,7 @@
-9
+10
 
 dir
-87
+108
 http://django-schedule.googlecode.com/svn/trunk/schedule/management/commands
 http://django-schedule.googlecode.com/svn
 
@@ -12,7 +12,7 @@ http://django-schedule.googlecode.com/svn
 rockmhoward
 
 
-svn:special svn:externals svn:needs-lock
+
 
 
 

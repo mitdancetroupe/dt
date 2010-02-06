@@ -9,7 +9,22 @@ from dt.accounts.forms import *
 
 @login_required
 def profile(request):
-    return render_to_response('accounts/profile.html', {},
+    user = request.user
+    if request.method == 'POST':
+        try:
+            user_profile_form = UserProfileForm(request.POST, request.FILES,
+                                                instance=user.get_profile())
+        except UserProfile.DoesNotExist:
+            user_profile_form = UserProfileForm(request.POST, request.FILES)
+        if user_profile_form.is_valid(): 
+            user_profile_form.save()
+    else:
+        try:
+            user_profile_form = UserProfileForm(instance=user.get_profile())
+        except UserProfile.DoesNotExist:
+            user_profile_form = UserProfileForm()
+    return render_to_response('accounts/profile.html', 
+                              {'user_profile_form': user_profile_form},
                               context_instance=RequestContext(request))
 
 def register(request):
@@ -33,6 +48,7 @@ def register(request):
     return render_to_response('accounts/register.html',
                               {'user_form': user_form,
                                'user_profile_form': user_profile_form,
-                               'next': redirect_to})
+                               'next': redirect_to},
+                              context_instance=RequestContext(request))
 
 

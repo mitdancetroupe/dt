@@ -21,7 +21,7 @@ urlpatterns = patterns('',
     (r'^auditions/(?P<show_slug>[\w-]+)/', include('dt.auditions.urls')),
     
     (r'^databrowse/(.*)', databrowse.site.root),
-
+    
     # Development version serving of static files
     (r'^media/(?P<path>.*)$', 'django.views.static.serve',
                               {'document_root': settings.MEDIA_ROOT}),

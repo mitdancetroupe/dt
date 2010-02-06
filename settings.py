@@ -1,6 +1,9 @@
-# Django settings for dt project.
+import os
 
-PROJECT_ROOT = '/home/masont/django-projects/dt'
+# Django settings for dt project.
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+PROJECT_ROOT = BASE_DIR
 DEBUG = True
 TEMPLATE_DEBUG = True
 
@@ -65,6 +68,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.doc.XViewMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
@@ -106,5 +110,5 @@ APPEND_SLASH = True
 # User profiles
 AUTH_PROFILE_MODULE = 'accounts.userprofile'
 
-
 from settings_local import *
+

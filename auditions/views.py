@@ -52,7 +52,8 @@ def prefsheet(request, show_slug):
                               context_instance = RequestContext(request)) 
 
 def thanks(request, show_slug):
-    return render_to_response('auditions/thanks.html')
+    return render_to_response('auditions/thanks.html', 
+                              context_instance=RequestContext(request))
 
 @permission_required('prefsheet.can_list')
 def dancesheets(request, show_slug):

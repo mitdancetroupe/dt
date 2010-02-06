@@ -1,5 +1,6 @@
 from django.shortcuts import *
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.template import RequestContext
 from dt.blog.models import *
 
 
@@ -17,4 +18,5 @@ def latest(request):
         posts = paginator.page(page)
     except EmptyPage, InvalidPage:
         posts = paginator.page(paginator.num_pages)
-    return render_to_response('blog/latest.html', {'posts': posts})
+    return render_to_response('blog/latest.html', {'posts': posts},
+                              context_instance=RequestContext(request))

@@ -6,6 +6,7 @@
 <h1>Registration</h1>
 <form id="register-form" enctype="multipart/form-data"  action="" method="post">
   <fieldset>
+  {% csrf_token %}
     <legend>Account Information</legend>
     {% for field in user_form %}
     <div>

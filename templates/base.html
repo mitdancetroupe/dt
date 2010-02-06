@@ -36,7 +36,16 @@
           <li><a href="/classes/">Classes</a></li>
           <li><a href="/rehearsals/">Rehearsals</a></li>
           <li><a href="/officers/">Officers</a></li>
-          <li><a href="/admin/">Admin</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url dt.accounts.views.profile %}">Profile</a></li>
+            {% if perms.admin %}
+              <li><a href="/admin/">Admin</a></li>
+            {% endif %}
+            <li><a href="{% url django.contrib.auth.views.logout %}">Logout</a></li> 
+          {% else %}
+
+            <li><a href="{% url django.contrib.auth.views.login %}">Login</a></li> 
+          {% endif %}
         </ul>
         {% endblock %}
       </div>
