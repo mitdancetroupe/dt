@@ -7,4 +7,5 @@ urlpatterns = patterns('dt.auditions.views',
     (r'^prefsheets/$', 'prefsheets'),
     (r'^assignments/$', 'assignments'),
     (r'^csv/$', 'csv'),
+    (r'^emails/$', 'emails'),
 )

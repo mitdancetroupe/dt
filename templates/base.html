@@ -40,6 +40,9 @@
             <li><a href="{% url dt.accounts.views.profile %}">Profile</a></li>
             {% if perms.admin %}
               <li><a href="/admin/">Admin</a></li>
+              <li>
+                <a href="https://dancetroupe.scripts.mit.edu:444/wiki/">Wiki</a>
+              </li>
             {% endif %}
             <li><a href="{% url django.contrib.auth.views.logout %}">Logout</a></li> 
           {% else %}

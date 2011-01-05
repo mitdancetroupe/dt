@@ -27,7 +27,13 @@ def prefsheet(request, show_slug):
                                                 instance=user.get_profile())
         except UserProfile.DoesNotExist:
             user_profile_form = UserProfileForm(request.POST, request.FILES)
-        prefsheet_form = PrefSheetForm(request.POST, instance=prefsheet)
+        prefsheet_form = PrefSheetForm(request.POST,instance=prefsheet)
+
+        # We reset the prefs for each post...this is ugly
+        # and should be fixed ASAP
+        prefsheet.prefs.all().delete()
+        request.POST['prefs-INITIAL_FORMS'] = 0
+
         pref_formset = PrefFormSet(request.POST, instance=prefsheet)
         if user_profile_form.is_valid() and prefsheet_form.is_valid() and pref_formset.is_valid():
             user_profile_form.save()
@@ -55,7 +61,7 @@ def thanks(request, show_slug):
     return render_to_response('auditions/thanks.html', 
                               context_instance=RequestContext(request))
 
-@permission_required('prefsheet.can_list')
+@permission_required('auditions.can_list')
 def dancesheets(request, show_slug):
     show = get_object_or_404(Show, slug=show_slug)
     dances = get_list_or_404(Dance, show=show)
@@ -63,15 +69,17 @@ def dancesheets(request, show_slug):
                               {'dances': dances,
                                'show': show})
 
-@permission_required('prefsheet.can_list')
+@permission_required('auditions.can_list')
 def prefsheets(request, show_slug):
     show = get_object_or_404(Show, slug=show_slug)
-    prefsheets = PrefSheet.objects.filter(show=show)
+    prefsheets = PrefSheet.objects.filter(show=show).extra(
+            select={'first_pref': 'SELECT dance_id FROM auditions_pref WHERE pref=1 AND prefsheet_id=auditions_prefsheet.id'},
+            order_by=['first_pref'])
     return render_to_response('auditions/prefsheets.html',
                               {'prefsheets': prefsheets,
                                'show': show})
 
-@permission_required('prefsheet.can_list')
+@permission_required('auditions.can_list')
 def assignments(request, show_slug):
     show = get_object_or_404(Show, slug=show_slug)
     prefsheets = PrefSheet.objects.filter(show=show).order_by('user__last_name',
@@ -80,7 +88,7 @@ def assignments(request, show_slug):
                               {'prefsheets': prefsheets,
                                'show': show})
 
-@permission_required('prefsheet.can_list')
+@permission_required('auditions.can_list')
 def csv(request, show_slug):
     """
     Creates a CSV dump of dance sheets and assignments.
@@ -115,6 +123,22 @@ def csv(request, show_slug):
                              pref.prefsheet.user.get_full_name()])
         writer.writerow([])
         writer.writerow([])
+
+    return response
+
+@permission_required('auditions.can_list')
+def emails(request, show_slug):
+    show = get_object_or_404(Show, slug=show_slug)
+    
+    import csv
+    response = HttpResponse(mimetype='text/csv')
+    filename = '%s-auditions.csv' % show_slug
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+    writer = csv.writer(response)
+
+    prefsheets = PrefSheet.objects.filter(show=show)
+    for prefsheet in prefsheets:
+        writer.writerow([prefsheet.user.email])
 
     return response
 

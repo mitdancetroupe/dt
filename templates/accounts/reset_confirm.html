@@ -9,6 +9,7 @@
   Please enter your new password twice so we can verify you typed it correctly.
 </p>
 <form action="" method="post">
+  {% csrf_token %}
   {% for field in form %}
   <div>
     <label for="{{ field.id }}">{{ field.label }}:</label>
