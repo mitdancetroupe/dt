@@ -9,6 +9,7 @@ TEMPLATE_DEBUG = True
 
 ADMINS = (
     ('Mason Tang', 'masont@mit.edu'),
+    ('Michael Phox', 'mphox@mit.edu')
 )
 
 MANAGERS = ADMINS
