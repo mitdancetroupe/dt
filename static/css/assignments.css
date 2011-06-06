@@ -1,0 +1,22 @@
+html {
+    padding: 0;
+    margin: 0;
+    font-family: helvetica, clean, sans-serif;
+    font-size: small;
+}
+
+table {
+    border-collapse: collapse;
+    font-size: x-small;
+}
+
+table th {
+    font-weight: bold;
+}
+
+td {
+    border: 1px solid black;
+    padding: 0px 10px;
+}
+
+

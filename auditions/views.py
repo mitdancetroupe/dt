@@ -50,7 +50,7 @@ def prefsheet(request, show_slug):
 
     for pref_form in pref_formset.forms:
         pref_form.fields['dance'].queryset = Dance.objects.filter(show=show)
-    return render_to_response('auditions/prefsheet.html', 
+    return render(request, 'auditions/prefsheet.html', 
                               {'show': show,
                                'user_profile_form': user_profile_form,
                                'prefsheet_form': prefsheet_form,
@@ -58,14 +58,14 @@ def prefsheet(request, show_slug):
                               context_instance = RequestContext(request)) 
 
 def thanks(request, show_slug):
-    return render_to_response('auditions/thanks.html', 
+    return render(request, 'auditions/thanks.html', 
                               context_instance=RequestContext(request))
 
 @permission_required('auditions.can_list')
 def dancesheets(request, show_slug):
     show = get_object_or_404(Show, slug=show_slug)
     dances = get_list_or_404(Dance, show=show)
-    return render_to_response('auditions/dancesheets.html',
+    return render(request, 'auditions/dancesheets.html',
                               {'dances': dances,
                                'show': show})
 
@@ -75,7 +75,7 @@ def prefsheets(request, show_slug):
     prefsheets = PrefSheet.objects.filter(show=show).extra(
             select={'first_pref': 'SELECT dance_id FROM auditions_pref WHERE pref=1 AND prefsheet_id=auditions_prefsheet.id'},
             order_by=['first_pref'])
-    return render_to_response('auditions/prefsheets.html',
+    return render(request, 'auditions/prefsheets.html',
                               {'prefsheets': prefsheets,
                                'show': show})
 
@@ -84,7 +84,7 @@ def assignments(request, show_slug):
     show = get_object_or_404(Show, slug=show_slug)
     prefsheets = PrefSheet.objects.filter(show=show).order_by('user__last_name',
                                                               'user__first_name')
-    return render_to_response('auditions/assignments.html',
+    return render(request, 'auditions/assignments.html',
                               {'prefsheets': prefsheets,
                                'show': show})
 

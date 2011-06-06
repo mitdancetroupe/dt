@@ -20,7 +20,7 @@ def contact(request):
     else:
         contact_form = ContactForm() # An unbound form
 
-    return render_to_response('contact.html', {
+    return render(request, 'contact.html', {
         'contact_form': contact_form,
     })
 

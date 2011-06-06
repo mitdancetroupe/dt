@@ -6,14 +6,14 @@ from django.contrib import databrowse
 
 admin.autodiscover()
 
-from dt.costumes.models import *
-databrowse.site.register(Costume)
+# from dt.costumes.models import *
+# databrowse.site.register(Costume)
 
 urlpatterns = patterns('',
     (r'^$', 'dt.blog.views.latest'),
 
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^admin/(.*)', admin.site.root),
+    (r'^admin/', include(admin.site.urls)),
 
     (r'^accounts/', include('dt.accounts.urls')),
     (r'^shows/', include('dt.shows.urls')),

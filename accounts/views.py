@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -23,7 +23,7 @@ def profile(request):
             user_profile_form = UserProfileForm(instance=user.get_profile())
         except UserProfile.DoesNotExist:
             user_profile_form = UserProfileForm()
-    return render_to_response('accounts/profile.html', 
+    return render(request, 'accounts/profile.html', 
                               {'user_profile_form': user_profile_form},
                               context_instance=RequestContext(request))
 
@@ -45,7 +45,7 @@ def register(request):
         user_form = UserForm()
         user_profile_form = UserProfileForm()
 
-    return render_to_response('accounts/register.html',
+    return render(request, ' accounts/register.html',
                               {'user_form': user_form,
                                'user_profile_form': user_profile_form,
                                'next': redirect_to},

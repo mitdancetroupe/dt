@@ -1,3 +1,4 @@
 data.db
 *.pyc
 settings_local.py
+/sitestatic

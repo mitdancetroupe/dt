@@ -1,0 +1,38 @@
+html {
+    background: #ccc;
+}
+
+#doc {
+    border: 1px solid black;
+    padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background: #fff;
+}
+
+h1 {
+    font-size: 138.5%;
+    font-weight: bold;
+    text-align: center;
+}
+
+strong {
+    font-weight: bold;
+}
+
+p {
+    padding: 10px;
+}
+
+dt {
+    font-weight: bold;
+}
+
+dd {
+    text-indent: 1em;
+}
+
+dl.dance-info {
+    padding: 10px;
+    margin-bottom: 1em;
+}

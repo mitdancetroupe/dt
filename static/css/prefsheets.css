@@ -1,0 +1,36 @@
+html {
+    padding: 0;
+    margin: 0;
+    font-family: helvetica, clean, sans-serif;
+    font-size: small;
+}
+
+div.prefsheet {
+    page-break-after: always;
+}
+
+dt {
+    font-weight: bold;
+}
+
+dd {
+    margin-left: 1em;
+}
+
+img.dancer-photo {
+    float: right;
+    max-width: 300px;
+    max-height: 100%;
+    margin: 10px;
+    clear: both;
+}
+
+table.prefs-table {
+    border-collapse: collapse;
+    margin: 5px;
+}
+
+table.prefs-table td, th {
+    border: 1px solid black;
+    padding: 1px 5px;
+}
