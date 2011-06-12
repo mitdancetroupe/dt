@@ -275,9 +275,10 @@ a[href$=".rdf"], a[href^="aim:"] {
 }
 
 /* External links */
-a[href^="http:"]          { background-image: url(../img/icons/external.png); padding-right: 14px; } 
+/* a[href^="http:"]          { background-image: url(../img/icons/external.png); padding-right: 14px; }
 a[href^="mailto:"]        { background-image: url(../img/icons/email.png); }
 a[href^="http:"]:visited  { background-image: url(../img/icons/visited.png); }
+*/
 
 /* Files */
 a[href$=".pdf"]   { background-image: url(../img/icons/pdf.png); }  

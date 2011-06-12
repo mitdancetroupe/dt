@@ -36,7 +36,9 @@ def prefsheet(request, show_slug):
 
         pref_formset = PrefFormSet(request.POST, instance=prefsheet)
         if user_profile_form.is_valid() and prefsheet_form.is_valid() and pref_formset.is_valid():
-            user_profile_form.save()
+            profile = user_profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
             prefsheet = prefsheet_form.save()
             pref_formset.save()
             return HttpResponseRedirect('../thanks/')
