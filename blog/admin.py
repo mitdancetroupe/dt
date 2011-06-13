@@ -4,7 +4,7 @@ from blog.forms import *
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('author', 'title',)
+    list_display = ('title', 'created', 'author',)
     field_options = {'fields': ('title', 'body', 'author', 'created',)}
     form = PostForm
 
