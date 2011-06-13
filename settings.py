@@ -126,7 +126,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'honeypot',
+    'tinymce',
 
+    'dt.utils',
     'dt.accounts',
     'dt.blog',
     'dt.shows',
@@ -144,6 +146,13 @@ APPEND_SLASH = True
 AUTH_PROFILE_MODULE = 'accounts.userprofile'
 
 HONEYPOT_FIELD_NAME = 'position'
+
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advanced',
+    'theme_advanced_toolbar_location': 'top',
+    'theme_advanced_toolbar_align': 'left',
+
+}
 
 from settings_local import *
 
