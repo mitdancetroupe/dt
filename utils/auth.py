@@ -15,9 +15,9 @@ class SSLRemoteUserBackend(RemoteUserBackend):
         if '@' in username:
             name, domain = username.split('@')
             assert domain.upper() == 'MIT.EDU'
-            return name
+            return name.lower()
         else:
-            return username
+            return username.lower()
     def configure_user(self, user, ):
         username = user.username
         user.set_unusable_password()

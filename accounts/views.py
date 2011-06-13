@@ -5,6 +5,8 @@ from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
+from honeypot.decorators import check_honeypot
+
 from dt.accounts.models import *
 from dt.accounts.forms import *
 
@@ -29,6 +31,7 @@ def profile(request):
     return render(request, 'accounts/profile.html', 
                               {'user_profile_form': user_profile_form})
 
+@check_honeypot
 def register(request):
     # redirect_to code taken from django.contrib.auth.views
     redirect_to = request.REQUEST.get('next', '')
@@ -38,7 +41,9 @@ def register(request):
         if user_form.is_valid() and user_profile_form.is_valid():
             if not redirect_to or '//' in redirect_to or ' ' in redirect_to:
                 redirect_to = settings.LOGIN_REDIRECT_URL
-            user = user_form.save()
+            user = user_form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
             user_profile = user_profile_form.save(commit=False)
             user_profile.user = user
             user_profile.save()

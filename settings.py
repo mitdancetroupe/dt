@@ -125,7 +125,7 @@ INSTALLED_APPS = (
     'django.contrib.databrowse',
     'django.contrib.staticfiles',
 
-    'schedule',
+    'honeypot',
 
     'dt.accounts',
     'dt.blog',
@@ -142,6 +142,8 @@ APPEND_SLASH = True
 
 # User profiles
 AUTH_PROFILE_MODULE = 'accounts.userprofile'
+
+HONEYPOT_FIELD_NAME = 'position'
 
 from settings_local import *
 
