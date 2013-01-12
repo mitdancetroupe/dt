@@ -7,11 +7,6 @@
 {% block content %}
   <h2>Login / Create account</h2>
   <div id="login-box">
-    <h3>MIT-affiliated members</h4>
-    <form action="https://{{ request.get_host }}{{ next|escape }}">
-      <input type="submit" value="Login with certificates"/>
-    </form>
-    <h3>Non-MIT members</h3>
     {% if form.errors %}
       <p class="error">Sorry, that's not a valid username or password</p>
     {% endif %}
