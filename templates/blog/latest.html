@@ -15,7 +15,7 @@
   {{ post.body|safe }}
   <p class="post-details">
     Posted by {{ post.author.get_full_name }} at 
-    {{ post.created|date:"g:i a o\n N j, Y" }} 
+    {{ post.created|date:"DATETIME_FORMAT" }} 
   </p>
 </div>
 {% endfor %}
