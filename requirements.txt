@@ -2,3 +2,4 @@ Django
 django-honeypot
 sorl-thumbnail
 django-tinymce
+django-maintenancemode

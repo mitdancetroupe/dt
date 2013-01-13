@@ -83,6 +83,7 @@ MIDDLEWARE_CLASSES = (
     'utils.auth.SSLRemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'maintenancemode.middleware.MaintenanceModeMiddleware',
     'django.middleware.doc.XViewMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
@@ -141,6 +142,8 @@ COSTUME_IMAGE_DIR = 'photos/costumes'
 
 # Normalize all incoming URLs by appending a slash if necessary
 APPEND_SLASH = True
+
+MAINTENANCE_MODE = False  # Change to True in settings_local to take site offline
 
 # User profiles
 AUTH_PROFILE_MODULE = 'accounts.userprofile'
