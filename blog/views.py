@@ -8,7 +8,7 @@ def latest(request):
     """
     Lists posts by latest first, paginating 10 at a time.
     """
-    post_list = Post.objects.all().order_by('-created')
+    post_list = Post.objects.exclude(hidden = True).order_by('-created')
     paginator = Paginator(post_list, 10)
     try:
         page = int(request.GET.get('page', '1'))
@@ -19,4 +19,4 @@ def latest(request):
     except EmptyPage, InvalidPage:
         posts = paginator.page(paginator.num_pages)
     return render(request, 'blog/latest.html', {'posts': posts},
-                              context_instance=RequestContext(request))
+                              context_instance = RequestContext(request))
