@@ -10,3 +10,6 @@ class Post(models.Model):
     body = models.TextField()
     created = models.DateTimeField(default = datetime.datetime.now)
     hidden = models.BooleanField()
+
+    def __unicode__(self):
+        return self.title

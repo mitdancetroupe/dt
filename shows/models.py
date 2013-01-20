@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 class ShowManager(models.Manager):
     def get_by_semester(self, semester, year):
@@ -24,11 +25,10 @@ class Show(models.Model):
     semester = models.PositiveSmallIntegerField(choices=SEMESTER_CHOICES)
     slug = models.SlugField()
     objects = ShowManager()
-    def __str__(self):
+    def __unicode__(self):
         return self.name
-    @models.permalink
     def get_absolute_url(self):
-        return ('dt.shows.views.show_detail', [self.slug])
+        return reverse('dt.shows.views.show_detail', args = [str(self.slug)])
     class Meta:
         ordering = ('-year', '-semester')
 
@@ -48,8 +48,7 @@ class Dance(models.Model):
                                             related_name='choreographed')
     dancers = models.ManyToManyField(User, blank=True, related_name='danced_in')
     show = models.ForeignKey(Show, related_name='dances')
-    def __str__(self):
+    def __unicode__(self):
         return self.name
     class Admin:
         list_display = ('name', 'show', 'style', 'level')
-

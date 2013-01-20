@@ -16,8 +16,8 @@ class UserProfile(models.Model):
     experience = models.TextField(blank=True)
     phone_number = PhoneNumberField(blank=True, help_text='An optional phone number we can use to reach you if necessary.')
     photo = models.ImageField(upload_to=settings.DANCER_IMAGE_DIR, blank=True, help_text='An optional photo of yourself.')
-    def __str__(self):
-        return "Profile for %s" % self.user
+    def __unicode__(self):
+        return u"Profile for %s" % self.user
     def save(self, height=300, width=200):
         super(UserProfile, self).save()
         if self.photo:

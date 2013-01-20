@@ -21,8 +21,8 @@ class PrefSheet(models.Model):
     desired_dances = models.PositiveSmallIntegerField()
     show = models.ForeignKey(shows.models.Show)
     objects = PrefSheetManager()
-    def __str__(self):
-        return "%s / %s" % (self.user, self.show)
+    def __unicode__(self):
+        return u"%s / %s" % (self.user, self.show)
     class Meta:
         ordering = ('audition_number',)
         unique_together = (('user', 'show',), ('audition_number', 'show'),)
@@ -33,8 +33,8 @@ class Pref(models.Model):
     prefsheet = models.ForeignKey(PrefSheet, related_name='prefs')
     dance = models.ForeignKey(shows.models.Dance, related_name='prefs')
     pref = models.PositiveSmallIntegerField()
-    def __str__(self):
-        return "%s: %s" % (self.dance, self.pref)
+    def __unicode__(self):
+        return u"%s: %s" % (self.dance, self.pref)
     class Meta:
         ordering = ('prefsheet', 'pref')
         unique_together = (('prefsheet', 'dance'), ('prefsheet', 'pref'),)
