@@ -154,8 +154,11 @@ TINYMCE_DEFAULT_CONFIG = {
     'theme': 'advanced',
     'theme_advanced_toolbar_location': 'top',
     'theme_advanced_toolbar_align': 'left',
-
+    'plugins': 'autolink,style,advlink,advlist,autolink,contextmenu,inlinepopups,paste',
+    'paste_auto_cleanup_on_paste': 'true',
+    'theme_advanced_buttons1_add' : 'fontselect,fontsizeselect',
+    'theme_advanced_buttons2': "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,forecolor,backcolor",
+    'theme_advanced_buttons3_add': 'styleprops'
 }
 
 from settings_local import *
-
