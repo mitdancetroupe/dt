@@ -16,6 +16,8 @@ def prefsheet(request, show_slug):
     show = get_object_or_404(Show, slug=show_slug)
     user = request.user
 
+    if not show.prefsheets_open:
+        return render(request, 'auditions/closed.html', {'show': show})
     try:
         prefsheet = PrefSheet.objects.get(user=user, show=show)
     except PrefSheet.DoesNotExist:

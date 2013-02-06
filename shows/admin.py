@@ -1,13 +1,19 @@
 from django.contrib import admin
 from dt.shows.models import *
+from dt.auditions.models import PrefSheet
 
 class DanceInline(admin.TabularInline):
     model = Dance
     exclude = ('dancers',)
 
 class ShowAdmin(admin.ModelAdmin):
-    list_display = ('name', 'year', 'semester')
+    list_display = ('name', 'year', 'semester', 'prefsheets_open')
     inlines = (DanceInline,)
+
+    def save_model(self, request, obj, form, change):
+        if 'prefsheets_open' in form.changed_data and not obj.prefsheets_open:
+            PrefSheet.objects.assign_numbers(obj)
+        super(ShowAdmin, self).save_model(request, obj, form, change)
 
 class DanceAdmin(admin.ModelAdmin):
     list_display = ('name', 'show', 'style', 'level')

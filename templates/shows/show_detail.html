@@ -7,6 +7,16 @@
 
 {% block content %}
 <h2>{{ show }}</h2>
+{% if show.prefsheets_open %}
+  {% if user.is_authenticated %}
+    Preferences sheets for this show are open!
+    <a href="{% url dt.auditions.views.prefsheet show.slug %}">Submit yours</a>
+  {% else %}
+    Preferences sheets for this show are open.
+    <a href="{% url dt.accounts.views.register %}">Register</a> or
+    <a href="{% url django.contrib.auth.views.login %}">Login</a> to submit yours.
+  {% endif %}
+{% endif %}
 <h3>Dances</h3>
 <table>
   <thead>

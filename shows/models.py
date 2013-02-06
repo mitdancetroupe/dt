@@ -25,6 +25,7 @@ class Show(models.Model):
     semester = models.PositiveSmallIntegerField(choices=SEMESTER_CHOICES)
     slug = models.SlugField()
     objects = ShowManager()
+    prefsheets_open = models.BooleanField(help_text = "Whether preferences sheets are being accepted for this show. Disabling will (re)generate audition numbers.")
     def __unicode__(self):
         return self.name
     def get_absolute_url(self):
