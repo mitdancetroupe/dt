@@ -27,6 +27,7 @@ DATABASES = {
 
 EMAIL_HOST = 'outgoing.mit.edu'
 EMAIL_PORT = 25
+SERVER_EMAIL = 'dt-web@MIT.EDU'
 
 # Local time zone for this installation. Choices can be found here:
 # http://www.postgresql.org/docs/8.1/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
