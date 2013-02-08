@@ -39,7 +39,9 @@ class Dance(models.Model):
         (0, 'All'),
         (1, 'Beginner'),
         (2, 'Intermediate'),
-        (3, 'Advanced')
+        (3, 'Advanced'),
+        (4, 'Intermediate/Advanced'),
+        (5, 'Beginner/Intermediate')
     )
     name = models.CharField(max_length = 255)
     style = models.CharField(max_length = 255)
