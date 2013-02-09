@@ -18,6 +18,7 @@ class PrefSheetAdmin(admin.ModelAdmin):
     list_filter = ('show',)
     inlines = [ PrefInline ]
     form = PrefSheetAdminForm
+    search_fields = ('user__username',)
 
 
 admin.site.register(PrefSheet, PrefSheetAdmin) 
