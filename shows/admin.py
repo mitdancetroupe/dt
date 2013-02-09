@@ -5,7 +5,8 @@ from shows.forms import ShowForm
 
 class DanceInline(admin.TabularInline):
     model = Dance
-    exclude = ('dancers', 'choreographers')
+    exclude = ('dancers',)
+    readonly_fields = ('choreographers',)
 
 class ShowAdmin(admin.ModelAdmin):
     list_display = ('name', 'year', 'semester', 'prefsheets_open')
