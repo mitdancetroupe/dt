@@ -17,6 +17,7 @@
     <a href="{% url django.contrib.auth.views.login %}">Login</a> to submit yours.
   {% endif %}
 {% endif %}
+{{ show.info|safe}}
 <h3>Dances</h3>
 <table>
   <thead>

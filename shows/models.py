@@ -23,6 +23,7 @@ class Show(models.Model):
     name = models.CharField(max_length = 255)
     year = models.IntegerField()
     semester = models.PositiveSmallIntegerField(choices=SEMESTER_CHOICES)
+    info = models.TextField()
     slug = models.SlugField()
     objects = ShowManager()
     prefsheets_open = models.BooleanField(help_text = "Whether preferences sheets are being accepted for this show. Disabling will (re)generate audition numbers.")

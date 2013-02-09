@@ -1,6 +1,7 @@
 from django.contrib import admin
 from dt.shows.models import *
 from dt.auditions.models import PrefSheet
+from shows.forms import ShowForm
 
 class DanceInline(admin.TabularInline):
     model = Dance
@@ -9,6 +10,7 @@ class DanceInline(admin.TabularInline):
 class ShowAdmin(admin.ModelAdmin):
     list_display = ('name', 'year', 'semester', 'prefsheets_open')
     inlines = (DanceInline,)
+    form = ShowForm
 
     def save_model(self, request, obj, form, change):
         if 'prefsheets_open' in form.changed_data and not obj.prefsheets_open:
