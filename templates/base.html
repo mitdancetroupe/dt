@@ -33,7 +33,7 @@
           <li><a href="/gallery/">Gallery</a></li>
           <li><a href="/auditions/">Auditions</a></li>
           <li><a href="/shows/">Shows</a></li>
-          <li><a href="/classes/">Classes</a></li>
+          <li><a href="/workshops/">Workshops</a></li>
           <li><a href="/rehearsals/">Rehearsals</a></li>
           <li><a href="/officers/">Officers</a></li>
           {% if user.is_authenticated %}
@@ -47,7 +47,7 @@
             <li><a href="http://{{ request.get_host }}{% url django.contrib.auth.views.logout %}">Logout</a></li>
           {% else %}
 
-            <li><a href="{% url django.contrib.auth.views.login %}">Login</a></li> 
+            <li><a href="{% url django.contrib.auth.views.login %}">Login</a></li>
           {% endif %}
         </ul>
         {% endblock %}
