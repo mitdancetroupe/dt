@@ -8,8 +8,8 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 
 ADMINS = (
-    ('Michael Phox', 'mphox@mit.edu'),
-    ('Tim Stumbaugh', 'stum@mit.edu')
+    ('Tim Stumbaugh', 'stum@mit.edu'),
+    ('Bruno Faviero', 'bfaviero@mit.edu')
 )
 
 MANAGERS = ADMINS
