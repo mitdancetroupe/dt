@@ -5,3 +5,7 @@ settings_local.py
 /sitestatic
 env/
 venv/
+static/css/.DS_Store
+static/js/.DS_Store
+static/.DS_Store
+.DS_Store

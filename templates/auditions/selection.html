@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% load filters %}
+{% block title %}{{ show }} Dancer Selection{% endblock %}
+
+{% block extra_head %}
+<script src="{{ STATIC_URL }}js/handlebars.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+<script src="{{ STATIC_URL }}js/foundation.min.js"></script>
+<script src="{{ STATIC_URL }}js/modernizr.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/foundation.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/normalize.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/selection.css">
+
+
+{% endblock %}
+
+{% block body %}
+<script src="{{ STATIC_URL }}js/foundation.min.js"></script>
+<!-- Navigation -->
+<nav class="top-bar">
+	<ul class="title-area">
+		<!-- Title Area -->
+		<li class="name">
+			<h1>
+				<a href="#">
+					Dancer Selection
+				</a>
+			</h1>
+		</li>
+		<li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+	</ul>
+</nav>
+
+<div class="large-3 small-6 columns">
+
+	<h4>Dancer Queue</h4><hr>
+	<table>
+	  <thead>
+	    <tr>
+	      <th>#</th>
+	      <th>Name</th>
+	      <th>Pref</th>
+	      <th>Desired</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	  </tbody>
+	</table>
+</div>
+
+<div id="center-column" class="large-7 small-6 columns">
+</div>
+
+<div class="large-2 columns">
+
+	<h4>Your dance</h4><hr>
+	<div class="panel">
+	</div>
+
+</div>
+
+{% raw %}
+<script id="profile-template" type="text/x-handlebars-template">
+<div class="row panel panel-profile">
+	<div class="row">
+		<div class="large-1 columns">
+			<h1 class="subheader">#</h1>
+		</div>
+		<div class="large-3 columns">
+			<img src="http://lorempixel.com/100/100/people/">
+		</div>
+		<div class="large-5 columns">
+			<h3 class="subheader">{{name}}</h3>
+			<p>Conflicts: {{conflicts}}</p>
+
+		</div>
+		<div class="large-3 columns">
+			<table class="table-pref">
+				<tr>
+				  <th>#</th>
+				  <th>Dance Name</th>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="row buttons">
+		<h5 class="subheader">accepted:0/4, rejected:0/4</h5>
+	</div>
+	<div class="row buttons">
+		<a href="#" class="button success tiny">Accept</a>
+		<a href="#" class="button alert tiny">No</a>
+		<a href="#" class="button default tiny">Return if not placed</a>
+	</div>
+
+</div>
+</script>
+{% endraw %}
+<script src="{{ STATIC_URL }}js/selection.js"></script>
+{% endblock %}
