@@ -8,4 +8,8 @@ urlpatterns = patterns('dt.auditions.views',
     (r'^assignments/$', 'assignments'),
     (r'^csv/$', 'csv'),
     (r'^emails/$', 'emails'),
+    (r'^selection/(?P<dance_id>\d+)$', 'selection'),
+    (r'^selection_prefsheets/(?P<dance_id>\d+)$', 'selection_prefsheets'),
+    (r'^accept_dancer/(?P<dancer_id>\d+)$', 'accept_dancer'),
+    (r'^reject_dancer/(?P<dancer_id>\d+)$', 'reject_dancer'),
 )

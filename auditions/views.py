@@ -10,6 +10,7 @@ from dt.shows.models import *
 from dt.accounts.forms import *
 from dt.auditions.models import *
 from dt.auditions.forms import *
+import json
 
 @login_required
 def prefsheet(request, show_slug):
@@ -54,16 +55,82 @@ def prefsheet(request, show_slug):
 
     for pref_form in pref_formset.forms:
         pref_form.fields['dance'].queryset = Dance.objects.filter(show=show)
-    return render(request, 'auditions/prefsheet.html', 
+    return render(request, 'auditions/prefsheet.html',
                               {'show': show,
                                'user_profile_form': user_profile_form,
                                'prefsheet_form': prefsheet_form,
                                'pref_formset': pref_formset},
-                              context_instance = RequestContext(request)) 
+                              context_instance = RequestContext(request))
 
 def thanks(request, show_slug):
-    return render(request, 'auditions/thanks.html', 
+    return render(request, 'auditions/thanks.html',
                               context_instance=RequestContext(request))
+'''
+/auditions/showslug/something
+'''
+
+def selection(request, show_slug, dance_id):
+    return render(request, 'auditions/selection.html', {})
+    prefs = selection_prefsheets(show_slug, dance_id)
+    dance = Dance.objects.get(id=dance_id)
+    dancers = [dancer.first_name+" "+dancer.last_name for dancer in dance.dancers.all()]
+    return render(request, 'auditions/selection.html', {'prefs':prefs})
+
+def selection_prefsheets(request, show_slug, dance_id):
+    dance = Dance.objects.get(id=dance_id)
+    all_prefs = Pref.objects.filter(dance=dance)
+    prefsheets = [pref.prefsheet for pref in all_prefs]
+    prefs = []
+    for prefsheet in prefsheets:
+        #Prefsheet model: user, conflicts, desired_dances, dances_accepted, dances_rejected
+        #{key:k value for (key, value) in sequence}
+        #return prefsheet.user.name, prefsheet.user.id, all the info
+        user = prefsheet.user
+        pref = {}
+        pref['dance_id'] = dance_id
+        pref['prefsheet'] = {
+            'conflicts': prefsheet.conflicts,
+            'desired_dances': prefsheet.desired_dances,
+            #'dances': user.dances,#where show_slug = show_slug
+        }
+        pref['user'] = {
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'gender' : user.get_profile().get_gender_display(),
+            'year': user.get_profile().year,
+            'affiliation': user.get_profile().get_affiliation_display(),
+            'living_group': user.get_profile().living_group,
+            'experience': user.get_profile().experience,
+        }
+        if prefsheet.user.get_profile().photo:
+            pref['user']['photo'] = prefsheet.user.get_profile().photo.url
+        dances = [{'id':p.dance.id, 'name':p.dance.name, 'pref':p.pref} for p in prefsheet.prefs.all()]
+        pref['dances'] = dances
+        prefs.append(pref)
+    return HttpResponse(json.dumps(prefs))
+
+def accept_dancer(request, show_slug, dancer_id, dance_id):
+    user = User.get(id=dancer_id)
+    dance = Dance.get(id=dance_id)
+    show = show.get(slug = show_slug)
+    prefsheet = PrefSheet.get(user=user, show=show)
+    if prefsheet.accepted_dances+prefsheet.rejected_dances>=prefsheet.desired_dances:
+        return {'successful': False}
+    else:
+        user.dances.add(dance)
+        prefsheet.accepted_dances+=1
+        rtn = {}
+        return {'successful': True}
+
+def reject_dancer(request, show_slug):
+    user = User.get(id=dancer_id)
+    dance = Dance.get(id=dance_id)
+    show = show.get(slug = show_slug)
+    prefsheet = PrefSheet.get(user=user, show=show)
+    prefsheet.rejected_dances+=1
+    rtn = {}
+    return {'successful': True, 'dances': [dancer.dances.where(show=show)],
+                        'rejected': prefsheet.rejected_dances, 'accepted': prefsheet.accepted_dances}
 
 @permission_required('auditions.can_list')
 def dancesheets(request, show_slug):
@@ -133,7 +200,7 @@ def csv(request, show_slug):
 @permission_required('auditions.can_list')
 def emails(request, show_slug):
     show = get_object_or_404(Show, slug=show_slug)
-    
+
     import csv
     response = HttpResponse(mimetype='text/csv')
     filename = '%s-auditions.csv' % show_slug

@@ -69,7 +69,7 @@ STATICFILES_DIRS = (
 STATIC_ROOT = PROJECT_ROOT + '/sitestatic'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = ''
+SECRET_KEY = 's'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -136,6 +136,7 @@ INSTALLED_APPS = (
     'dt.shows',
     'dt.auditions',
     'dt.costumes',
+    'south'
 )
 
 DANCER_IMAGE_DIR = 'photos/dancers'
@@ -161,5 +162,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'theme_advanced_buttons2': "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,forecolor,backcolor",
     'theme_advanced_buttons3_add': 'styleprops'
 }
-
-from settings_local import *
+try:
+    from settings_local import *
+except:
+    pass

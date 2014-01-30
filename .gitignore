@@ -3,3 +3,5 @@ data.db
 *.pyo
 settings_local.py
 /sitestatic
+env/
+venv/

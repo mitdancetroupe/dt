@@ -3,7 +3,7 @@ from django.conf import settings
 
 def contact(request):
     if request.method == 'POST': # If the form has been submitted...
-        contact_form = ContactForm(request.POST) 
+        contact_form = ContactForm(request.POST)
         if contact_form.is_valid(): # All validation rules pass
             subject = form.cleaned_data['subject']
             message = form.cleaned_data['message']

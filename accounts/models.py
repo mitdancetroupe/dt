@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.contrib.localflavor.us.models import PhoneNumberField
 from django.contrib.auth.models import User
-import Image
+from PIL import Image
 
 class UserProfile(models.Model):
     GENDER_CHOICES = (('M', 'Male'), ('F', 'Female'))
