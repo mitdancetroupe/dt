@@ -80,9 +80,10 @@ def selection_prefsheets(request, show_slug, dance_id):
     dance = Dance.objects.get(id=dance_id)
     all_prefs = Pref.objects.filter(dance=dance)
     prefsheets = [pref.prefsheet for pref in all_prefs]
-    prefs = []
+    context = {}
+    context['prefs'] = []
     dancers = [dancer.first_name+" "+dancer.last_name for dancer in dance.dancers.all()]
-    prefs['dancers'] = dancers
+    context['dancers'] = dancers
     for prefsheet in prefsheets:
         #Prefsheet model: user, conflicts, desired_dances, dances_accepted, dances_rejected
         #{key:k value for (key, value) in sequence}
@@ -109,8 +110,8 @@ def selection_prefsheets(request, show_slug, dance_id):
             pref['user']['photo'] = prefsheet.user.get_profile().photo.url
         dances = [{'id':p.dance.id, 'name':p.dance.name, 'pref':p.pref} for p in prefsheet.prefs.all()]
         pref['dances'] = dances
-        prefs.append(pref)
-    return HttpResponse(json.dumps(prefs))
+        context['prefs'].append(pref)
+    return HttpResponse(json.dumps(context))
 
 def accept_dancer(request, show_slug, dancer_id, dance_id):
     user = User.get(id=dancer_id)
