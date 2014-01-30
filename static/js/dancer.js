@@ -17,23 +17,18 @@ function Dancer() {
 };
 
 //compiles dancer information
-Dancer.prototype.compile = function(show_slug, dance_id) {
+Dancer.prototype.compile = function(id, name, bio, pic, phone, conflicts, desired, pref, kerberos, gmail) {
 
-	$.ajax({
-        url: "2",
-        success: function(response) {
-        }
-    });
-	this.full_name = "hi";
-	this.bio = "hi";
-	this.pic = "hi";
-	this.phone = "hi";
-	this.conflicts = "hi";
-	this.desired = "hi";
-	this.pref = "hi";
-	this.audition_id = "hi";
-	this.kerberos = "hi";
-	this.gmail="hi";
+	this.full_name = name;
+	this.bio = bio;
+	this.pic = pic;
+	this.phone = phone;
+	this.conflicts = conflicts;
+	this.desired = desired;
+	this.pref = pref;
+	this.audition_id = id;
+	this.kerberos = kerberos;
+	this.gmail= gmail;
 }
 
 Dancer.prototype.get_pref = function() {
