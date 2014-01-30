@@ -81,6 +81,8 @@ def selection_prefsheets(request, show_slug, dance_id):
     all_prefs = Pref.objects.filter(dance=dance)
     prefsheets = [pref.prefsheet for pref in all_prefs]
     prefs = []
+    dancers = [dancer.first_name+" "+dancer.last_name for dancer in dance.dancers.all()]
+    prefs['dancers'] = dancers
     for prefsheet in prefsheets:
         #Prefsheet model: user, conflicts, desired_dances, dances_accepted, dances_rejected
         #{key:k value for (key, value) in sequence}
@@ -94,6 +96,7 @@ def selection_prefsheets(request, show_slug, dance_id):
             #'dances': user.dances,#where show_slug = show_slug
         }
         pref['user'] = {
+            'dancer_id' : user.id,
             'first_name': user.first_name,
             'last_name': user.last_name,
             'gender' : user.get_profile().get_gender_display(),
