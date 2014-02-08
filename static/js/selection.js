@@ -117,5 +117,9 @@ var dancer_queue = [];
 var in_my_dance = [];
 preferences = pull_prefs();
 display_prefs(preferences);
-
+setInterval(
+	function(){
+		preferences = pull_prefs();
+		display_prefs(preferences);
+	},3000);
 
