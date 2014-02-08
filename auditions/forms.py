@@ -8,7 +8,7 @@ class PrefSheetForm(ModelForm):
     desired_dances = fields.TypedChoiceField(choices=DESIRED_INTS, coerce=int)
     class Meta:
         model = PrefSheet
-        exclude = ('user','show', 'audition_number',)
+        exclude = ('user','show', 'audition_number', 'accepted_dances', 'rejected_dances',)
     class Media:
         js = ('js/jquery.js',)
 

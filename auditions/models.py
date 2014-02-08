@@ -19,8 +19,6 @@ class PrefSheet(models.Model):
     user = models.ForeignKey(auth.models.User, related_name='prefsheets')
     conflicts = models.TextField(blank=True, help_text='Please list any scheduling conflicts you might have with rehearsals.')
     desired_dances = models.PositiveSmallIntegerField()
-    accepted_dances = models.PositiveSmallIntegerField()
-    rejected_dances = models.PositiveSmallIntegerField()
     show = models.ForeignKey(shows.models.Show)
     objects = PrefSheetManager()
     def __unicode__(self):
@@ -35,7 +33,7 @@ class Pref(models.Model):
     prefsheet = models.ForeignKey(PrefSheet, related_name='prefs')
     dance = models.ForeignKey(shows.models.Dance, related_name='prefs')
     pref = models.PositiveSmallIntegerField()
-    accepted = models.NullBooleanField()
+    accepted = models.NullBooleanField(default=0)
     return_if_not_placed = models.BooleanField(default=False)
     def __unicode__(self):
         return u"%s: %s" % (self.dance, self.pref)
