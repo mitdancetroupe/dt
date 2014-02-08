@@ -148,7 +148,7 @@ def accept_dancer(request, show_slug):
     pref = Pref.objects.get(dance=dance, prefsheet=prefsheet)
     accepted_dances = prefsheet.prefs.filter(accepted=True).count()
     rejected_dances = prefsheet.prefs.filter(accepted=False).count()
-    if accepted_dances+rejected_dances>=prefsheet.desired_dances or pref.accepted is not None:
+    if accepted_dances>=prefsheet.desired_dances or pref.accepted is not None:
         rtn = {'successful': False, 'dancers': [],
                         'rejected': rejected_dances, 'accepted': accepted_dances}
         return HttpResponse(json.dumps(rtn))
@@ -163,7 +163,6 @@ def accept_dancer(request, show_slug):
 
 @csrf_exempt
 def return_dancer(request, show_slug):
-    print "return dancer"
     dancer_id = request.POST.get("dancer_id")
     dance_id = request.POST.get("dance_id")
     user = User.objects.get(id=dancer_id)
@@ -193,7 +192,7 @@ def reject_dancer(request, show_slug):
     pref = Pref.objects.get(dance=dance, prefsheet=prefsheet)
     accepted_dances = prefsheet.prefs.filter(accepted=True).count()
     rejected_dances = prefsheet.prefs.filter(accepted=False).count()
-    if accepted_dances+rejected_dances>=prefsheet.desired_dances or pref.accepted is not None:
+    if accepted_dances>=prefsheet.desired_dances or pref.accepted is not None:
         dancers = get_dancers(dance, show_slug)
         rtn = {'successful': False, 'dancers': dancers,
                         'rejected': rejected_dances, 'accepted': accepted_dances}
