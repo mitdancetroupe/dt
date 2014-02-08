@@ -79,6 +79,7 @@ function display_prefs(prefs) {
 		var conflicts = pref.prefsheet.conflicts;
 		var id = pref.user.dancer_id;
 		var context = {
+			photo: pref.user.photo,
 			name: name,
 			conflicts: conflicts,
 			experience: pref.user.experience,
