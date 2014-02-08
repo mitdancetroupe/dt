@@ -5,7 +5,7 @@ function accept_dancer(obj) {
 	$.ajax({
 		type: "POST",
 		data: { dancer_id: dancer_id, dance_id: dance_id },
-		url: "http://dancetroupe.mit.edu/auditions/S14/accept_dancer/",
+		url: "http://dancetroupe.mit.edu/auditions/fake/accept_dancer/",
 		success: function(response){
 			response = JSON.parse(response);
 	        dancers = response.dancers
@@ -21,7 +21,7 @@ function reject_dancer(obj) {
 	$.ajax({
 		type: "POST",
 		data: { dancer_id: dancer_id, dance_id: dance_id },
-		url: "http://dancetroupe.mit.edu/auditions/S14/reject_dancer/",
+		url: "http://dancetroupe.mit.edu/auditions/fake/reject_dancer/",
 		success: function(response){
 			response = JSON.parse(response);
 	        dancers = response.dancers
@@ -37,7 +37,7 @@ function return_dancer(obj) {
 	$.ajax({
 		type: "POST",
 		data: { dancer_id: dancer_id, dance_id: dance_id },
-		url: "http://dancetroupe.mit.edu/auditions/S14/return_dancer/",
+		url: "http://dancetroupe.mit.edu/auditions/fake/return_dancer/",
 		success: function(response){
 			response = JSON.parse(response);
 	        dancers = response.dancers
@@ -51,7 +51,7 @@ function pull_prefs() {
 	prefs = []
 	$.ajax({
 		async: false,
-		url: "http://dancetroupe.mit.edu/auditions/S14/selection_prefsheets/2",
+		url: "http://dancetroupe.mit.edu/auditions/fake/selection_prefsheets/2",
 		success: function(response){
 			response = JSON.parse(response);
 	        pulled_dancers = response.dancers;
