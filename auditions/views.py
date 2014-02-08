@@ -98,6 +98,7 @@ def selection_prefsheets(request, show_slug, dance_id):
     all_prefs = Pref.objects.filter(dance=dance)
     for pref in all_prefs:
         prefsheet = pref.prefsheet
+        desired_dances = prefsheet.desired_dances
         rejected_dances = prefsheet.prefs.filter(accepted=False).count()
         accepted_dances = prefsheet.prefs.filter(accepted=True).count()
         if pref.return_if_not_placed and rejected_dances==prefsheet.prefs.count():
@@ -105,14 +106,14 @@ def selection_prefsheets(request, show_slug, dance_id):
             pref.accepted = None
             pref.save()
 
-        if pref.accepted is not None:
+        if pref.accepted is not None or accepted_dances>=prefsheet.desired_dances:
             continue
         user = prefsheet.user
         pref = {}
         pref['dance_id'] = dance_id
         pref['prefsheet'] = {
             'conflicts': prefsheet.conflicts,
-            'desired_dances': prefsheet.desired_dances,
+            'desired_dances': desired_dances,
             'prefed':prefsheet.prefs.count()
             #'dances': user.dances,#where show_slug = show_slug
         }
