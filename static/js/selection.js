@@ -114,8 +114,11 @@ function display_dancers(dancers) {
 var prefs = []
 var dancer_queue = [];
 var in_my_dance = [];
-var already_seen = []
-preferences = pull_prefs(already_seen);
-display_prefs(preferences);
+setInterval(
+	function(){
+		preferences = pull_prefs();
+		display_prefs(preferences);
+	},4000);
+
 
 
