@@ -6,7 +6,7 @@ function accept_dancer(obj) {
 	$.ajax({
 		type: "POST",
 		data: { dancer_id: dancer_id, dance_id: dance_id },
-		url: "http://dancetroupe.mit.edu/auditions/"+slug+"/accept_dancer/"+dance_id,
+		url: "http://dancetroupe.mit.edu/auditions/"+slug+"/accept_dancer/",
 		success: function(response){
 			response = JSON.parse(response);
 	        dancers = response.dancers
@@ -23,7 +23,7 @@ function reject_dancer(obj) {
 	$.ajax({
 		type: "POST",
 		data: { dancer_id: dancer_id, dance_id: dance_id },
-		url: "http://dancetroupe.mit.edu/auditions/"+slug+"/reject_dancer/"+dance_id,
+		url: "http://dancetroupe.mit.edu/auditions/"+slug+"/reject_dancer/",
 		success: function(response){
 			response = JSON.parse(response);
 	        dancers = response.dancers
@@ -40,7 +40,7 @@ function return_dancer(obj) {
 	$.ajax({
 		type: "POST",
 		data: { dancer_id: dancer_id, dance_id: dance_id },
-		url: "http://dancetroupe.mit.edu/auditions/"+slug+"/return_dancer/"+dance_id,
+		url: "http://dancetroupe.mit.edu/auditions/"+slug+"/return_dancer/",
 		success: function(response){
 			response = JSON.parse(response);
 	        dancers = response.dancers
