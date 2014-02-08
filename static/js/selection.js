@@ -1,13 +1,11 @@
 function accept_dancer(obj) {
 	var dancer_id = $(obj).parent().data("dancer-id");
 	var dance_id = $(obj).parent().data("dance-id");
-	already_seen.push(dancer_id)
 	$(obj).parent().parent().remove();
 	$.ajax({
 		type: "POST",
-		async: false,
 		data: { dancer_id: dancer_id, dance_id: dance_id },
-		url: "http://127.0.0.1:8000/auditions/S14/accept_dancer/",
+		url: "http://dancetroupe.mit.edu/auditions/S14/accept_dancer/",
 		success: function(response){
 			response = JSON.parse(response);
 	        dancers = response.dancers
@@ -19,13 +17,27 @@ function accept_dancer(obj) {
 function reject_dancer(obj) {
 	var dancer_id = $(obj).parent().data("dancer-id");
 	var dance_id = $(obj).parent().data("dance-id");
-	already_seen.push(dancer_id)
 	$(obj).parent().parent().remove();
 	$.ajax({
 		type: "POST",
-		async: false,
 		data: { dancer_id: dancer_id, dance_id: dance_id },
-		url: "http://127.0.0.1:8000/auditions/S14/reject_dancer/",
+		url: "http://dancetroupe.mit.edu/auditions/S14/reject_dancer/",
+		success: function(response){
+			response = JSON.parse(response);
+	        dancers = response.dancers
+	        display_dancers(dancers);
+
+	    }
+	});
+}
+function return_dancer(obj) {
+	var dancer_id = $(obj).parent().data("dancer-id");
+	var dance_id = $(obj).parent().data("dance-id");
+	$(obj).parent().parent().remove();
+	$.ajax({
+		type: "POST",
+		data: { dancer_id: dancer_id, dance_id: dance_id },
+		url: "http://dancetroupe.mit.edu/auditions/S14/return_dancer/",
 		success: function(response){
 			response = JSON.parse(response);
 	        dancers = response.dancers
@@ -35,23 +47,18 @@ function reject_dancer(obj) {
 	});
 }
 
-function pull_prefs(already_seen) {
+function pull_prefs() {
 	prefs = []
 	$.ajax({
 		async: false,
-		url: "http://127.0.0.1:8000/auditions/S14/selection_prefsheets/2",
+		url: "http://dancetroupe.mit.edu/auditions/S14/selection_prefsheets/2",
 		success: function(response){
 			response = JSON.parse(response);
 	        pulled_dancers = response.dancers;
 	        display_dancers(pulled_dancers);
-	        pulled_dancers.forEach(function(pulled_dancer) {
-	        	already_seen.push(pulled_dancer.id);
-	        });
 	        pulled_prefs = response.prefs;
 	        pulled_prefs.forEach(function(pulled_pref) {
-	        	if (already_seen.indexOf(pulled_pref.user.dancer_id)===-1) {
-	        		prefs.push(pulled_pref);
-	        	}
+        		prefs.push(pulled_pref);
 	        });
 	    }
 	});
@@ -69,28 +76,33 @@ function display_prefs(prefs) {
 		var context = {
 			name: name,
 			conflicts: conflicts,
+			experience: pref.user.experience,
 			dance_id: pref.dance_id,
 			dancer_id: pref.user.dancer_id,
 			dances: pref.dances,
 			desired: pref.prefsheet.desired_dances,
 			accepted: pref.info.accepted_dances,
-			rejected: pref.info.rejected_dances
+			rejected: pref.info.rejected_dances,
+			prefed: pref.prefsheet.prefed,
 		}
 		var html = template(context);
 		$( "#center-column" ).append(html);
 	});
-	$('#accept-button').click(function() {
+	$('.accept-button').click(function() {
 		accept_dancer(this);
 	});
-	$('#reject-button').click(function() {
+	$('.reject-button').click(function() {
 		reject_dancer(this);
+	});
+	$('.return-button').click(function() {
+		return_dancer(this);
 	});
 }
 
 function display_dancers(dancers) {
 	$('.dancers').empty();
 	$.each(dancers, function(i, dancer) {
-		$( ".dancers" ).append("<p>"+dancer.name+"</p>");
+		$( ".dancers" ).append("<tr><td>"+dancer.name+"</td></tr>");
 	});
 }
 

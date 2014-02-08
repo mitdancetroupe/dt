@@ -35,6 +35,8 @@ class Pref(models.Model):
     prefsheet = models.ForeignKey(PrefSheet, related_name='prefs')
     dance = models.ForeignKey(shows.models.Dance, related_name='prefs')
     pref = models.PositiveSmallIntegerField()
+    accepted = models.NullBooleanField()
+    return_if_not_placed = models.BooleanField(default=False)
     def __unicode__(self):
         return u"%s: %s" % (self.dance, self.pref)
     class Meta:

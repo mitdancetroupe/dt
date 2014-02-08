@@ -24,7 +24,7 @@
 		<!-- Title Area -->
 		<li class="name">
 			<h1>
-				<a href="#">
+				<a href="#">Dancer Queue
 				</a>
 			</h1>
 		</li>
@@ -32,10 +32,6 @@
 	</ul>
 </nav>
 
-<div class="large-3 small-6 columns">
-
-	<h4>Dancer Queue</h4><hr>
-</div>
 
 <div id="center-column" class="large-7 small-6 columns">
 </div>
@@ -43,8 +39,8 @@
 <div class="large-2 columns">
 
 	<h4>Your dance</h4><hr>
-	<div class="panel dancers">
-	</div>
+	<table class="panel dancers">
+	</table>
 
 </div>
 
@@ -60,7 +56,9 @@
 		</div>
 		<div class="large-5 columns">
 			<h3 class="subheader">{{name}}</h3>
-			<p>Conflicts: {{conflicts}}</p>
+			Conflicts: {{conflicts}}
+			<br>
+			Experience: {{experience}}
 
 		</div>
 		<div class="large-3 columns">
@@ -76,12 +74,12 @@
 		</div>
 	</div>
 	<div class="row buttons">
-		<h5 class="subheader">accepted:{{accepted}}/{{desired}}, rejected:{{rejected}}/{{desired}}</h5>
+		<h5 class="subheader">accepted:{{accepted}}, rejected:{{rejected}}, Desired:{{desired}}, Prefed:{{prefed}}</h5>
 	</div>
 	<div class="row buttons" data-dance-id="{{dance_id}}" data-dancer-id="{{dancer_id}}">
-		<a href="#" id="accept-button" class="button success tiny">Accept</a>
-		<a href="#" id="reject-button" class="button alert tiny">No</a>
-		<a href="#" id="return-button" class="button default tiny">Return if not placed</a>
+		<a href="#" class="accept-button button success tiny">Accept</a>
+		<a href="#" class="reject-button button alert tiny">No</a>
+		<a href="#" class="return-button button default tiny">Return if not placed</a>
 	</div>
 
 </div>

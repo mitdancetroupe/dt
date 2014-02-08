@@ -83,22 +83,32 @@ def selection(request, show_slug, dance_id):
 
 def selection_prefsheets(request, show_slug, dance_id):
     dance = Dance.objects.get(id=dance_id)
-    all_prefs = Pref.objects.filter(dance=dance)
-    prefsheets = [pref.prefsheet for pref in all_prefs]
+    #initialize context
     context = {}
     context['prefs'] = []
+    #get dancers
     dancers = [{'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name} for dancer in dance.dancers.all()]
     context['dancers'] = dancers
-    for prefsheet in prefsheets:
-        #Prefsheet model: user, conflicts, desired_dances, dances_accepted, dances_rejected
-        #{key:k value for (key, value) in sequence}
-        #return prefsheet.user.name, prefsheet.user.id, all the info
+    #get the prefs
+    all_prefs = Pref.objects.filter(dance=dance)
+    for pref in all_prefs:
+        prefsheet = pref.prefsheet
+        rejected_dances = prefsheet.prefs.filter(accepted=False).count()
+        accepted_dances = prefsheet.prefs.filter(accepted=True).count()
+        if pref.return_if_not_placed and rejected_dances==prefsheet.prefs.count():
+            pref.return_if_not_placed = False
+            pref.accepted = None
+            pref.save()
+
+        if pref.accepted is not None:
+            continue
         user = prefsheet.user
         pref = {}
         pref['dance_id'] = dance_id
         pref['prefsheet'] = {
             'conflicts': prefsheet.conflicts,
             'desired_dances': prefsheet.desired_dances,
+            'prefed':prefsheet.prefs.count()
             #'dances': user.dances,#where show_slug = show_slug
         }
         pref['user'] = {
@@ -112,8 +122,8 @@ def selection_prefsheets(request, show_slug, dance_id):
             'experience': user.get_profile().experience,
         }
         pref['info'] = {
-            'accepted_dances':prefsheet.accepted_dances,
-            'rejected_dances':prefsheet.rejected_dances
+            'accepted_dances': accepted_dances,
+            'rejected_dances': rejected_dances
         }
         if prefsheet.user.get_profile().photo:
             pref['user']['photo'] = prefsheet.user.get_profile().photo.url
@@ -130,18 +140,42 @@ def accept_dancer(request, show_slug):
     dance = Dance.objects.get(id=dance_id)
     show = Show.objects.get(slug = show_slug)
     prefsheet = PrefSheet.objects.get(user=user, show=show)
-    if prefsheet.accepted_dances+prefsheet.rejected_dances>=prefsheet.desired_dances:
+    pref = Pref.objects.get(dance=dance, prefsheet=prefsheet)
+    accepted_dances = prefsheet.prefs.filter(accepted=True).count()
+    rejected_dances = prefsheet.prefs.filter(accepted=False).count()
+    if accepted_dances+rejected_dances>=prefsheet.desired_dances or pref.accepted is not None:
         rtn = {'successful': False, 'dancers': [],
-                        'rejected': prefsheet.rejected_dances, 'accepted': prefsheet.accepted_dances}
+                        'rejected': rejected_dances, 'accepted': accepted_dances}
         return HttpResponse(json.dumps(rtn))
     else:
+        pref.accepted = True
+        pref.save()
         user.danced_in.add(dance)
-        prefsheet.accepted_dances+=1
-        prefsheet.save()
         dancers = [{'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name} for dancer in dance.dancers.all()]
         rtn = {'successful': True, 'dancers': dancers,
-                        'rejected': prefsheet.rejected_dances, 'accepted': prefsheet.accepted_dances}
+                        'rejected': rejected_dances, 'accepted': accepted_dances+1}
         return HttpResponse(json.dumps(rtn))
+
+@csrf_exempt
+def return_dancer(request, show_slug):
+    print "return dancer"
+    dancer_id = request.POST.get("dancer_id")
+    dance_id = request.POST.get("dance_id")
+    user = User.objects.get(id=dancer_id)
+    dance = Dance.objects.get(id=dance_id)
+    show = Show.objects.get(slug = show_slug)
+    prefsheet = PrefSheet.objects.get(user=user, show=show)
+    pref = Pref.objects.get(dance=dance, prefsheet=prefsheet)
+    dancers = [{'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name} for dancer in dance.dancers.all()]
+
+    pref.return_if_not_placed = True
+    pref.accepted = False
+    pref.save()
+    accepted_dances = prefsheet.prefs.filter(accepted=True).count()
+    rejected_dances = prefsheet.prefs.filter(accepted=False).count()
+    rtn = {'successful': True, 'dancers': dancers,
+                        'rejected': rejected_dances, 'accepted': accepted_dances}
+    return HttpResponse(json.dumps(rtn))
 
 @csrf_exempt
 def reject_dancer(request, show_slug):
@@ -151,18 +185,20 @@ def reject_dancer(request, show_slug):
     dance = Dance.objects.get(id=dance_id)
     show = Show.objects.get(slug = show_slug)
     prefsheet = PrefSheet.objects.get(user=user, show=show)
-    if prefsheet.accepted_dances+prefsheet.rejected_dances>=prefsheet.desired_dances:
+    pref = Pref.objects.get(dance=dance, prefsheet=prefsheet)
+    accepted_dances = prefsheet.prefs.filter(accepted=True).count()
+    rejected_dances = prefsheet.prefs.filter(accepted=False).count()
+    if accepted_dances+rejected_dances>=prefsheet.desired_dances or pref.accepted is not None:
         dancers = [{'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name} for dancer in dance.dancers.all()]
         rtn = {'successful': False, 'dancers': dancers,
-                        'rejected': prefsheet.rejected_dances, 'accepted': prefsheet.accepted_dances}
+                        'rejected': rejected_dances, 'accepted': accepted_dances}
         return HttpResponse(json.dumps(rtn))
     else:
-        prefsheet.rejected_dances+=1
-        prefsheet.save()
+        pref.accepted = False
+        pref.save()
         dancers = [{'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name} for dancer in dance.dancers.all()]
-        print dancers
         rtn = {'successful': True, 'dancers': dancers,
-                        'rejected': prefsheet.rejected_dances, 'accepted': prefsheet.accepted_dances}
+                        'rejected': rejected_dances+1, 'accepted': accepted_dances}
         return HttpResponse(json.dumps(rtn))
 
 @permission_required('auditions.can_list')

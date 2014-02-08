@@ -1,11 +1,16 @@
 .panel-profile {
+	padding-bottom: 0px;
 
 }
 .buttons {
 	text-align: center;
+	padding-bottom: 5px;
+	margin-bottom: 0px;
 }
 .button {
 	width: 200px;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
 }
 .table-pref {
 	padding: .2em;

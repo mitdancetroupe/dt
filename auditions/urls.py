@@ -11,6 +11,7 @@ urlpatterns = patterns('dt.auditions.views',
     (r'^selection/(?P<dance_id>\d+)$', 'selection'),
     (r'^selection_prefsheets/(?P<dance_id>\d+)$', 'selection_prefsheets'),
     (r'^accept_dancer/$', 'accept_dancer'),
-    (r'^reject_dancer/(?P<dancer_id>\d+)$', 'reject_dancer'),
+    (r'^reject_dancer/$', 'reject_dancer'),
+    (r'^return_dancer/$', 'return_dancer'),
     (r'^selection/$', 'select_dance'),
 )
