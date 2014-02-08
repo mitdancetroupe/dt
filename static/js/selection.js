@@ -6,7 +6,7 @@ function accept_dancer(obj) {
 	$.ajax({
 		type: "POST",
 		data: { dancer_id: dancer_id, dance_id: dance_id },
-		url: "http://dancetroupe.mit.edu/auditions/"+slug+"/accept_dancer/",
+		url: "http://127.0.0.1/auditions/"+slug+"/accept_dancer/",
 		success: function(response){
 			response = JSON.parse(response);
 	        dancers = response.dancers
@@ -23,7 +23,7 @@ function reject_dancer(obj) {
 	$.ajax({
 		type: "POST",
 		data: { dancer_id: dancer_id, dance_id: dance_id },
-		url: "http://dancetroupe.mit.edu/auditions/"+slug+"/reject_dancer/",
+		url: "http://127.0.0.1/auditions/"+slug+"/reject_dancer/",
 		success: function(response){
 			response = JSON.parse(response);
 	        dancers = response.dancers
@@ -40,7 +40,7 @@ function return_dancer(obj) {
 	$.ajax({
 		type: "POST",
 		data: { dancer_id: dancer_id, dance_id: dance_id },
-		url: "http://dancetroupe.mit.edu/auditions/"+slug+"/return_dancer/",
+		url: "http://127.0.0.1/auditions/"+slug+"/return_dancer/",
 		success: function(response){
 			response = JSON.parse(response);
 	        dancers = response.dancers
@@ -56,7 +56,7 @@ function pull_prefs() {
 	var dance_id = $('#show_info').data("id");
 	$.ajax({
 		async: false,
-		url: "http://dancetroupe.mit.edu/auditions/"+slug+"/selection_prefsheets/"+dance_id,
+		url: "http://127.0.0.1/auditions/"+slug+"/selection_prefsheets/"+dance_id,
 		success: function(response){
 			response = JSON.parse(response);
 	        pulled_dancers = response.dancers;
@@ -107,7 +107,7 @@ function display_prefs(prefs) {
 function display_dancers(dancers) {
 	$('.dancers').empty();
 	$.each(dancers, function(i, dancer) {
-		$( ".dancers" ).append("<tr><td>"+dancer.name+"</td></tr>");
+		$( ".dancers" ).append("<tr><td>"+dancer.name+"</td><td>"+dancer.conflicts+"</td></tr>");
 	});
 }
 

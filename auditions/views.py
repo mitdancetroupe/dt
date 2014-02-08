@@ -69,6 +69,14 @@ def thanks(request, show_slug):
 '''
 /auditions/showslug/something
 '''
+def get_dancers(dance):
+    dancers = []
+    for dancer in dance.dancers.all():
+        prefsheet = PrefSheet.objects.get(user=dancer)
+        pref = Pref.objects.get(prefsheet=prefsheet, dance=dance)
+        dancers.append({'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name, 'conflicts':prefsheet.conflicts})
+    return dancers
+
 def select_dance(request, show_slug):
     show = Show.objects.get(slug=show_slug)
     dances = Dance.objects.filter(show=show)
@@ -83,7 +91,7 @@ def selection_prefsheets(request, show_slug, dance_id):
     context = {}
     context['prefs'] = []
     #get dancers
-    dancers = [{'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name} for dancer in dance.dancers.all()]
+    dancers = get_dancers(dance)
     context['dancers'] = dancers
     #get the prefs
     all_prefs = Pref.objects.filter(dance=dance)
@@ -147,7 +155,7 @@ def accept_dancer(request, show_slug):
         pref.accepted = True
         pref.save()
         user.danced_in.add(dance)
-        dancers = [{'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name} for dancer in dance.dancers.all()]
+        dancers = get_dancers(dance)
         rtn = {'successful': True, 'dancers': dancers,
                         'rejected': rejected_dances, 'accepted': accepted_dances+1}
         return HttpResponse(json.dumps(rtn))
@@ -162,7 +170,7 @@ def return_dancer(request, show_slug):
     show = Show.objects.get(slug = show_slug)
     prefsheet = PrefSheet.objects.get(user=user, show=show)
     pref = Pref.objects.get(dance=dance, prefsheet=prefsheet)
-    dancers = [{'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name} for dancer in dance.dancers.all()]
+    dancers = get_dancers(dance)
 
     pref.return_if_not_placed = True
     pref.accepted = False
@@ -185,14 +193,14 @@ def reject_dancer(request, show_slug):
     accepted_dances = prefsheet.prefs.filter(accepted=True).count()
     rejected_dances = prefsheet.prefs.filter(accepted=False).count()
     if accepted_dances+rejected_dances>=prefsheet.desired_dances or pref.accepted is not None:
-        dancers = [{'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name} for dancer in dance.dancers.all()]
+        dancers = get_dancers(dance)
         rtn = {'successful': False, 'dancers': dancers,
                         'rejected': rejected_dances, 'accepted': accepted_dances}
         return HttpResponse(json.dumps(rtn))
     else:
         pref.accepted = False
         pref.save()
-        dancers = [{'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name} for dancer in dance.dancers.all()]
+        dancers = get_dancers(dance)
         rtn = {'successful': True, 'dancers': dancers,
                         'rejected': rejected_dances+1, 'accepted': accepted_dances}
         return HttpResponse(json.dumps(rtn))
