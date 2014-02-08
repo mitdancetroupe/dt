@@ -20,6 +20,8 @@ class PrefSheet(models.Model):
     conflicts = models.TextField(blank=True, help_text='Please list any scheduling conflicts you might have with rehearsals.')
     desired_dances = models.PositiveSmallIntegerField()
     show = models.ForeignKey(shows.models.Show)
+    accepted_dances = models.PositiveSmallIntegerField(default=0)
+    rejected_dances = models.PositiveSmallIntegerField(default=0)
     objects = PrefSheetManager()
     def __unicode__(self):
         return u"%s / %s" % (self.user, self.show)
