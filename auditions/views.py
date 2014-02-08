@@ -75,11 +75,7 @@ def select_dance(request, show_slug):
     return render(request, 'auditions/dance_selection.html', {'dances':dances})
 
 def selection(request, show_slug, dance_id):
-    return render(request, 'auditions/selection.html', {})
-    prefs = selection_prefsheets(show_slug, dance_id)
-    dance = Dance.objects.get(id=dance_id)
-    dancers = [dancer.first_name+" "+dancer.last_name for dancer in dance.dancers.all()]
-    return render(request, 'auditions/selection.html', {'prefs':prefs})
+    return render(request, 'auditions/selection.html', {'slug':show_slug, 'dance_id':dance_id})
 
 def selection_prefsheets(request, show_slug, dance_id):
     dance = Dance.objects.get(id=dance_id)

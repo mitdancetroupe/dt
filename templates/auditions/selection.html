@@ -12,13 +12,13 @@
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/foundation.css">
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/normalize.css">
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/selection.css">
-
-
 {% endblock %}
 
 {% block body %}
 <script src="{{ STATIC_URL }}js/foundation.min.js"></script>
 <!-- Navigation -->
+<div id="show_info" data-slug="{{slug}}", data-id="{{dance_id}}">
+</div>
 <nav class="top-bar">
 	<ul class="title-area">
 		<!-- Title Area -->

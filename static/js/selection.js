@@ -1,11 +1,12 @@
 function accept_dancer(obj) {
 	var dancer_id = $(obj).parent().data("dancer-id");
 	var dance_id = $(obj).parent().data("dance-id");
+	var slug = $('#show_info').data("slug");
 	$(obj).parent().parent().remove();
 	$.ajax({
 		type: "POST",
 		data: { dancer_id: dancer_id, dance_id: dance_id },
-		url: "http://dancetroupe.mit.edu/auditions/fake/accept_dancer/",
+		url: "http://dancetroupe.mit.edu/auditions/"+slug+"/accept_dancer/"+dance_id,
 		success: function(response){
 			response = JSON.parse(response);
 	        dancers = response.dancers
@@ -17,11 +18,12 @@ function accept_dancer(obj) {
 function reject_dancer(obj) {
 	var dancer_id = $(obj).parent().data("dancer-id");
 	var dance_id = $(obj).parent().data("dance-id");
+	var slug = $('#show_info').data("slug");
 	$(obj).parent().parent().remove();
 	$.ajax({
 		type: "POST",
 		data: { dancer_id: dancer_id, dance_id: dance_id },
-		url: "http://dancetroupe.mit.edu/auditions/fake/reject_dancer/",
+		url: "http://dancetroupe.mit.edu/auditions/"+slug+"/reject_dancer/"+dance_id,
 		success: function(response){
 			response = JSON.parse(response);
 	        dancers = response.dancers
@@ -33,11 +35,12 @@ function reject_dancer(obj) {
 function return_dancer(obj) {
 	var dancer_id = $(obj).parent().data("dancer-id");
 	var dance_id = $(obj).parent().data("dance-id");
+	var slug = $('#show_info').data("slug");
 	$(obj).parent().parent().remove();
 	$.ajax({
 		type: "POST",
 		data: { dancer_id: dancer_id, dance_id: dance_id },
-		url: "http://dancetroupe.mit.edu/auditions/fake/return_dancer/",
+		url: "http://dancetroupe.mit.edu/auditions/"+slug+"/return_dancer/"+dance_id,
 		success: function(response){
 			response = JSON.parse(response);
 	        dancers = response.dancers
@@ -49,9 +52,11 @@ function return_dancer(obj) {
 
 function pull_prefs() {
 	prefs = []
+	var slug = $('#show_info').data("slug");
+	var dance_id = $('#show_info').data("id");
 	$.ajax({
 		async: false,
-		url: "http://dancetroupe.mit.edu/auditions/fake/selection_prefsheets/2",
+		url: "http://dancetroupe.mit.edu/auditions/"+slug+"/selection_prefsheets/"+dance_id,
 		success: function(response){
 			response = JSON.parse(response);
 	        pulled_dancers = response.dancers;
