@@ -21,4 +21,4 @@ class PrefSheetAdmin(admin.ModelAdmin):
     search_fields = ('user__username',)
 
 
-admin.site.register(PrefSheet, PrefSheetAdmin) 
+admin.site.register(PrefSheet, PrefSheetAdmin)
