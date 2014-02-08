@@ -10,3 +10,11 @@
 .table-pref {
 	padding: .2em;
 }
+.dancers p {
+	padding: 0px;
+	margin: 0px;
+}
+.table-pref td {
+	padding: 0px;
+	padding-left: 10px;
+}

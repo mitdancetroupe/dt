@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load markup %}
+
+{% block title %}
+ 	Dance Selection
+{% endblock %}
+
+{% block content %}
+	{% for dance in dances %}
+		<p><a href=http://127.0.0.1:8000/auditions/S14/selection/{{dance.id}}>{{dance.name}}</a></p>
+	{% endfor %}
+{% endblock %}
+
