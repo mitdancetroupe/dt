@@ -105,9 +105,13 @@ def selection_prefsheets(request, show_slug, dance_id):
             pref.return_if_not_placed = False
             pref.accepted = None
             pref.save()
-
         if pref.accepted is not None or accepted_dances>=prefsheet.desired_dances:
             continue
+        #Sliding Window logic
+        window_size = desired_dances-accepted_dances
+
+        # end sliding window logic
+
         user = prefsheet.user
         pref = {}
         pref['dance_id'] = dance_id
@@ -138,7 +142,6 @@ def selection_prefsheets(request, show_slug, dance_id):
         context['prefs'].append(pref)
     return HttpResponse(json.dumps(context))
 
-@csrf_exempt
 def accept_dancer(request, show_slug):
     dancer_id = request.POST.get("dancer_id")
     dance_id = request.POST.get("dance_id")
@@ -162,7 +165,6 @@ def accept_dancer(request, show_slug):
                         'rejected': rejected_dances, 'accepted': accepted_dances+1}
         return HttpResponse(json.dumps(rtn))
 
-@csrf_exempt
 def return_dancer(request, show_slug):
     dancer_id = request.POST.get("dancer_id")
     dance_id = request.POST.get("dance_id")
@@ -182,7 +184,6 @@ def return_dancer(request, show_slug):
                         'rejected': rejected_dances, 'accepted': accepted_dances}
     return HttpResponse(json.dumps(rtn))
 
-@csrf_exempt
 def reject_dancer(request, show_slug):
     dancer_id = request.POST.get("dancer_id")
     dance_id = request.POST.get("dance_id")
