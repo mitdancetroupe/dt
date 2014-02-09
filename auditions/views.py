@@ -105,6 +105,9 @@ def selection_prefsheets(request, show_slug, dance_id):
         rejected_dances = prefsheet.prefs.filter(accepted=False).count()
         accepted_dances = prefsheet.prefs.filter(accepted=True).count()
         if pref.return_if_not_placed and rejected_dances==prefsheet.prefs.count():
+            window = Pref.objects.filter(prefsheet=prefsheet, return_if_not_placed=True).order_by('pref')[:1]
+            if pref not in window:
+                continue
             pref.return_if_not_placed = False
             pref.accepted = None
             pref.save()
