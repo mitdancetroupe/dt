@@ -122,5 +122,5 @@ setInterval(
 	function(){
 		preferences = pull_prefs();
 		display_prefs(preferences);
-	},3000);
+	},10000);
 
