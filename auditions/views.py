@@ -130,6 +130,7 @@ def selection_prefsheets(request, show_slug, dance_id):
             #'dances': user.dances,#where show_slug = show_slug
         }
         pref_dict['user'] = {
+            'audition': pref.prefsheet.audition_number,
             'pref': pref.pref,
             'dancer_id' : user.id,
             'first_name': user.first_name,
