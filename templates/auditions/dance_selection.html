@@ -7,7 +7,7 @@
 
 {% block content %}
 	{% for dance in dances %}
-		<p><a href=http://dancetroupe.mit.edu/auditions/S14/selection/{{dance.id}}>{{dance.name}}</a></p>
+		<p><a href=http://dancetroupe.mit.edu/auditions/{{show_slug}}/selection/{{dance.id}}>{{dance.name}}</a></p>
 	{% endfor %}
 {% endblock %}
 

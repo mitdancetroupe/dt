@@ -82,7 +82,7 @@ def get_dancers(dance, show_slug):
 def select_dance(request, show_slug):
     show = Show.objects.get(slug=show_slug)
     dances = Dance.objects.filter(show=show)
-    return render(request, 'auditions/dance_selection.html', {'dances':dances})
+    return render(request, 'auditions/dance_selection.html', {'dances':dances, 'show_slug':show_slug})
 
 @permission_required('auditions.can_list')
 def selection(request, show_slug, dance_id):
