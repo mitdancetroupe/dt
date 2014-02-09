@@ -108,7 +108,6 @@ def selection_prefsheets(request, show_slug, dance_id):
             window = Pref.objects.filter(prefsheet=prefsheet, return_if_not_placed=True).order_by('pref')[:1]
             if pref not in window:
                 continue
-            pref.return_if_not_placed = False
             pref.accepted = None
             pref.save()
         if pref.accepted is not None or accepted_dances>=prefsheet.desired_dances:
@@ -169,6 +168,7 @@ def accept_dancer(request, show_slug):
         return HttpResponse(json.dumps(rtn))
     else:
         pref.accepted = True
+        pref.return_if_not_placed = False
         pref.save()
         user.danced_in.add(dance)
         dancers = get_dancers(dance, show_slug)
@@ -214,6 +214,7 @@ def reject_dancer(request, show_slug):
         return HttpResponse(json.dumps(rtn))
     else:
         pref.accepted = False
+        pref.return_if_not_placed = False
         pref.save()
         dancers = get_dancers(dance, show_slug)
         rtn = {'successful': True, 'dancers': dancers,
