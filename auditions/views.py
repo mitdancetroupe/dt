@@ -78,14 +78,17 @@ def get_dancers(dance, show_slug):
         dancers.append({'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name, 'conflicts':prefsheet.conflicts})
     return dancers
 
+@permission_required('auditions.can_list')
 def select_dance(request, show_slug):
     show = Show.objects.get(slug=show_slug)
     dances = Dance.objects.filter(show=show)
     return render(request, 'auditions/dance_selection.html', {'dances':dances})
 
+@permission_required('auditions.can_list')
 def selection(request, show_slug, dance_id):
     return render(request, 'auditions/selection.html', {'slug':show_slug, 'dance_id':dance_id})
 
+@csrf_exempt
 def selection_prefsheets(request, show_slug, dance_id):
     dance = Dance.objects.get(id=dance_id)
     #initialize context
@@ -107,21 +110,25 @@ def selection_prefsheets(request, show_slug, dance_id):
             pref.save()
         if pref.accepted is not None or accepted_dances>=prefsheet.desired_dances:
             continue
+
         #Sliding Window logic
         window_size = desired_dances-accepted_dances
-
+        window = Pref.objects.filter(prefsheet=prefsheet, accepted=None).order_by('pref')[:window_size]
+        if pref not in window:
+            continue
         # end sliding window logic
 
         user = prefsheet.user
-        pref = {}
-        pref['dance_id'] = dance_id
-        pref['prefsheet'] = {
+        pref_dict = {}
+        pref_dict['dance_id'] = dance_id
+        pref_dict['prefsheet'] = {
             'conflicts': prefsheet.conflicts,
             'desired_dances': desired_dances,
             'prefed':prefsheet.prefs.count()
             #'dances': user.dances,#where show_slug = show_slug
         }
-        pref['user'] = {
+        pref_dict['user'] = {
+            'pref': pref.pref,
             'dancer_id' : user.id,
             'first_name': user.first_name,
             'last_name': user.last_name,
@@ -131,17 +138,18 @@ def selection_prefsheets(request, show_slug, dance_id):
             'living_group': user.get_profile().living_group,
             'experience': user.get_profile().experience,
         }
-        pref['info'] = {
+        pref_dict['info'] = {
             'accepted_dances': accepted_dances,
             'rejected_dances': rejected_dances
         }
         if prefsheet.user.get_profile().photo:
-            pref['user']['photo'] = prefsheet.user.get_profile().photo.url
+            pref_dict['user']['photo'] = prefsheet.user.get_profile().photo.url
         dances = [{'id':p.dance.id, 'name':p.dance.name, 'pref':p.pref} for p in prefsheet.prefs.all()]
-        pref['dances'] = dances
-        context['prefs'].append(pref)
+        pref_dict['dances'] = dances
+        context['prefs'].append(pref_dict)
     return HttpResponse(json.dumps(context))
 
+@csrf_exempt
 def accept_dancer(request, show_slug):
     dancer_id = request.POST.get("dancer_id")
     dance_id = request.POST.get("dance_id")
@@ -165,6 +173,7 @@ def accept_dancer(request, show_slug):
                         'rejected': rejected_dances, 'accepted': accepted_dances+1}
         return HttpResponse(json.dumps(rtn))
 
+@csrf_exempt
 def return_dancer(request, show_slug):
     dancer_id = request.POST.get("dancer_id")
     dance_id = request.POST.get("dance_id")
@@ -184,6 +193,7 @@ def return_dancer(request, show_slug):
                         'rejected': rejected_dances, 'accepted': accepted_dances}
     return HttpResponse(json.dumps(rtn))
 
+@csrf_exempt
 def reject_dancer(request, show_slug):
     dancer_id = request.POST.get("dancer_id")
     dance_id = request.POST.get("dance_id")
