@@ -78,11 +78,13 @@ def get_dancers(dance, show_slug):
         dancers.append({'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name, 'conflicts':prefsheet.conflicts})
     return dancers
 
+@permission_required('auditions.can_list')
 def select_dance(request, show_slug):
     show = Show.objects.get(slug=show_slug)
     dances = Dance.objects.filter(show=show)
     return render(request, 'auditions/dance_selection.html', {'dances':dances, 'show_slug':show_slug})
 
+@permission_required('auditions.can_list')
 def selection(request, show_slug, dance_id):
     return render(request, 'auditions/selection.html', {'slug':show_slug, 'dance_id':dance_id})
 
