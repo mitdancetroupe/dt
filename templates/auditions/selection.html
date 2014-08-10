@@ -1,92 +1,129 @@
-{% extends "base.html" %}
+<html ng-app="selectionApp">
+	<head>
+		{% load filters %}
 
-{% load filters %}
-{% block title %}{{ show }} Dancer Selection{% endblock %}
+		<script src="{{ STATIC_URL }}js/vendor/angular.min.js"></script>
+		<script src="{{ STATIC_URL }}js/dancer_selection/controllers.js"></script>
+		<script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
 
-{% block extra_head %}
-<script src="{{ STATIC_URL }}js/handlebars.js"></script>
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-
-<script src="{{ STATIC_URL }}js/foundation.min.js"></script>
-<script src="{{ STATIC_URL }}js/modernizr.js"></script>
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/foundation.css">
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/normalize.css">
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/selection.css">
-{% endblock %}
-
-{% block body %}
-<script src="{{ STATIC_URL }}js/foundation.min.js"></script>
-<!-- Navigation -->
-<div id="show_info" data-slug="{{slug}}", data-id="{{dance_id}}">
-</div>
-<nav class="top-bar">
-	<ul class="title-area">
-		<!-- Title Area -->
-		<li class="name">
-			<h1>
-				<a href="#">Dancer Queue
-				</a>
-			</h1>
-		</li>
-		<li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
-	</ul>
-</nav>
-
-
-<div id="center-column" class="large-9 small-9 columns">
-</div>
-
-<div class="large-3 small-3 columns" id="dancer-column">
-
-	<h4>Your dance</h4><hr>
-	<table class="panel dancers">
-	</table>
-
-</div>
-
-{% raw %}
-<script id="profile-template" type="text/x-handlebars-template">
-<div class="row panel panel-profile">
-	<div class="row">
-		<div class="large-1 columns">
-			<h1 class="subheader">#{{audition}}, {{pref}}</h1>
+		<script src="{{ STATIC_URL }}js/vendor/foundation.min.js"></script>
+		<script src="{{ STATIC_URL }}js/vendor/modernizr.js"></script>
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/foundation.css">
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/normalize.css">
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/selection.css">
+	</head>
+	<body ng-controller="DancerCtrl as main">
+		<!-- Navigation -->
+		<div id="show_info" data-slug="{{slug}}", data-id="{{dance_id}}">
 		</div>
-		<div class="large-3 columns">
-			<img src="{{photo}}">
+		{% raw %}
+		<div data-alert class="alert-box alert" ng-show="alertIsShown">
+			{{alertText}}
 		</div>
-		<div class="large-5 columns">
-			<h3 class="subheader">{{name}}</h3>
-			{{year}}
-			<br>
-			Conflicts: {{conflicts}}
-			<br>
-			<br>
-			Experience: {{experience}}
-
+		<div data-alert class="alert-box" ng-show="infoAlertIsShown">
+			{{infoAlertText}}
 		</div>
-		<div class="large-3 columns">
-			<table class="table-pref">
+		<nav class="top-bar">
+			<ul class="title-area">
+				<!-- Title Area -->
+				<li class="name">
+					<h1>
+						<a href="#">Dancer Queue
+						</a>
+					</h1>
+				</li>
+				<li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+			</ul>
+		</nav>
+		<div id="left-column" class="large-4 small-4 columns">
+		<h4>Prefs not-yet available </h4><hr>
+			<span>* = return if not placed</span>
+			<table>
+				<thead>
 				<tr>
-				  <th>#</th>
-				  <th>Dance Name</th>
+					<th class="sort_header" ng-click="order('name')">name</th>
+					<th class="sort_header" ng-click="order('audition')">aud. #</th>
+					<th class="sort_header" ng-click="order('pref')">prefed you:</th>
+					<th class="sort_header" ng-click="order('wanted')">dances wanted</th>
+					<th>accepted/ rejected/ total</th>
+					<th>being looked at by:</th>
 				</tr>
-				{{#each dances}}
-				  <tr><td>{{this.pref}}</td> <td>{{this.name}}</td></tr>
-				{{/each}}
+				</thead>
+				<tbody>
+				<tr ng-repeat="dancer in future_prefs | orderBy: predicate">
+					<td>{{dancer.name}}{{dancer.not_placed ? '*' : ''}}</td>
+					<td>{{dancer.audition}}</td>
+					<td>{{dancer.pref}}</td>
+					<td>{{dancer.desired}}</td>
+					<td>
+						<span style="color: green;">{{dancer.accepted}} /</span>
+						<span style="color: red;">{{dancer.rejected}} /</span>
+						{{dancer.prefed}}
+					</td>
+					<td>{{dancer.window}}</td>
+				</tr>
+				</tbody>
 			</table>
 		</div>
-	</div>
-	<div class="row buttons">
-		<h5 class="subheader">accepted:{{accepted}}, rejected:{{rejected}}, Desired:{{desired}}, Prefed:{{prefed}}</h5>
-	</div>
-	<div class="row buttons" data-dance-id="{{dance_id}}" data-dancer-id="{{dancer_id}}">
-		<a href="#" class="accept-button button success tiny">Accept</a>
-		<a href="#" class="reject-button button alert tiny">No</a>
-		<a href="#" class="return-button button default tiny">Return if not placed</a>
-	</div>
+		<div id="center-column" class="large-6 small-6 columns">
+			<a href="#" ng-click="refreshPrefs()" class="button tiny">Refresh prefs</a><bfcountdown></bfcountdown>
+			<div ng-repeat="dancer in prefs" class="row panel panel-profile">
+				<div class="row">
+					<div class="large-1 columns">
+						<h1 class="subheader">#{{dancer.audition}}, {{dancer.pref}}</h1>
+					</div>
+					<div class="large-3 columns">
+						<img ng-src="{{dancer.photo}}" />
+					</div>
+					<div class="large-5 columns">
+						<h3>{{dancer.name}}</h3>
+						<br>
+						{{dancer.year}}
+						<br>
+						Conflicts: {{dancer.conflicts}}
+						<br>
+						<br>
+						Experience: {{dancer.experience}}
 
-</div>
-</script>
-{% endraw %}
-<script src="{{ STATIC_URL }}js/selection.js"></script>
-{% endblock %}
+					</div>
+					<div class="large-3 columns">
+						<table class="table-pref">
+							<tr>
+							  <th>#</th>
+							  <th>Dance Name</th>
+							</tr>
+							  <tr ng-repeat="pref in dancer.dances"><td>{{pref.pref}}</td> <td>{{pref.name}}</td></tr>
+						</table>
+					</div>
+				</div>
+				<div class="row buttons">
+					<h5 class="subheader">accepted:{{dancer.accepted}}, rejected:{{dancer.rejected}}, desired:{{dancer.desired}}, prefed:{{dancer.prefed}}</h5>
+				</div>
+				<div class="row buttons">
+					<a href="#" ng-click="acceptDancer(dancer)" class="button success tiny">Accept</a>
+					<a href="#" ng-click="rejectDancer(dancer)" class="button alert tiny">No</a>
+					<a href="#" bf-invisible="dancer.not_placed" bf-invisible-click="returnDancer(dancer)" class="button default tiny">Return if not placed</a>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="large-2 small-2 columns" id="dancer-column">
+
+			<h4>Your dance: {{dancers.length}}</h4><hr>
+			<a href="#" data-confirm-function="finishPicking()" bf-confirm-click="This will reject all remaining dancers. Are you sure?" class="button tiny">I'm done picking</a>
+			<table class="panel dancers">
+				<tr>
+					<th>name</th>
+					<th>conflicts</th>
+				</tr>
+				<tr ng-repeat="dancer in dancers">
+					<td>{{dancer.name}}:</td>
+					<td>{{dancer.conflicts}}</td>
+				</tr>
+			</table>
+
+		</div>
+		{% endraw %}
+	</body>
+</html>

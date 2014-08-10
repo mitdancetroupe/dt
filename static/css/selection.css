@@ -24,3 +24,26 @@
 	padding: 0px;
 	padding-left: 10px;
 }
+
+th {
+	padding: 0px !important;
+	padding-right: 1px !important;
+	text-align: center !important;
+}
+
+td {
+	padding: 0px !important;
+	padding-right: 1px !important;
+	text-align: center;
+}
+
+.sort_header {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.alert-box {
+	position: absolute;
+	width: 100%;
+	z-index: 10;
+}
