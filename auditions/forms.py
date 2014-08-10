@@ -10,7 +10,7 @@ class PrefSheetForm(ModelForm):
         model = PrefSheet
         exclude = ('user','show', 'audition_number', 'accepted_dances', 'rejected_dances',)
     class Media:
-        js = ('js/jquery.js',)
+        js = ('js/vendor/jquery.js',)
 
 class PrefForm(ModelForm):
     pref = fields.IntegerField(min_value=1,
