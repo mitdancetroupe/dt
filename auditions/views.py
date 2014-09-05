@@ -241,7 +241,11 @@ def return_dancer(request, show_slug):
     prefsheet = PrefSheet.objects.get(user=user, show=show)
     pref = Pref.objects.get(dance=dance, prefsheet=prefsheet)
 
-    pref.return_if_not_placed = True
+    accepted_dances = prefsheet.prefs.filter(accepted=True).count()
+
+    if (accepted_dances == 0):
+        pref.return_if_not_placed = True
+
     pref.accepted = False
     pref.save()
 
