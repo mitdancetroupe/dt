@@ -44,19 +44,19 @@ selectionApp.factory('DancerFactory',
         _this.future_prefs = [];
 
         _this.getPrefs = function(slug, dance_id) {
-                return $http.get("/auditions/"+slug+"/prefs/"+dance_id).success(function(response) {
-                    _this.prefs = response.dancers;
-                });
-            };
+            return $http.get("/auditions/"+slug+"/prefs/"+dance_id).success(function(response) {
+                _this.prefs = response.dancers;
+            });
+        };
 
         _this.getDancers = function(slug, dance_id) {
-            $http.get("/auditions/"+slug+"/dancers/"+dance_id).success(function(response) {
+            return $http.get("/auditions/"+slug+"/dancers/"+dance_id).success(function(response) {
                 _this.dancers = response.dancers;
               });
         };
 
         _this.getFuturePrefs = function(slug, dance_id) {
-            $http.get("/auditions/"+slug+"/future_prefs/"+dance_id).success(function(response) {
+            return $http.get("/auditions/"+slug+"/future_prefs/"+dance_id).success(function(response) {
                 _this.future_prefs = response.dancers;
               });
         };
@@ -70,7 +70,7 @@ selectionApp.factory('DancerFactory',
             //call /accept/, append dancer to dancers list
             var data = { 'dancer_id': dancer.dancer_id, 'dance_id': dancer.dance_id };
             var slug = dancer.slug;
-            $http.post('/auditions/'+slug+'/accept_dancer/', data).then(function(response) {
+            return $http.post('/auditions/'+slug+'/accept_dancer/', data).then(function(response) {
                 var data = response.data;
                 if (data.successful) {
                     _this.removeDancerFromList(dancer, _this.prefs)
@@ -86,7 +86,7 @@ selectionApp.factory('DancerFactory',
             //remove dancer from list, call /reject/
             var slug = dancer.slug;
             var data = { 'dancer_id': dancer.dancer_id, 'dance_id': dancer.dance_id };
-            $http.post('/auditions/'+slug+'/reject_dancer/', data).then(function(response) {
+            return $http.post('/auditions/'+slug+'/reject_dancer/', data).then(function(response) {
                 var data = response.data;
                 if (data.successful) {
                     _this.removeDancerFromList(dancer, _this.prefs)
@@ -101,7 +101,7 @@ selectionApp.factory('DancerFactory',
             //Remove dancer from list, call /return/
             var slug = dancer.slug;
             var data = { 'dancer_id': dancer.dancer_id, 'dance_id': dancer.dance_id };
-            $http.post('/auditions/'+slug+'/return_dancer/', data).then(function(response) {
+            return $http.post('/auditions/'+slug+'/return_dancer/', data).then(function(response) {
                 var data = response.data;
                 if (data.successful) {
                     _this.removeDancerFromList(dancer, _this.prefs)
@@ -227,13 +227,14 @@ selectionApp.controller('DancerCtrl',
 
 
     var makeDecision = function(decisionFunction, action, dancer) {
-        var successful = decisionFunction(dancer);
-        if (successful) {
-            $scope.showInfoAlert(action + ' successfully');
-        }
-        else {
-            $scope.showAlert("An error has occurred.");
-        }
+        decisionFunction(dancer).then(function(successful) {
+            if (successful) {
+                $scope.showInfoAlert(action + ' successfully');
+            }
+            else {
+                $scope.showAlert("An error has occurred.");
+            }
+        });
     };
 
     $scope.acceptDancer = function(dancer) {
@@ -256,6 +257,11 @@ selectionApp.controller('DancerCtrl',
         $scope.prefs = DancerFactory.prefs;
     });
 
-    DancerFactory.getDancers(slug, dance_id);
-    DancerFactory.getFuturePrefs(slug, dance_id);
+    DancerFactory.getDancers(slug, dance_id).then(function() {
+        $scope.dancers = DancerFactory.dancers;
+    });
+
+    DancerFactory.getFuturePrefs(slug, dance_id).then(function() {
+        $scope.future_prefs = DancerFactory.future_prefs;
+    });
 });
