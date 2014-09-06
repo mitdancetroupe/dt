@@ -192,7 +192,7 @@ def prefs(request, show_slug, dance_id):
             'rejected': rejected_dances,
             'not_placed': pref.return_if_not_placed
         }
-        dances = [{'id': p.dance.id, 'name': p.dance.name, 'pref': p.pref} for p in prefsheet.prefs.all()]
+        dances = [{'id': p.dance.id, 'name': p.dance.name, 'pref': p.pref, 'accepted': p.accepted} for p in prefsheet.prefs.all()]
         pref_dict['dances'] = dances
         if prefsheet.user.get_profile().photo:
             pref_dict['photo'] = prefsheet.user.get_profile().photo.url

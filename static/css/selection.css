@@ -25,6 +25,16 @@
 	padding-left: 10px;
 }
 
+.accepted {
+	background-color: green;
+	color: white;
+}
+
+.rejected {
+	background-color: red !important;
+	color: white;
+}
+
 th {
 	padding: 0px !important;
 	padding-right: 1px !important;
