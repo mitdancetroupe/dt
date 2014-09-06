@@ -220,8 +220,13 @@ selectionApp.controller('DancerCtrl',
 
     $scope.refreshPrefs = function() {
         $scope.count = $scope.refreshTime;
-        DancerFactory.getPrefs(slug, dance_id);
-        DancerFactory.getFuturePrefs(slug, dance_id);
+        DancerFactory.getPrefs(slug, dance_id).then(function() {
+            $scope.prefs = DancerFactory.prefs;
+        });
+
+        DancerFactory.getFuturePrefs(slug, dance_id).then(function() {
+            $scope.future_prefs = DancerFactory.future_prefs;
+        });
         $scope.showInfoAlert("Refreshed preferences.");
     };
 
