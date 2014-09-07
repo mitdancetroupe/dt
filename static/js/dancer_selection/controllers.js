@@ -116,7 +116,7 @@ selectionApp.factory('DancerFactory',
         _this.finishPicking = function(object) {
             //Call /finish/, which rejects remaining dancers
             var data = {'dance_id': object.danceid };
-            $http.post('/auditions/'+object.showslug+'/finish/', data).then(function(response) {
+            return $http.post('/auditions/'+object.showslug+'/finish/', data).then(function(response) {
                 _this.prefs = [];
                 _this.future_prefs = [];
                 return true;
@@ -124,7 +124,6 @@ selectionApp.factory('DancerFactory',
                 return false;
             });
         }
-        return _this;
     });
 
 selectionApp.directive('bfcountdown', function($interval) {
