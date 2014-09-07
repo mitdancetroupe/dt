@@ -205,7 +205,7 @@ selectionApp.controller('DancerCtrl',
         }, 3000);
     };
 
-    $scope.predicate = "audition"
+    $scope.predicate = "pref"
 
     $scope.order = function(field) {
         var index = $scope.predicate.indexOf(field);
