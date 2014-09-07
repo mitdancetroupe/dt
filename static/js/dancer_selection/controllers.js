@@ -113,9 +113,9 @@ selectionApp.factory('DancerFactory',
             });
         };
 
-        _this.finishPicking = function() {
+        _this.finishPicking = function(dancer) {
             //Call /finish/, which rejects remaining dancers
-            var data = {'dance_id': dance_id };
+            var data = {'dance_id': dancer.dance_id };
             $http.post('/auditions/'+slug+'/finish/', data).then(function(response) {
                 _this.prefs = [];
                 _this.future_prefs = [];
