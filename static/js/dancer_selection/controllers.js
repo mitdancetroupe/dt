@@ -113,9 +113,9 @@ selectionApp.factory('DancerFactory',
             });
         };
 
-        _this.finishPicking = function(dancer) {
+        _this.finishPicking = function(danceid) {
             //Call /finish/, which rejects remaining dancers
-            var data = {'dance_id': dancer.dance_id };
+            var data = {'dance_id': danceid };
             $http.post('/auditions/'+slug+'/finish/', data).then(function(response) {
                 _this.prefs = [];
                 _this.future_prefs = [];
@@ -254,7 +254,7 @@ selectionApp.controller('DancerCtrl',
         makeDecision(DancerFactory.returnDancer, "Returned dancer", dancer);
     };
 
-    $scope.finishPicking = function(dancer) {
+    $scope.finishPicking = function(danceid) {
         makeDecision(DancerFactory.finishPicking, "Finished picking");
     };
 
