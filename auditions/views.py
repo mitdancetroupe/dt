@@ -263,6 +263,7 @@ def reject_dancer(request, show_slug):
     prefsheet = PrefSheet.objects.get(user=user, show=show)
     pref = Pref.objects.get(dance=dance, prefsheet=prefsheet)
 
+    pref.return_if_not_placed = False
     pref.accepted = False
     pref.save()
     rtn = {'successful': True}
