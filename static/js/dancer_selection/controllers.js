@@ -113,10 +113,10 @@ selectionApp.factory('DancerFactory',
             });
         };
 
-        _this.finishPicking = function(danceid) {
+        _this.finishPicking = function(object) {
             //Call /finish/, which rejects remaining dancers
-            var data = {'dance_id': danceid };
-            $http.post('/auditions/'+slug+'/finish/', data).then(function(response) {
+            var data = {'dance_id': object.danceid };
+            $http.post('/auditions/'+object.showslug+'/finish/', data).then(function(response) {
                 _this.prefs = [];
                 _this.future_prefs = [];
                 return true;
@@ -231,8 +231,8 @@ selectionApp.controller('DancerCtrl',
     };
 
 
-    var makeDecision = function(decisionFunction, action, dancer) {
-        decisionFunction(dancer).then(function(successful) {
+    var makeDecision = function(decisionFunction, action, obj) {
+        decisionFunction(obj).then(function(successful) {
             if (successful) {
                 $scope.showInfoAlert(action + ' successfully');
             }
@@ -254,8 +254,9 @@ selectionApp.controller('DancerCtrl',
         makeDecision(DancerFactory.returnDancer, "Returned dancer", dancer);
     };
 
-    $scope.finishPicking = function(danceid) {
-        makeDecision(DancerFactory.finishPicking, "Finished picking");
+    $scope.finishPicking = function(danceid, slug) {
+        var object = {danceid: danceid, showslug: showslug}
+        makeDecision(DancerFactory.finishPicking, "Finished picking", object);
     };
 
     DancerFactory.getPrefs(slug, dance_id).then(function() {
