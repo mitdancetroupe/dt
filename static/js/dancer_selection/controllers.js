@@ -255,7 +255,7 @@ selectionApp.controller('DancerCtrl',
     };
 
     $scope.finishPicking = function(danceid, slug) {
-        var object = {danceid: danceid, showslug: showslug}
+        var object = {danceid: dance_id, showslug: slug}
         makeDecision(DancerFactory.finishPicking, "Finished picking", object);
     };
 
