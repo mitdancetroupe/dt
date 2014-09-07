@@ -124,6 +124,7 @@ selectionApp.factory('DancerFactory',
                 return false;
             });
         }
+        return _this;
     });
 
 selectionApp.directive('bfcountdown', function($interval) {
