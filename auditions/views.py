@@ -78,7 +78,7 @@ def get_dancers(dance, show_slug):
     for dancer in dance.dancers.all():
         prefsheet = PrefSheet.objects.get(user=dancer, show=show)
         pref = Pref.objects.get(prefsheet=prefsheet, dance=dance)
-        dancers.append({'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name, 'conflicts':prefsheet.conflicts})
+        dancers.append({'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name, 'conflicts':prefsheet.conflicts, 'email': dancer.email})
     return dancers
 
 @permission_required('auditions.can_list')
