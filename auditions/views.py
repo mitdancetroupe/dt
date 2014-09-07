@@ -105,7 +105,7 @@ def future_prefs(request, show_slug, dance_id):
     context = {}
     context['dancers'] = []
     #get the prefs
-    all_prefs = Pref.objects.filter(dance=dance)
+    all_prefs = Pref.objects.filter(dance=dance).order_by('pref')
     for pref in all_prefs:
         prefsheet = pref.prefsheet
         desired_dances = prefsheet.desired_dances
@@ -116,12 +116,12 @@ def future_prefs(request, show_slug, dance_id):
             continue
         if pref.accepted:
             continue
-        if pref.accepted == False and not pref.return_if_not_placed:
+        if pref.accepted is False and not pref.return_if_not_placed:
             continue
 
         return_window = window = Pref.objects.filter(prefsheet=prefsheet, return_if_not_placed=True).order_by('pref')[:1]
         if pref in return_window and rejected_dances >= prefed:
-            continue;
+            continue
 
         #Sliding Window logic
         window_size = desired_dances-accepted_dances
