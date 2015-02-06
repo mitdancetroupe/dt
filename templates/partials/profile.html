@@ -1,0 +1,32 @@
+{% load widget_tweaks %}
+
+<fieldset>
+  <legend>Personal Information</legend>
+  <div class="span-13">
+    {% for field in user_profile_form %}
+    <div class="row">
+      <label for="{{ field.id }}" class="control-label col-xs-2">
+        {{ field.label }}{% if field.field.required %}*{% endif %}
+      </label>
+      <div class="col-xs-6">
+        {% if field|field_type == "imagefield" %}
+          {% if user.get_profile.photo %}
+            <div><img class="profile-pic" src="{{ user.get_profile.photo.url }}"></img></div>
+          {% endif %}
+          {{ field }}
+        {% else %}
+          {{ field|add_class:"form-control" }}
+        {% endif %}
+      </div>
+      <div class="col-xs-4">
+        {{ field.help_text }}
+      </div>
+    </div>
+
+    {% for error in field.errors %}
+    <p class="error">{{ error }}</p>
+    {% endfor %}
+
+    {% endfor %}
+  </div>
+</fieldset>

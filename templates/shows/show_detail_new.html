@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load markup %}
+
+{% block extra_head %}
+<script type="text/javascript" src="{{STATIC_URL}}js/show_detail.js"></script>
+{% endblock %}
+
+{% block title %}
+{{ show }}
+{% endblock %}
+
+{% block content %}
+<h2>{{ show }}</h2>
+{% if show.prefsheets_open %}
+  {% if user.is_authenticated %}
+    Preferences sheets for this show are open!
+    <a href="{% url dt.auditions.views.prefsheet show.slug %}">Submit yours</a>
+  {% else %}
+    Preferences sheets for this show are open.
+    <a href="{% url dt.accounts.views.register %}">Register</a> or
+    <a href="{% url django.contrib.auth.views.login %}">Login</a> to submit yours.
+  {% endif %}
+{% endif %}
+{{ show.info|safe}}
+<h3>Dances</h3><!-- 
+<div>
+  <button class="btn btn-default" id="contemporary">Contemporary</button>
+  <button class="btn btn-default" id="hip-hop">Hip-Hop</button>
+  <button class="btn btn-default" id="all">All</button>
+</div> -->
+{% for dance in show.dances.all %}
+<div class="col-sm-3 dance {{dance.get_style_display|lower}}">
+  <div class="dance-div text-center" id="dance-{{dance.id}}">
+    <p class="dance-name">{{dance.name}}</p>
+    <p>{{dance.get_style_display}}</p>
+    <p>{{dance.get_level_display}}</p>
+    <a href="/">Showcase Video</a>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block extra_body %}
+{% for dance in show.dances.all %}
+<div id="modal-{{dance.id}}" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">{{dance.name}}</h4>
+      </div>
+      <div class="modal-body">
+        <h4>{{dance.get_style_display}} | {{dance.get_level_display}}</h4>
+        {{dance.description|textile}}
+        <iframe width="100%" height="360" src="//www.youtube.com/embed/videoseries?list=PLZ7FwvI8aqZOMGRgmZBNU5AHSrOEGVUJ0" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

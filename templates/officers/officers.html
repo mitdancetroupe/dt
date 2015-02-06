@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load markup %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/blog.css" type="text/css" media="all"/>
+{% endblock %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h2 id="flatpage-title">Officers</h2>
+<p>If you wish to contact all officers, please email <a href="mailto:dt-officers@mit.edu">dt-officers@mit.edu</a>.</p>
+{% for officer in officers %}
+<!-- <div class="col-xs-6 col-sm-3 officer-img-div">
+{% if officer.photo %}
+<div class="square-img" style="background-image:url({{officer.user.photo.url}})">
+{% else %}
+<div class="square-img" style="background-image:url(/static/img/pics/bg4.jpg)">
+{% endif %}
+  <div class="square-img-text">
+    <h4 class="img-heading">{{officer.user.first_name}} {{officer.user.last_name}}</h3>
+    <br>
+    <p class="img-text">{{officer.position}}</p>
+  </div>
+</div>
+</div> -->
+{% endfor %}
+{% endblock %}

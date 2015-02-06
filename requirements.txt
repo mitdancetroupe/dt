@@ -4,3 +4,4 @@ sorl-thumbnail
 django-tinymce
 django-maintenancemode
 south
+django-widget-tweaks

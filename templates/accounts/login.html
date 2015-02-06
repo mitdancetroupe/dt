@@ -11,19 +11,25 @@
       <p class="error">Sorry, that's not a valid username or password</p>
     {% endif %}
 
-    <form action='.' method='post'>{% csrf_token %}
-      <div>
-        <label for="username">Username:</label><br/>
-        <input type="text" name="username" value="" id="username"><br/>
+    <form class="form-horizontal" role="form" action='.' method='post'>{% csrf_token %}
+      <div class="form-group">
+        <label for="username" class="col-sm-2 control-label">Username:</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" name="username" value="" id="username">
+        </div>
       </div>
-      <div>
-        <label for="password">Password:</label><br/>
-        <input type="password" name="password" value="" id="password"><br/>
+      <div class="form-group">
+        <label for="password" class="col-sm-2 control-label">Password:</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="password" name="password" value="" id="password">
+        </div>
       </div>
-      <div>
-        <input type="submit" value="Login" />
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default">Login</button>
+        </div>
       </div>
-      <input type="hidden" name="next" value="{{ next|escape }}" />
+      <input class="form-control" type="hidden" name="next" value="{{ next|escape }}" />
     </form>
 
     <p>Forgot your password? Use the <a href="{% url django.contrib.auth.views.password_reset %}">password reset form</a> to reset your password.</p>
