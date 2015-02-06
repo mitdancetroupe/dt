@@ -43,12 +43,19 @@ class Pref(models.Model):
         ordering = ('prefsheet', 'pref')
         unique_together = (('prefsheet', 'dance'), ('prefsheet', 'pref'),)
 
-class Time(models.Model):
-    day = models.CharField(max_length = 12)
-    hour = models.CharField(max_length = 12)
-
-
 class Availability(models.Model):
-    prefsheet = models.ForeignKey(PrefSheet)
-    time = models.ForeignKey(Time)
+    DAY_CHOICES = (
+        ('u', 'Sunday'),
+        ('m', 'Monday'),
+        ('t', 'Tuesday'),
+        ('w', 'Wednesday'),
+        ('r', 'Thursday'),
+        ('f', 'Friday'),
+        ('s', 'Saturday'))
+
+    day = models.CharField(max_length=1, choices=DAY_CHOICES)
+    prefsheet = models.ForeignKey(PrefSheet, related_name='availabilities')
+    hour = models.CharField(max_length = 12)
     available = models.BooleanField(default=True)
+    class Meta:
+        unique_together = (('prefsheet', 'day', 'hour'),)

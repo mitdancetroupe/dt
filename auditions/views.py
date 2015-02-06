@@ -68,6 +68,37 @@ def prefsheet(request, show_slug):
 def thanks(request, show_slug):
     return render(request, 'auditions/thanks.html',
                               context_instance=RequestContext(request))
+
+@permission_required('auditions.can_list')
+def select_dance_for_availability(request, show_slug):
+    show = Show.objects.get(slug=show_slug)
+    dances = Dance.objects.filter(show=show)
+    return render(request, 'auditions/availability_selection.html', {'dances':dances, 'show_slug':show_slug})
+
+@permission_required('auditions.can_list')
+def availability(request, show_slug, dance_id):
+    dance = Dance.objects.get(id=dance_id)
+    prefsheets = [pref.prefsheet for pref in dance.prefs.all()]
+    availabilities = []
+    for prefsheet in prefsheets:
+        for availability in prefsheet.availabilities.all():
+            availabilities.append({
+                'day': availability.day,
+                'hour': availability.hour,
+                'available': availability.available,
+                'name': prefsheet.user.first_name + prefsheet.user.last_name
+                })
+    unique_times = []
+    for hour in range(10, 24):
+        for minute in ['00', '30']:
+            unique_times.append(str(hour)+minute)
+    days = ['u', 'm', 't', 'w', 'r', 'f', 's']
+    context = {
+        'availabilities': availabilities,
+        'times': unique_times,
+        'days': days
+        }
+    return render(request, 'auditions/availability.html',  context)
 '''
 /auditions/showslug/something
 '''
@@ -80,6 +111,8 @@ def get_dancers(dance, show_slug):
         pref = Pref.objects.get(prefsheet=prefsheet, dance=dance)
         dancers.append({'id': dancer.id, 'name': dancer.first_name+" "+dancer.last_name, 'conflicts':prefsheet.conflicts, 'email': dancer.email})
     return dancers
+
+
 
 @permission_required('auditions.can_list')
 def select_dance(request, show_slug):
