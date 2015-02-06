@@ -15,6 +15,7 @@
   {% include "partials/profile.html" %}
   <fieldset>
     <legend>Scheduling Information</legend>
+    {% include "partials/schedule.html" %}
     {% for field in prefsheet_form %}
     <div class="row">
       <label for="{{ field.id }}" class="col-sm-2 control-label">
