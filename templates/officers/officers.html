@@ -11,8 +11,8 @@
 <h2 id="flatpage-title">Officers</h2>
 <p>If you wish to contact all officers, please email <a href="mailto:dt-officers@mit.edu">dt-officers@mit.edu</a>.</p>
 {% for officer in officers %}
-<!-- <div class="col-xs-6 col-sm-3 officer-img-div">
-{% if officer.photo %}
+<div class="col-xs-6 col-sm-3 officer-img-div">
+{% if officer.user.photo %}
 <div class="square-img" style="background-image:url({{officer.user.photo.url}})">
 {% else %}
 <div class="square-img" style="background-image:url(/static/img/pics/bg4.jpg)">
@@ -23,6 +23,6 @@
     <p class="img-text">{{officer.position}}</p>
   </div>
 </div>
-</div> -->
+</div>
 {% endfor %}
 {% endblock %}

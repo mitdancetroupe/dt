@@ -7,8 +7,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Officer(models.Model):
     user = models.ForeignKey(User, related_name='user')
+    position = models.CharField(max_length = 30)
     order = models.IntegerField()
-    photo = models.ImageField(upload_to=settings.DANCER_IMAGE_DIR, blank=True)
-
     def __unicode__(self):
         return self.position
