@@ -6,8 +6,9 @@
 {% endblock %}
 
 {% block content %}
+    <h2 id="flatpage-title">{{show_slug}} Dancer Selection</h2>
 	{% for dance in dances %}
-		<p><a href=/auditions/{{show_slug}}/selection/{{dance.id}}>{{dance.name}}</a></p>
+		<p><a href="/auditions/{{show_slug}}/selection/{{dance.id}}">{{dance.name}}</a></p>
 	{% endfor %}
 {% endblock %}
 

@@ -1,68 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
-  <head>
-    {% block head %}
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/screen.css" type="text/css" media="screen, projection"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/print.css" type="text/css" media="print"/>
-    <!--[if IE]>
-    <link rel="stylesheet" href="../css/ie.css" type="text/css" media="screen, projection"/>
-    <![endif]-->
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css" media="screen, projection"/>
-    <title>{% block title %}{% endblock %} | MIT Dance Troupe</title>
-    {% block extra_head %}{% endblock %}
-    {% endblock %}
-  </head>
-
-  <body>
-    {% block body %}
-    <div class="container">
-      <div id="header" class="span-24">
-        {% block header %}
-        <img src="{{ STATIC_URL }}img/dtlogo300.png" alt="MIT Dance Troupe"/>
+    <head>
+        {% block head %}
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src='http://code.jquery.com/jquery-2.1.0.min.js'></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js'></script>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'/>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css'/>
+    <!--     <link rel="stylesheet" href="{{ STATIC_URL }}css/screen.css" type="text/css" media="screen, projection"/>
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/print.css" type="text/css" media="print"/> -->
+        <!--[if IE]>
+        <link rel="stylesheet" href="../css/ie.css" type="text/css" media="screen, projection"/>
+        <![endif]-->
+        <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,700,400|Oswald:300,400|Montserrat' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" type="text/css" media="screen, projection"/>
+        <title>{% block title %}{% endblock %} | MIT Dance Troupe</title>
+        {% block extra_head %}{% endblock %}
         {% endblock %}
-      </div>
-      <div id="menu" class="span-4">
-        {% block menu %}
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/about/">About</a></li>
-          <li><a href="/gallery/">Gallery</a></li>
-          <li><a href="/auditions/">Auditions</a></li>
-          <li><a href="/shows/">Shows</a></li>
-          <li><a href="/workshops/">Workshops</a></li>
-          <li><a href="/rehearsals/">Rehearsals</a></li>
-          <li><a href="/officers/">Officers</a></li>
-          {% if user.is_authenticated %}
-            <li><a href="{% url dt.accounts.views.profile %}">Profile</a></li>
-            {% if perms.admin %}
-              <li><a href="/admin/">Admin</a></li>
-              <li>
-                <a href="https://dancetroupe.scripts.mit.edu:444/wiki/">Wiki</a>
-              </li>
+    </head>
+
+    <body>
+
+        {% block body %}
+        <div id="container">
+          <div id="header" class="span-24">
+            {% block header %}
+            {% endblock %}
+            </div>
+            <div class="col-sm-2" id="nav-container">
+            <nav id="menu" class="navbar" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="glyphicon glyphicon-th-list"></span>
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+                </div>
+                {% block menu %}
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav">
+                    <li><a href="/" class="no-transition transparent-bg"><img id="nav-logo" src="{{STATIC_URL}}img/dtlogo-white.png"></img></a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/announcements/">Announcements</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <!-- <li><a href="/gallery/">Gallery</a></li> -->
+                    <li><a href="/auditions/">Auditions</a></li>
+                    <li><a href="/shows/">Shows</a></li>
+                    <li><a href="/workshops/">Workshops</a></li>
+                    <li><a href="/officers/">Officers</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url dt.accounts.views.profile %}">Profile</a></li>
+                        {% if perms.admin %}
+                          <li><a href="/admin/">Admin</a></li>
+                          <li><a href="https://dancetroupe.scripts.mit.edu:444/wiki/">Wiki</a></li>
+                        {% endif %}
+                        <li><a href="http://{{ request.get_host }}{% url django.contrib.auth.views.logout %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url django.contrib.auth.views.login %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+                {% endblock %}
+            </nav>
+        </div>
+            
+            {% if not index %}
+            <div id="content" class="col-md-8 col-md-offset-1 last">
+                {% block content %}
+                {% endblock %}
+            </div>
             {% endif %}
-            <li><a href="http://{{ request.get_host }}{% url django.contrib.auth.views.logout %}">Logout</a></li>
-          {% else %}
-
-            <li><a href="{% url django.contrib.auth.views.login %}">Login</a></li>
-          {% endif %}
-        </ul>
+            
+            <div id="footer" class="span-24">
+                {% block footer %}
+                {% endblock %}
+            </div>
+        </div>
         {% endblock %}
-      </div>
-      <div id="content" class="span-20 last">
-        {% block content %}
+        {% block extra_body %}
         {% endblock %}
-      </div>
-      <div id="footer" class="span-24">
-        {% block footer %}
-        {% endblock %}
-      </div>
-    </div>
-    {% endblock %}
-  </body>
+    </body>
 
 </html>
 

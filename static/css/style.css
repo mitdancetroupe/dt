@@ -1,42 +1,211 @@
-/*======================================
-      WELCOME TO THE STYLESHEET
---------------------------------------      
-     Copyright Mike Crittenden
-      Author: Mike Crittenden
-======================================*/
- 
-/**************************************\
-|------------COLOR SCHEME--------------|
-|--------------------------------------|
-- black		#000
-- white		#fff
-\**************************************/
+html::before {
+  background-color: #000; }
 
+html {
+  background-color: #000;
+  background-image: url(/static/img/pics/bg0.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
 
-/**************************************/
-/*              GLOBALS               */
-/**************************************/
+html, body, #container {
+  height: 100%; }
 
-/**************************************/
-/*              HEADER                */
-/**************************************/
+body {
+  background-color: transparent;
+  color: #000;
+  font-family: "Roboto" sans-serif;
+  font-weight: 300; }
+  body p {
+    font-family: "Roboto" sans-serif;
+    font-weight: 300; }
+  body h1, body h2, body h3, body h4, body h5, body h6 {
+    font-family: "Oswald" sans-serif;
+    text-transform: uppercase;
+    font-weight: 400; }
+  body #content {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #000;
+    height: 80%;
+    overflow: scroll;
+    padding: 20px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%); }
+    body #content #flatpage-title {
+      color: #0097A7; }
+    body #content .officer-img-div {
+      padding: 0px 10px 0px 0px; }
+    body #content .square-img {
+      height: 200px;
+      width: 100%;
+      background-size: cover;
+      background-origin: center center;
+      position: relative;
+      margin-bottom: 20px; }
+      body #content .square-img .square-img-text {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        padding: 5px 5px 5px 0px;
+        background-color: rgba(0, 0, 0, 0.8); }
+      body #content .square-img .img-heading, body #content .square-img .img-text {
+        text-transform: uppercase;
+        float: right; }
+      body #content .square-img .img-heading {
+        color: #B2EBF2;
+        font-family: "Oswald" sans-serif;
+        text-transform: uppercase;
+        font-weight: 400;
+        line-height: 0; }
+      body #content .square-img .img-text {
+        color: #fff;
+        margin: 0;
+        font-family: "Oswald" sans-serif;
+        text-transform: uppercase;
+        font-weight: 400; }
+    body #content .dance-div {
+      height: 100px;
+      background-color: #000;
+      margin-bottom: 10px;
+      font-family: "Oswald" sans-serif;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: #fff;
+      cursor: pointer; }
+      body #content .dance-div .dance-name {
+        font-family: "Oswald" sans-serif;
+        font-weight: 400;
+        margin: 0;
+        color: #B2EBF2;
+        text-transform: uppercase;
+        font-size: 1em; }
+      body #content .dance-div p {
+        margin: 0;
+        font-family: "Roboto" sans-serif;
+        text-transform: none;
+        font-weight: 100;
+        font-size: 0.9em; }
+    body #content .workshops-div {
+      background-color: #000;
+      height: 150px;
+      color: #B2EBF2;
+      font-family: "Oswald" sans-serif;
+      text-transform: uppercase;
+      font-weight: 400; }
+      body #content .workshops-div .workshops-text {
+        padding: 1em; }
+    body #content .profile-pic {
+      width: 200px; }
+    body #content form label {
+      font-family: "Oswald" sans-serif;
+      text-transform: uppercase;
+      font-weight: 400; }
+    body #content form input {
+      font-family: "Roboto" sans-serif;
+      font-weight: 300; }
+  body .no-transition {
+    -webkit-animation: none !important;
+    -moz-animation: none !important;
+    -o-animation: none !important;
+    animation: none !important; }
+  body .transparent-bg {
+    background-color: transparent !important; }
 
+#nav-container {
+  padding: 0px;
+  margin: 0px;
+  height: 100%; }
 
+nav {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 5px;
+  z-index: 1;
+  height: 100%;
+  overflow: scroll;
+  margin: 0px; }
+  nav .navbar-header {
+    color: #B2EBF2; }
+    nav .navbar-header .navbar-toggle {
+      padding: 0px;
+      margin-bottom: 0px; }
+  nav #navbar-collapse ul.nav {
+    height: 100%; }
+    nav #navbar-collapse ul.nav li a {
+      color: #B2EBF2;
+      text-align: center;
+      font-family: "Oswald" sans-serif;
+      text-transform: uppercase;
+      font-weight: 400; }
+    nav #navbar-collapse ul.nav li a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      -webkit-animation: fade_white 0.6s;
+      -moz-animation: fade_white 0.6s;
+      -o-animation: fade_white 0.6s;
+      animation: fade_white 0.6s; }
+    nav #navbar-collapse ul.nav li a img#nav-logo {
+      width: 80%;
+      max-width: 10em;
+      display: block;
+      margin: 50px auto 10px auto; }
 
-/**************************************/
-/*             NAVIGATION             */
-/**************************************/
+#dtlogo {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: -1; }
+  #dtlogo img {
+    -webkit-animation: fade_header 5s;
+    width: 50%;
+    float: right;
+    padding: 50px;
+    opacity: 0.5; }
 
+@media (max-width: 768px) {
+  #nav-container {
+    height: auto; } }
+@-webkit-keyframes fade_header {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 0.5; } }
+@-moz-keyframes fade_header {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0.5; } }
+@-o-keyframes fade_header {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0.5; } }
+@keyframes fade_header {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0.5; } }
+@-webkit-keyframes fade_white {
+  from {
+    background-color: rgba(255, 255, 255, 0); }
+  to {
+    background-color: rgba(255, 255, 255, 0.2); } }
+@-moz-keyframes fade_white {
+  from {
+    background-color: rgba(255, 255, 255, 0); }
+  to {
+    background-color: rgba(255, 255, 255, 0.2); } }
+@-o-keyframes fade_white {
+  from {
+    background-color: rgba(255, 255, 255, 0); }
+  to {
+    background-color: rgba(255, 255, 255, 0.2); } }
+@keyframes fade_white {
+  from {
+    background-color: rgba(255, 255, 255, 0); }
+  to {
+    background-color: rgba(255, 255, 255, 0.2); } }
 
-
-/**************************************/
-/*            MAIN CONTENT            */
-/**************************************/
-
-
-
-/**************************************/
-/*               FOOTER               */
-/**************************************/
-
-
+/*# sourceMappingURL=style.css.map */

@@ -6,33 +6,9 @@
 
 {% block content %}
 <h2>User Profile</h2>
-<form id="profile-form" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
-  <fieldset>
-    <legend>Personal Information</legend>
-    <div class="span-13">
-      {% for field in user_profile_form %}
-      <div>
-        <label for="{{ field.id }}">
-          {{ field.label }}{% if field.field.required %}*{% endif %}
-        </label><br/>
-        {{ field }}<br/>
-        {{ field.help_text }}
-      </div>
-
-      {% for error in field.errors %}
-      <p class="error">{{ error }}</p>
-      {% endfor %}
-
-      {% endfor %}
-      <input type="submit" value="Save"/>
-    </div>
-    {% if user.get_profile.photo %}
-    <div id="user-photo" class="span-6 last">
-      <h3>Uploaded Photo</h3>
-      <img src="{{ user.get_profile.photo.url }}"/>
-    </div>
-    {% endif %}
-  </fieldset>
+<form role="form" id="profile-form" class="form-horizontal" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+  {% include "partials/profile.html" %}
+  <button class="btn btn-default" type="submit"/>Save</button>
 </form>
 {% endblock %}
 

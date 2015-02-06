@@ -1,0 +1,72 @@
+$light: rgba(244,243,240,1);
+$light1: rgba(232,233,230,1);
+$grey: rgba(101,101,101,1);
+$dark: rgba(16,32,54,1);
+$contrast: rgba(85,159,147,1);
+$white: #fff;
+$black: #000;
+$highlight: #B2EBF2;
+$highlight-dark: #0097A7;
+
+$header_font: 'Oswald' sans-serif;
+$body_font: 'Roboto' sans-serif;
+
+@mixin body_font($weight) {
+    font-family: $body_font;
+    font-weight: $weight;
+}
+
+@mixin header_font() {
+    font-family: $header_font;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+@mixin button ($height, $width, $color, $opacity) {
+    display: block;
+    height: $height;
+    width: $width;
+    padding: 0;
+
+    border: 3px solid;
+    border-color: $color;
+    border-radius: 6px;
+
+    background: none;
+    opacity: $opacity;
+}
+
+@mixin text ($color, $fontsize, $fontweight){
+    color: $color;
+    font-family: $body_font;
+    font-size: $fontsize;
+    font-weight: $fontweight;
+}
+
+@mixin button () {
+        font-family: $avenir;
+        padding: 3px 40px 3px 40px;
+        background-color: rgba(255,255,255,0);
+        border: 2px solid $dark;
+        margin-top: 2%;
+        border-radius: 0;
+        margin-left: 20px;
+
+        h4 {
+            letter-spacing: 2px;
+            font-size:.9em;
+            font-weight:bolder;
+            text-transform: uppercase;
+            color: $dark;
+        }
+    }
+
+@mixin button_hover () {
+    h4 {
+        color: $light; 
+    }
+    text-decoration: none;
+    background: $dark;
+
+    transition: all 600ms ease;
+}

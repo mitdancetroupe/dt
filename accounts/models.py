@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from PIL import Image
 
 class UserProfile(models.Model):
-    GENDER_CHOICES = (('M', 'Male'), ('F', 'Female'))
+    GENDER_CHOICES = (('M', 'Male'), ('F', 'Female'), ('N', 'Prefer Not to Answer'))
     AFFILIATION_CHOICES = (('U', 'Undergraduate'), ('G', 'Graduate'),
                            ('O', 'Other'), ('N', 'Non-MIT'))
     user = models.OneToOneField(User)

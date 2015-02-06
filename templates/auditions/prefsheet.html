@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load widget_tweaks %}
+
 {% block extra_head %}{{ prefsheet_form.media }}{% endblock %}
 
 {% block title %}Preferences Sheet{% endblock %}
@@ -8,42 +10,22 @@
 <h1>{{ show }} Preferences Sheet</h1>
 <p>Welcome, {{ user.first_name }}!
 </p>
-<form id="prefsheet-form" enctype="multipart/form-data" action="" method="post">
+<form role="form" id="prefsheet-form" class="form-horizontal" enctype="multipart/form-data" action="" method="post">
   {% csrf_token %}
-  <fieldset>
-    <legend>Personal Information</legend>
-    <div class="span-13">
-      {% for field in user_profile_form %}
-      <div>
-        <label for="{{ field.id }}">
-          {{ field.label }}{% if field.field.required %}*{% endif %}
-        </label><br/>
-        {{ field }}<br/>
-        {{ field.help_text }}
-      </div>
-
-      {% for error in field.errors %}
-      <p class="error">{{ error }}</p>
-      {% endfor %}
-
-      {% endfor %}
-    </div>
-    {% if user.get_profile.photo %}
-    <div id="user-photo" class="span-6 last">
-      <h3>Uploaded Photo</h3>
-      <img src="{{ user.get_profile.photo.url }}"/>
-    </div>
-    {% endif %}
-  </fieldset>
+  {% include "partials/profile.html" %}
   <fieldset>
     <legend>Scheduling Information</legend>
     {% for field in prefsheet_form %}
-    <div>
-      <label for="{{ field.id }}">
+    <div class="row">
+      <label for="{{ field.id }}" class="col-sm-2 control-label">
         {{ field.label }}{% if field.field.required %}*{% endif %}
-      </label><br/>
-      {{ field }}<br/>
-      {{ field.help_text }}
+      </label>
+      <div class="col-sm-6">
+        {{ field|add_class:"form-control" }}
+      </div>
+      <div class="col-sm-4">
+        {{ field.help_text }}
+      </div>
     </div>
 
     {% for error in field.errors %}
@@ -87,6 +69,6 @@
       </tbody>
     </table>
   </fieldset>
-  <input type="submit" value="Submit"/>
+  <button type="submit" class="btn btn-default">Submit</button>
 </form>
 {% endblock %}

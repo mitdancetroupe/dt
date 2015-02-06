@@ -10,7 +10,9 @@ admin.autodiscover()
 # databrowse.site.register(Costume)
 
 urlpatterns = patterns('',
-    (r'^$', 'dt.blog.views.latest'),
+    (r'^$', 'dt.blog.views.index'),
+    (r'^announcements/', 'dt.blog.views.latest'),
+    (r'^officers/', 'dt.officers.views.officers'),
 
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),

@@ -20,3 +20,7 @@ def latest(request):
         posts = paginator.page(paginator.num_pages)
     return render(request, 'blog/latest.html', {'posts': posts},
                               context_instance = RequestContext(request))
+
+def index(request):
+    return render(request, 'blog/index.html', {'index': True},
+                              context_instance=RequestContext(request))
