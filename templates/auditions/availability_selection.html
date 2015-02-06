@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load markup %}
+
+{% block title %}
+    Dance Selection
+{% endblock %}
+
+{% block content %}
+    {% for dance in dances %}
+        <p><a href=/auditions/{{show_slug}}/availability/{{dance.id}}>{{dance.name}}</a></p>
+    {% endfor %}
+{% endblock %}
+
