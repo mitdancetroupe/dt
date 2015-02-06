@@ -42,3 +42,13 @@ class Pref(models.Model):
     class Meta:
         ordering = ('prefsheet', 'pref')
         unique_together = (('prefsheet', 'dance'), ('prefsheet', 'pref'),)
+
+class Time(models.Model):
+    day = models.CharField(max_length = 12)
+    hour = models.CharField(max_length = 12)
+
+
+class Availability(models.Model):
+    prefsheet = models.ForeignKey(PrefSheet)
+    time = models.ForeignKey(Time)
+    available = models.BooleanField(default=True)
