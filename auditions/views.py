@@ -48,6 +48,7 @@ def prefsheet(request, show_slug):
             prefsheet = prefsheet_form.save()
             Availability.objects.filter(prefsheet=prefsheet).delete()
             availabilities = json.loads(prefsheet.availability)
+            pref_formset.save()
             for a in availabilities:
                 availability = Availability(
                     day=a['day'],
@@ -55,7 +56,6 @@ def prefsheet(request, show_slug):
                     available=bool(a['availability']),
                     prefsheet=prefsheet)
                 availability.save()
-            pref_formset.save()
             return HttpResponseRedirect('../thanks/')
     else:
         try:
