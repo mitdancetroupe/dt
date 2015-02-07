@@ -17,6 +17,7 @@ class PrefSheetManager(models.Manager):
 class PrefSheet(models.Model):
     audition_number = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(auth.models.User, related_name='prefsheets')
+    availability = models.TextField(blank=True, help_text='')
     conflicts = models.TextField(blank=True, help_text='Please list any scheduling conflicts you might have with rehearsals.')
     desired_dances = models.PositiveSmallIntegerField()
     show = models.ForeignKey(shows.models.Show)

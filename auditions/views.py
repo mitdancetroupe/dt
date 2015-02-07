@@ -46,6 +46,15 @@ def prefsheet(request, show_slug):
             profile.user = user
             profile.save()
             prefsheet = prefsheet_form.save()
+            Availability.objects.filter(prefsheet=prefsheet).delete()
+            availabilities = json.loads(prefsheet.availability)
+            for a in availabilities:
+                availability = Availability(
+                    day=a['day'],
+                    hour=a['time'],
+                    available=bool(a['availability']),
+                    prefsheet=prefsheet)
+                availability.save()
             pref_formset.save()
             return HttpResponseRedirect('../thanks/')
     else:
@@ -79,6 +88,7 @@ def select_dance_for_availability(request, show_slug):
 def availability(request, show_slug, dance_id):
     dance = Dance.objects.get(id=dance_id)
     prefsheets = [pref.prefsheet for pref in dance.prefs.all()]
+    num_prefsheets = len(prefsheets)
     availabilities = []
     for prefsheet in prefsheets:
         for availability in prefsheet.availabilities.all():
@@ -92,8 +102,9 @@ def availability(request, show_slug, dance_id):
     for hour in range(10, 24):
         for minute in ['00', '30']:
             unique_times.append(str(hour)+minute)
-    days = ['u', 'm', 't', 'w', 'r', 'f', 's']
+    days = ['m', 't', 'w', 'r', 'f', 's', 'u']
     context = {
+        'num_prefsheets': num_prefsheets,
         'availabilities': availabilities,
         'times': unique_times,
         'days': days

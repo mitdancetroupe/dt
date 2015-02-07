@@ -6,6 +6,8 @@
 {% endblock %}
 
 {% block content %}
+    {{num_prefsheets}} total prefs
+    <p id="notavailable"></p>
     <script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
     <script src="{{ STATIC_URL }}js/vendor/angular.min.js"></script>
@@ -18,9 +20,9 @@
             able = '{{availability.available}}';
 
             if (able === "False") {
-                availability.available = false
+                availability.unavailable = true
             } else {
-                availability.available = true
+                availability.unavailable = false
             }
 
             availability.day = '{{availability.day}}';
@@ -40,13 +42,16 @@
         timedict = {}
         _.forEach(times, function(time) {
             _.forEach(days, function(day) {
-                timedict[day+time] = 0
+                timedict[day+time] = {}
+                timedict[day+time]['conflicts'] = 0
+                timedict[day+time]['unavailable'] = []
             })
         })
         _.forEach(availabilities, function(availability) {
             slug = availability.day + availability.hour
-            if (availability.available) {
-                timedict[slug] += 1
+            if (availability.unavailable) {
+                timedict[slug]['conflicts'] += 1
+                timedict[slug]['unavailable'].push(availability.name)
             }
         });
 
@@ -63,43 +68,81 @@
             row = table.insertRow(timeIndex+1);
             col = row.insertCell(0);
             col.innerHTML = time;
+            col.className = time;
             _.forEach(days, function(day, dayIndex) {
                 col = row.insertCell(dayIndex+1);
-                col.innerHTML = timedict[day+time];
-                col.className = 'green';
+                if (Number(time) < 1700 && _.contains(['m', 't', 'w', 'r', 'f'], day)) {
+                    col.innerHTML = '-'
+                } else {
+                    conflicts = timedict[day+time]['conflicts']
+                    var unavailable = timedict[day+time]['unavailable'];
+                    col.innerHTML = conflicts;
+                    if (conflicts === 0) {
+                        col.className = 'zero';
+                    } else if (conflicts === 1) {
+                        col.className = 'one';
+                    } else if (conflicts === 1) {
+                        col.className = 'two';
+                    } else if (conflicts === 1) {
+                        col.className = 'three';
+                    } else if (conflicts === 1) {
+                        col.className = 'four';
+                    } else if (conflicts === 1) {
+                        col.className = 'five';
+                    } else if (conflicts === 1) {
+                        col.className = 'six';
+                    } else if (conflicts === 1) {
+                        col.className = 'seven';
+                    } else if (conflicts === 1) {
+                        col.className = 'eight';
+                    }
+                    col.addEventListener("mouseover", function() {
+                        $('.'+time).addClass('bold');
+                        $('#notavailable').html(unavailable);
+                    }, false);
+                    col.addEventListener("mouseout", function() {
+                        $('.'+time).removeClass('bold');
+                    }, false);
+                }
             });
         });
         $('#content').append(table);
-
-        /*
-
-
-
-        var row1col1 = row1.insertCell(0);
-        row1col1.innerHTML = 'Col1';
-
-
-        row1col2.innerHTML = 'Col2';
-        // Insert New Column for Row1 at index '2'.
-        var row1col3 = row1.insertCell(2);
-        row1col3.innerHTML = 'Col3';
-        // Append Table into div.
-        var div = document.getElementById('divTable');
-        $('#content').appendChild(table);
-        <table>
-        <tr>
-            <th>""</th>
-            {% for day in days %}
-                <th>{{day}}</th>
-            {%endfor%}
-            {% for t in times %}
-                {% for day in days %}
-                {% endfor %}
-            {% endfor %}
-        </tr>
-    </table>
-    */
     </script>
+    <style>
+        .bold {
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+        }
+        .zero {
+            background-color: #0099CC;
+        }
+        .one {
+            background-color: #80E680;
+        }
+        .two {
+            background-color: #66E066;
+        }
+        .three {
+            background-color: #4DDB4D;
+        }
+        .four {
+            background-color: #33D633;
+        }
+        .five {
+            background-color: #FF9999;
+        }
+        .six {
+            background-color: #FF1919;
+        }
+        .seven {
+            background-color: #B20000;
+        }
+        .eight {
+            background-color: #990000;
+        }
+    </style>
     <div id="content">>
     </div>
 {% endblock %}
