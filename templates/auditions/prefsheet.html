@@ -2,7 +2,10 @@
 
 {% load widget_tweaks %}
 
-{% block extra_head %}{{ prefsheet_form.media }}{% endblock %}
+{% block extra_head %}
+{{ prefsheet_form.media }}
+<script type="text/javascript" src="{{STATIC_URL}}js/prefsheet.js"></script>
+{% endblock %}
 
 {% block title %}Preferences Sheet{% endblock %}
 
@@ -17,6 +20,7 @@
     <legend>Scheduling Information</legend>
     {% include "partials/schedule.html" %}
     {% for field in prefsheet_form %}
+    <input id="schedule_json" type="hidden" name="availability" value="">
     <div class="row">
       <label for="{{ field.id }}" class="col-sm-2 control-label">
         {{ field.label }}{% if field.field.required %}*{% endif %}
