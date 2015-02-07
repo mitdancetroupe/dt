@@ -18,6 +18,8 @@
   {% include "partials/profile.html" %}
   <fieldset>
     <legend>Scheduling Information</legend>
+    <p>Please mark all time slots you are <strong>unavailable on a weekly basis</strong>. If you are always available, you should have nothing checked!</p>
+
     {% include "partials/schedule.html" %}
     {% for field in prefsheet_form %}
     <input id="schedule_json" type="hidden" name="availability" value="">
