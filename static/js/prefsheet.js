@@ -21,8 +21,12 @@ $(document).ready(function() {
         schedule_json[value] = {
             day: day,
             time: time,
-            availability: checked ? 1 : 0
+            availability: checked ? 0 : 1
         };
-        $("#schedule_json").val(JSON.stringify(schedule_json));
+        var schedule_values = [];
+        $.each(schedule_json, function(k, v) {
+            schedule_values.push(v);
+        });
+        $("#schedule_json").val(JSON.stringify(schedule_values));
     }
 });
