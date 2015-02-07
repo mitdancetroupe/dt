@@ -46,19 +46,19 @@ def prefsheet(request, show_slug):
             profile.user = user
             profile.save()
             prefsheet = prefsheet_form.save()
-            Availability.objects.filter(prefsheet=prefsheet).delete()
+            Availability.objects.filter(prefsheetid=prefsheet.id).delete()
             availabilities = json.loads(prefsheet.availability)
             pref_formset.save()
+            print "prefsheet"
+            print prefsheet.id
             for a in availabilities:
-                try:
-                    availability = Availability(
-                        day=a['day'],
-                        hour=a['time'],
-                        available=bool(a['availability']),
-                        prefsheet=prefsheet)
-                    availability.save()
-                except:
-                    pass
+                availability = Availability(
+                    day=a['day'],
+                    hour=a['time'],
+                    available=bool(a['availability']),
+                    name=prefsheet.user.first_name + ' ' + prefsheet.user.last_name,
+                    prefsheetid=prefsheet.id)
+                availability.save()
             return HttpResponseRedirect('../thanks/')
     else:
         try:
@@ -94,12 +94,12 @@ def availability(request, show_slug, dance_id):
     num_prefsheets = len(prefsheets)
     availabilities = []
     for prefsheet in prefsheets:
-        for availability in prefsheet.availabilities.all():
+        for availability in Availability.objects.filter(prefsheetid = prefsheet.id):
             availabilities.append({
                 'day': availability.day,
                 'hour': availability.hour,
                 'available': availability.available,
-                'name': prefsheet.user.first_name + prefsheet.user.last_name
+                'name': availability.name
                 })
     unique_times = []
     for hour in range(10, 24):
