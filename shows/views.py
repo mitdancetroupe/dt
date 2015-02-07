@@ -5,7 +5,7 @@ from django.template import RequestContext
 from dt.shows.models import *
 
 def show_list(request):
-    shows = Show.objects.all().order_by('-year', 'semester')
+    shows = Show.objects.all().order_by('-year', '-semester')
     return render(request, 'shows/show_list.html', locals(),
                               context_instance=RequestContext(request))
 
