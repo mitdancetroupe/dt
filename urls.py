@@ -10,7 +10,8 @@ admin.autodiscover()
 # databrowse.site.register(Costume)
 
 urlpatterns = patterns('',
-    (r'^$', 'dt.blog.views.index'),
+    # (r'^$', 'dt.blog.views.index'),
+    (r'^$', 'dt.blog.views.latest'),
     (r'^announcements/', 'dt.blog.views.latest'),
     (r'^officers/', 'dt.officers.views.officers'),
 
