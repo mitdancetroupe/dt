@@ -12,7 +12,7 @@
 <p>If you wish to contact all officers, please email <a href="mailto:dt-officers@mit.edu">dt-officers@mit.edu</a>.</p>
 {% for officer in officers %}
 <div class="col-xs-6 col-sm-3 officer-img-div">
-{% if officer.user.photo %}
+{% if officer.user.get_profile.photo %}
 <div class="square-img" style="background-image:url({{officer.user.get_profile.photo.url}})">
 {% else %}
 <div class="square-img" style="background-image:url(/static/img/pics/bg4.jpg)">
