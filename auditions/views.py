@@ -55,6 +55,7 @@ def prefsheet(request, show_slug):
                 availability.day=a['day'],
                 availability.hour=a['time'],
                 availability.available=bool(a['availability'])
+                prefsheet = PrefSheet.objects.get(user=user, show=show)
                 availability.prefsheet = prefsheet
                 availability.save()
 
