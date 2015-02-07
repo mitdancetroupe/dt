@@ -20,6 +20,8 @@ $(document).ready(function() {
             $.each(availabilityJson, function(index, value) {
                 var key = value.day + value.time;
                 schedule_json[key] = value;
+                var available = value.availability;
+                $("#" + key)[0].checked = available ? false : true;
             });
         }
     }
