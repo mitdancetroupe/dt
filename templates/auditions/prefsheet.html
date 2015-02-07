@@ -22,8 +22,12 @@
 
     {% include "partials/schedule.html" %}
     {% for field in prefsheet_form %}
-    <input id="schedule_json" type="hidden" name="availability" value="">
+    <!-- TODO: rename the "Availbility below" -->
+    {% if field.label == "Availability" %}
+    <div class="row hidden">
+    {% else %}
     <div class="row">
+    {% endif %}
       <label for="{{ field.id }}" class="col-sm-2 control-label">
         {{ field.label }}{% if field.field.required %}*{% endif %}
       </label>

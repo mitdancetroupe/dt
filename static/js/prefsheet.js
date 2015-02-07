@@ -1,16 +1,27 @@
 $(document).ready(function() {
     var schedule_json = {};
 
-    getScheduleJson();
+    setupScheduleJson();
 
     $(".schedule-checkbox").change(function(e) {
         updateJson(this);
     });
 
-    function getScheduleJson() {
-        $(".schedule-checkbox").each(function() {
-            updateJson(this);
-        });
+    function setupScheduleJson() {
+        var availabilityString = $("#id_availability").val();
+        // initialize if not there yet
+        if (!availabilityString) {
+            $(".schedule-checkbox").each(function() {
+                updateJson(this);
+            });
+        // otherwise populate
+        } else {
+            var availabilityJson = JSON.parse(availabilityString);
+            $.each(availabilityJson, function(index, value) {
+                var key = value.day + value.time;
+                schedule_json[key] = value;
+            });
+        }
     }
 
     function updateJson(e) {
@@ -27,6 +38,6 @@ $(document).ready(function() {
         $.each(schedule_json, function(k, v) {
             schedule_values.push(v);
         });
-        $("#schedule_json").val(JSON.stringify(schedule_values));
+        $("#id_availability").val(JSON.stringify(schedule_values));
     }
 });
