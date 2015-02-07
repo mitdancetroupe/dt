@@ -50,12 +50,15 @@ def prefsheet(request, show_slug):
             availabilities = json.loads(prefsheet.availability)
             pref_formset.save()
             for a in availabilities:
-                availability = Availability(
-                    day=a['day'],
-                    hour=a['time'],
-                    available=bool(a['availability']),
-                    prefsheet=prefsheet)
-                availability.save()
+                try:
+                    availability = Availability(
+                        day=a['day'],
+                        hour=a['time'],
+                        available=bool(a['availability']),
+                        prefsheet=prefsheet)
+                    availability.save()
+                except:
+                    pass
             return HttpResponseRedirect('../thanks/')
     else:
         try:
