@@ -50,13 +50,15 @@ def prefsheet(request, show_slug):
             availabilities = json.loads(prefsheet.availability)
             pref_formset.save()
             prefsheet.save()
+            availability_objects = []
             for a in availabilities:
                 availability = Availability()
                 availability.day=a['day'],
                 availability.hour=a['time'],
                 availability.available=bool(a['availability'])
                 availability.prefsheetid = prefsheet.id
-                availability.save()
+                availability_objects.append(availability)
+            Availability.objects.bulk_create(availability_objects)
             return HttpResponseRedirect('../thanks/')
     else:
         try:
