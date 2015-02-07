@@ -55,9 +55,6 @@ class Availability(models.Model):
         ('s', 'Saturday'))
 
     day = models.CharField(max_length=1, choices=DAY_CHOICES)
+    prefsheet = models.ForeignKey(PrefSheet, related_name='availabilities', default=0)
     hour = models.CharField(max_length = 12)
-    name = models.CharField(max_length = 512)
-    prefsheetid = models.IntegerField(blank=False, null=False)
     available = models.BooleanField(default=True)
-    class Meta:
-        unique_together = (('prefsheetid', 'day', 'hour'),)

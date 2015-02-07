@@ -21,7 +21,7 @@ class PrefSheetAdmin(admin.ModelAdmin):
     search_fields = ('user__username',)
 
 class AvailabilityAdmin(admin.ModelAdmin):
-    list_display = ('prefsheetid', 'day', 'hour', 'available')
+    list_display = ('prefsheet', 'day', 'hour', 'available')
 
 
 admin.site.register(PrefSheet, PrefSheetAdmin)
