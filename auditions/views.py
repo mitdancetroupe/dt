@@ -55,7 +55,6 @@ def prefsheet(request, show_slug):
                 availability.day=a['day'],
                 availability.hour=a['time'],
                 availability.available=bool(a['availability'])
-                raise Exception(prefsheet.id)
                 availability.prefsheet = prefsheet
                 availability.save()
 

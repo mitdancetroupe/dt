@@ -55,6 +55,6 @@ class Availability(models.Model):
         ('s', 'Saturday'))
 
     day = models.CharField(max_length=1, choices=DAY_CHOICES)
-    prefsheet = models.ForeignKey(PrefSheet, related_name='availabilities', default=0)
+    prefsheet = models.ForeignKey(PrefSheet, related_name='availabilities', blank=True, null=True)
     hour = models.CharField(max_length = 12)
     available = models.BooleanField(default=True)
