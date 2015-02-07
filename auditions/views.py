@@ -56,7 +56,7 @@ def prefsheet(request, show_slug):
                 availability.hour=a['time'],
                 availability.available=bool(a['availability'])
                 availability.save()
-                availability.prefsheet = prefsheet
+                availability.prefsheet_id = prefsheet.id
                 availability.save()
             return HttpResponseRedirect('../thanks/')
     else:
