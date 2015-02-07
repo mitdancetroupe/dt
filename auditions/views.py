@@ -51,11 +51,16 @@ def prefsheet(request, show_slug):
             pref_formset.save()
             prefsheet.save()
             for a in availabilities:
-                availability = Availability.objects.create(
-                        day=a['day'],
-                        hour=a['time'],
-                        available=bool(a['availability']),
-                        prefsheet_id=prefsheet.id)
+                try:
+                    availability = Availability.objects.create(
+                            day=a['day'],
+                            hour=a['time'],
+                            available=bool(a['availability']),
+                            prefsheet=prefsheet)
+                except:
+                    pass
+                availability.prefsheet = PrefSheet
+                availability.save()
             return HttpResponseRedirect('../thanks/')
     else:
         try:
