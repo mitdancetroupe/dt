@@ -49,6 +49,7 @@ def prefsheet(request, show_slug):
             Availability.objects.filter(prefsheet=prefsheet).delete()
             availabilities = json.loads(prefsheet.availability)
             pref_formset.save()
+            prefsheet.save()
             for a in availabilities:
                 availability = Availability.objects.create(
                         day=a['day'],
