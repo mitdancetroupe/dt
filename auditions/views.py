@@ -90,11 +90,13 @@ def select_dance_for_availability(request, show_slug):
 @permission_required('auditions.can_list')
 def availability(request, show_slug, dance_id):
     dance = Dance.objects.get(id=dance_id)
-    prefsheets = [pref.prefsheet for pref in dance.prefs.all()]
+    prefs = dance.prefs.filter(accepted=True)
+    prefsheets = [pref.prefsheet for pref in prefs]
     num_prefsheets = len(prefsheets)
     availabilities = []
     for prefsheet in prefsheets:
-        for availability in Availability.objects.filter(prefsheet = prefsheet):
+        Availability.objects.filter(prefsheetid = prefsheet.id)
+        for availability in availabilities:
             availabilities.append({
                 'day': availability.day,
                 'hour': availability.hour,
