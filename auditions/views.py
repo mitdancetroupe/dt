@@ -101,7 +101,7 @@ def availability(request, show_slug, dance_id):
                 'day': availability.day,
                 'hour': availability.hour,
                 'available': availability.available,
-                'name': availability.prefsheet.user.first_name + ' ' + availability.prefsheet.user.last_name
+                'name': prefsheet.user.first_name + ' ' + prefsheet.user.last_name
                 })
     unique_times = []
     for hour in range(10, 24):
