@@ -98,7 +98,7 @@
                     }
                     col.addEventListener("mouseover", function() {
                         $('.'+time).addClass('bold');
-                        $('#notavailable').html(unavailable);
+                        $('#notavailable').html(_(unavailable).join(', '));
                     }, false);
                     col.addEventListener("mouseout", function() {
                         $('.'+time).removeClass('bold');
