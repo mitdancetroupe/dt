@@ -8,6 +8,8 @@
 {% block content %}
     {{num_prefsheets}} total prefs
     <p id="notavailable"></p>
+    <br>
+    <br>
     <script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
     <script src="{{ STATIC_URL }}js/vendor/angular.min.js"></script>
@@ -109,6 +111,9 @@
         $('#content').append(table);
     </script>
     <style>
+        #notavailable {
+            height: 10px;
+        }
         .bold {
             font-weight: bold;
         }
