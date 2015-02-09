@@ -93,11 +93,11 @@ def availability(request, show_slug, dance_id):
     prefs = dance.prefs.filter(accepted=True)
     prefsheets = [pref.prefsheet for pref in prefs]
     num_prefsheets = len(prefsheets)
-    availabilities = []
+    all_availabilities = []
     for prefsheet in prefsheets:
-        Availability.objects.filter(prefsheetid = prefsheet.id)
+        availabilities = Availability.objects.filter(prefsheetid = prefsheet.id)
         for availability in availabilities:
-            availabilities.append({
+            all_availabilities.append({
                 'day': availability.day,
                 'hour': availability.hour,
                 'available': availability.available,
@@ -110,7 +110,7 @@ def availability(request, show_slug, dance_id):
     days = ['m', 't', 'w', 'r', 'f', 's', 'u']
     context = {
         'num_prefsheets': num_prefsheets,
-        'availabilities': availabilities,
+        'availabilities': all_availabilities,
         'times': unique_times,
         'days': days
         }
