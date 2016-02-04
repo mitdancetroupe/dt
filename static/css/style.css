@@ -17,13 +17,13 @@ html, body, #container {
 body {
   background-color: transparent;
   color: #000;
-  font-family: "Roboto" sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 300; }
   body p {
-    font-family: "Roboto" sans-serif;
+    font-family: "Roboto", sans-serif;
     font-weight: 300; }
   body h1, body h2, body h3, body h4, body h5, body h6 {
-    font-family: "Oswald" sans-serif;
+    font-family: "Oswald", sans-serif;
     text-transform: uppercase;
     font-weight: 400; }
   body #content {
@@ -57,27 +57,27 @@ body {
         float: right; }
       body #content .square-img .img-heading {
         color: #B2EBF2;
-        font-family: "Oswald" sans-serif;
+        font-family: "Oswald", sans-serif;
         text-transform: uppercase;
         font-weight: 400;
         line-height: 0; }
       body #content .square-img .img-text {
         color: #fff;
         margin: 0;
-        font-family: "Oswald" sans-serif;
+        font-family: "Oswald", sans-serif;
         text-transform: uppercase;
         font-weight: 400; }
     body #content .dance-div {
       height: 100px;
       background-color: #000;
       margin-bottom: 10px;
-      font-family: "Oswald" sans-serif;
+      font-family: "Oswald", sans-serif;
       text-transform: uppercase;
       font-weight: 400;
       color: #fff;
       cursor: pointer; }
       body #content .dance-div .dance-name {
-        font-family: "Oswald" sans-serif;
+        font-family: "Oswald", sans-serif;
         font-weight: 400;
         margin: 0;
         color: #B2EBF2;
@@ -85,7 +85,7 @@ body {
         font-size: 1em; }
       body #content .dance-div p {
         margin: 0;
-        font-family: "Roboto" sans-serif;
+        font-family: "Roboto", sans-serif;
         text-transform: none;
         font-weight: 100;
         font-size: 0.9em; }
@@ -93,7 +93,7 @@ body {
       background-color: #000;
       height: 150px;
       color: #B2EBF2;
-      font-family: "Oswald" sans-serif;
+      font-family: "Oswald", sans-serif;
       text-transform: uppercase;
       font-weight: 400; }
       body #content .workshops-div .workshops-text {
@@ -101,11 +101,11 @@ body {
     body #content .profile-pic {
       width: 200px; }
     body #content form label {
-      font-family: "Oswald" sans-serif;
+      font-family: "Oswald", sans-serif;
       text-transform: uppercase;
       font-weight: 400; }
     body #content form input {
-      font-family: "Roboto" sans-serif;
+      font-family: "Roboto", sans-serif;
       font-weight: 300; }
   body .no-transition {
     -webkit-animation: none !important;
@@ -137,7 +137,7 @@ nav {
     nav #navbar-collapse ul.nav li a {
       color: #B2EBF2;
       text-align: center;
-      font-family: "Oswald" sans-serif;
+      font-family: "Oswald", sans-serif;
       text-transform: uppercase;
       font-weight: 400; }
     nav #navbar-collapse ul.nav li a:hover {

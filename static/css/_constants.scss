@@ -8,8 +8,8 @@ $black: #000;
 $highlight: #B2EBF2;
 $highlight-dark: #0097A7;
 
-$header_font: 'Oswald' sans-serif;
-$body_font: 'Roboto' sans-serif;
+$header_font: 'Oswald', sans-serif;
+$body_font: 'Roboto', sans-serif;
 
 @mixin body_font($weight) {
     font-family: $body_font;
