@@ -116,7 +116,6 @@ def availability(request, show_slug, dance_id):
                 'available': availability.available,
                 'name': name
                 })
-        print prefsheet.conflicts
         conflicts.append({
             'name': name,
             'conflicts': prefsheet.conflicts

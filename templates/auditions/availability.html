@@ -10,7 +10,14 @@
     <p id="notavailable"></p>
     <div id="reasons-container">
         <b>Conflicts: <span id="reasons-time"></span></b>
-        <div id="reasons"></div>
+        <div id="reasons-perm">
+            <ul>
+        {% for conflict in conflicts %}
+            <li><b>{{conflict.name}}:</b> {{conflict.conflicts}}</li>
+        {% endfor %}
+            </ul>
+
+        </div>
     </div>
     <div id="availability-table"></div>
     <br>
@@ -58,11 +65,6 @@
 
         {% for day in days %}
             _days.push('{{day}}')
-        {% endfor %}
-        {% for conflict in conflicts %}
-            var name = '{{conflict.name}}';
-            var conflicts = '{{conflict.conflicts}}';
-            _conflicts[name] = conflicts;
         {% endfor %}
 
     </script>
