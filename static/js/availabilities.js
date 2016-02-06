@@ -114,7 +114,7 @@ $('td').hover(function(e) {
     $(this).parent().children().css({
         "font-weight": "bold"
     }).addClass('highlight');
-    var col = parseInt($(this).attr('data-col')) + 1;
+    var col = parseInt($(this).attr('data-col') || '0') + 1;
     $('td:nth-child(' + col + ')').css({
         "font-weight": "bold"
     }).addClass('highlight');
@@ -125,7 +125,7 @@ $('td').hover(function(e) {
     $(this).parent().children().css({
         "font-weight": "normal"
     }).removeClass('highlight');
-    var col = parseInt($(this).attr('data-col')) + 1;
+    var col = parseInt($(this).attr('data-col') || '0') + 1;
     $('td:nth-child(' + col + ')').css({
         "font-weight": "normal"
     }).removeClass('highlight');
