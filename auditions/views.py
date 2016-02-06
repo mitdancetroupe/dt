@@ -95,13 +95,21 @@ def availability(request, show_slug, dance_id):
     choreographer_prefsheets = PrefSheet.objects.filter(user__in=choreographer_ids)
     conflicts = []
     choreographer_prefsheet_ids = []
-    for choreographer_prefsheet in choreographer_prefsheets:
-        choreographer_prefsheet_ids.append(choreographer_prefsheet.id)
+    choreographer_availabilities = []
+    for prefsheet in choreographer_prefsheets:
+        name = prefsheet.user.first_name + ' ' + prefsheet.user.last_name
+        availabilities = Availability.objects.filter(prefsheetid = prefsheet.id)
+        for availability in availabilities:
+            choreographer_availabilities.append({
+                'day': availability.day,
+                'hour': availability.hour,
+                'available': availability.available,
+                'name': name
+                })
         conflicts.append({
-            'name': choreographer_prefsheet.user.first_name + ' ' + choreographer_prefsheet.user.last_name,
-            'conflicts': choreographer_prefsheet.conflicts
+            'name': name,
+            'conflicts': prefsheet.conflicts
         })
-    choreographer_availabilities = Availability.objects.filter(prefsheetid__in = choreographer_prefsheet_ids)
 
     prefsheets = [pref.prefsheet for pref in prefs]
     num_prefsheets = len(prefsheets)

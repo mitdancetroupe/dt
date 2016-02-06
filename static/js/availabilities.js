@@ -34,6 +34,7 @@ _.forEach(times, function(time) {
 choreographer_conflicts.forEach(function(availability) {
     slug = availability.day + availability.hour
     timedict[slug]['cc'] = true;
+    timedict[slug]['unavailable'].push(availability.name);
 });
 
 _.forEach(availabilities, function(availability) {
@@ -130,15 +131,15 @@ $('td').hover(function(e) {
     }).removeClass('highlight');
 });
 
-$('.timeslot').click(function(e) {
-    var ul = $('<ul></ul>');
-    var slug = $(this).attr('data-slug');
-    $('#reasons-time').html(day_to_print[slug.substring(0,1)] + ' ' + calculateTimeStr(slug.substring(1,5)));
-    var conflicts = timedict[slug]['unavailable'].forEach(function(dancer) {
-        var li = $('<li></li>').append('<b>' + dancer + ':</b> ' + all_conflicts[dancer]);
-        $(ul).append(li);
-    });
+// $('.timeslot').click(function(e) {
+//     var ul = $('<ul></ul>');
+//     var slug = $(this).attr('data-slug');
+//     $('#reasons-time').html(day_to_print[slug.substring(0,1)] + ' ' + calculateTimeStr(slug.substring(1,5)));
+//     var conflicts = timedict[slug]['unavailable'].forEach(function(dancer) {
+//         var li = $('<li></li>').append('<b>' + dancer + ':</b> ' + all_conflicts[dancer]);
+//         $(ul).append(li);
+//     });
 
-    $("#reasons").html(ul);
-});
+//     $("#reasons").html(ul);
+// });
 

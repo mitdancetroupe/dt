@@ -1,3 +1,9 @@
+body {
+    background-color: #eee;
+}
+#container {
+    margin: 50px 0;
+}
 #notavailable {
     height: 10px;
 }
