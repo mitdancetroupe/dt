@@ -46,15 +46,15 @@ def prefsheet(request, show_slug):
             profile.user = user
             profile.save()
             prefsheet = prefsheet_form.save()
-            Availability.objects.filter(prefsheet=prefsheet).delete()
+            Availability.objects.filter(prefsheetid=prefsheet.id).delete()
             availabilities = json.loads(prefsheet.availability)
             pref_formset.save()
             prefsheet.save()
             availability_objects = []
             for a in availabilities:
                 availability = Availability()
-                availability.day=a['day'],
-                availability.hour=a['time'],
+                availability.day=str(a['day'])
+                availability.hour=str(a['time'])
                 availability.available=bool(a['availability'])
                 availability.prefsheetid = prefsheet.id
                 availability_objects.append(availability)
@@ -91,26 +91,46 @@ def select_dance_for_availability(request, show_slug):
 def availability(request, show_slug, dance_id):
     dance = Dance.objects.get(id=dance_id)
     prefs = dance.prefs.filter(accepted=True)
+    choreographer_ids = [choreographer.id for choreographer in dance.choreographers.all()]
+    choreographer_prefsheets = PrefSheet.objects.filter(user__in=choreographer_ids)
+    conflicts = []
+    choreographer_prefsheet_ids = []
+    for choreographer_prefsheet in choreographer_prefsheets:
+        choreographer_prefsheet_ids.append(choreographer_prefsheet.id)
+        conflicts.append({
+            'name': choreographer_prefsheet.user.first_name + ' ' + choreographer_prefsheet.user.last_name,
+            'conflicts': choreographer_prefsheet.conflicts
+        })
+    choreographer_availabilities = Availability.objects.filter(prefsheetid__in = choreographer_prefsheet_ids)
+
     prefsheets = [pref.prefsheet for pref in prefs]
     num_prefsheets = len(prefsheets)
     all_availabilities = []
     for prefsheet in prefsheets:
+        name = prefsheet.user.first_name + ' ' + prefsheet.user.last_name
         availabilities = Availability.objects.filter(prefsheetid = prefsheet.id)
         for availability in availabilities:
             all_availabilities.append({
                 'day': availability.day,
                 'hour': availability.hour,
                 'available': availability.available,
-                'name': prefsheet.user.first_name + ' ' + prefsheet.user.last_name
+                'name': name
                 })
+        print prefsheet.conflicts
+        conflicts.append({
+            'name': name,
+            'conflicts': prefsheet.conflicts
+        })
     unique_times = []
     for hour in range(10, 24):
         for minute in ['00', '30']:
             unique_times.append(str(hour)+minute)
     days = ['m', 't', 'w', 'r', 'f', 's', 'u']
     context = {
+        'conflicts': conflicts,
         'num_prefsheets': num_prefsheets,
         'availabilities': all_availabilities,
+        'choreographer_availabilities': choreographer_availabilities,
         'times': unique_times,
         'days': days
         }

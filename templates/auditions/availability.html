@@ -8,17 +8,27 @@
 {% block content %}
     {{num_prefsheets}} total prefs
     <p id="notavailable"></p>
-    <br>
+    <div id="reasons-container">
+        <b>Conflicts: <span id="reasons-time"></span></b>
+        <div id="reasons"></div>
+    </div>
+    <div id="availability-table"></div>
     <br>
     <script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
     <script src="{{ STATIC_URL }}js/vendor/angular.min.js"></script>
     <script type="text/javascript">
-        availabilities = []
+        var _availabilities = [];
+        var _choreographer_conflicts = [];
+        var _times = [];
+        var _days = [];
+        var _conflicts = {};
+
         {% for availability in availabilities %}
-            availability = {}
+            var availability = {};
             availability.name = '{{availability.name}}';
             availability.hour = '{{availability.hour}}';
+            availability.day = '{{availability.day}}';
             able = '{{availability.available}}';
 
             if (able === "False") {
@@ -27,128 +37,49 @@
                 availability.unavailable = false
             }
 
+            _availabilities.push(availability);
+        {% endfor %}
+        {% for availability in choreographer_availabilities %}
+            var availability = {};
+            availability.name = '{{availability.name}}';
+            availability.hour = '{{availability.hour}}';
             availability.day = '{{availability.day}}';
-            availabilities.push(availability)
-        {% endfor %}
+            able = '{{availability.available}}';
 
-        times = [];
-        {% for t in times %}
-            times.push('{{t}}')
-        {% endfor %}
-
-        days = [];
-        {% for day in days %}
-            days.push('{{day}}')
-        {% endfor %}
-
-        timedict = {}
-        _.forEach(times, function(time) {
-            _.forEach(days, function(day) {
-                timedict[day+time] = {}
-                timedict[day+time]['conflicts'] = 0
-                timedict[day+time]['unavailable'] = []
-            })
-        })
-        _.forEach(availabilities, function(availability) {
-            slug = availability.day + availability.hour
-            if (availability.unavailable) {
-                timedict[slug]['conflicts'] += 1
-                timedict[slug]['unavailable'].push(availability.name)
+            if (able === "False") {
+                availability.unavailable = true
+                _choreographer_conflicts.push(availability);
             }
-        });
+        {% endfor %}
+        {% for t in times %}
+            _times.push('{{t}}')
+        {% endfor %}
 
-        var table = document.createElement('table');
 
-        var row = table.insertRow(0);
-        var col = row.insertCell(0);
-        col.innerHTML = '';
-        _.forEach(days, function(day, index) {
-            col = row.insertCell(index+1);
-            col.innerHTML = day;
-        });
-        _.forEach(times, function(time, timeIndex) {
-            row = table.insertRow(timeIndex+1);
-            col = row.insertCell(0);
-            col.innerHTML = time;
-            col.className = time;
-            _.forEach(days, function(day, dayIndex) {
-                col = row.insertCell(dayIndex+1);
-                if (Number(time) < 1700 && _.contains(['m', 't', 'w', 'r', 'f'], day)) {
-                    col.innerHTML = '-'
-                } else {
-                    conflicts = timedict[day+time]['conflicts']
-                    var unavailable = timedict[day+time]['unavailable'];
-                    col.innerHTML = conflicts;
-                    if (conflicts === 0) {
-                        col.className = 'zero';
-                    } else if (conflicts === 1) {
-                        col.className = 'one';
-                    } else if (conflicts === 2) {
-                        col.className = 'two';
-                    } else if (conflicts === 3) {
-                        col.className = 'three';
-                    } else if (conflicts === 4) {
-                        col.className = 'four';
-                    } else if (conflicts === 5) {
-                        col.className = 'five';
-                    } else if (conflicts === 6) {
-                        col.className = 'six';
-                    } else if (conflicts === 7) {
-                        col.className = 'seven';
-                    } else if (conflicts === 8) {
-                        col.className = 'eight';
-                    }
-                    col.addEventListener("mouseover", function() {
-                        $('.'+time).addClass('bold');
-                        $('#notavailable').html(_(unavailable).join(', '));
-                    }, false);
-                    col.addEventListener("mouseout", function() {
-                        $('.'+time).removeClass('bold');
-                    }, false);
-                }
-            });
-        });
-        $('#content').append(table);
+        {% for day in days %}
+            _days.push('{{day}}')
+        {% endfor %}
+        {% for conflict in conflicts %}
+            var name = '{{conflict.name}}';
+            var conflicts = '{{conflict.conflicts}}';
+            _conflicts[name] = conflicts;
+        {% endfor %}
+
     </script>
-    <style>
-        #notavailable {
-            height: 10px;
-        }
-        .bold {
-            font-weight: bold;
-        }
-        table {
-            width: 100%;
-        }
-        .zero {
-            background-color: #0099CC;
-        }
-        .one {
-            background-color: #80E680;
-        }
-        .two {
-            background-color: #66E066;
-        }
-        .three {
-            background-color: #4DDB4D;
-        }
-        .four {
-            background-color: #33D633;
-        }
-        .five {
-            background-color: #FF9999;
-        }
-        .six {
-            background-color: #FF1919;
-        }
-        .seven {
-            background-color: #B20000;
-        }
-        .eight {
-            background-color: #990000;
-        }
-    </style>
-    <div id="content">>
-    </div>
+    <script src="{{ STATIC_URL }}js/availabilities.js"></script>
+    <link type="text/css" rel='stylesheet' href="{{ STATIC_URL }}css/availabilities.css" />
+    <table id="scale-table" height="50px">
+        <tr>
+            <td class="zero">0</td>
+            <td class="one">1</td>
+            <td class="two">2</td>
+            <td class="three">3</td>
+            <td class="four">4</td>
+            <td class="five">5</td>
+            <td class="six">6</td>
+            <td class="seven">7</td>
+            <td class="eight">8</td>
+        </tr>
+    </table>
 {% endblock %}
 
