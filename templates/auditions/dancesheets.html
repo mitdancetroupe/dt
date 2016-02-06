@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "clean_base.html" %}
 {% load filters %}
 
 {% block title %} {{ dance }} Audition Sheet{% endblock %}
@@ -10,8 +10,8 @@
 {% block body %}
 
 {% for dance in dances %}
-  <h1>{{ dance }} Audition Sheet</h1>
-  <h2>Dancers by Audition Number</h2>
+  <h2>{{ dance }} Audition Sheet</h2>
+  <h3>Dancers by Audition Number</h3>
   <table class="dancer-table">
     <thead>
       <tr>
@@ -32,8 +32,7 @@
       {% endfor %}
     </tbody>
   </table>
-
-  <h2>Dancers by Pref</h2>
+  <h3>Dancers by Pref</h3>
   <table class="dancer-table">
     <thead>
       <tr>
@@ -54,6 +53,19 @@
       {% endfor %}
     </tbody>
   </table>
+  <p style="page-break-after:always;"></p>
+  <style>
+  table, tr, th, td {
+    border: 1px black solid;
+  }
+  table {
+    width: 400px;
+  }
+
+  td,th {
+    padding: 0 10px;
+  }
+  </style>
 {% endfor %}
 
 {% endblock %}

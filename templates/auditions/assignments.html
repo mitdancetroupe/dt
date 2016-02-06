@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "clean_base.html" %}
 {% load filters %}
 
 {% block title %}Audition Number Assignments{% endblock %}
@@ -27,4 +27,16 @@
   {% endfor %}
   </tbody>
 </table>
+ <style>
+  table, tr, th, td {
+    border: 1px black solid;
+  }
+  table {
+    width: 400px;
+  }
+
+  td,th {
+    padding: 0 10px;
+  }
+  </style>
 {% endblock %}
