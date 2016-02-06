@@ -1,18 +1,30 @@
 $(document).ready(function() {
+
+    $('.schedule-box').click(function(e) {
+        var value = $(this).attr('data-slug');
+        var available = parseInt($(this).attr('data-available'));
+        if (parseInt(available)) {
+            $(this).removeClass('green').addClass('red');
+        } else {
+            $(this).removeClass('red').addClass('green');
+        }
+        var newAvailability = available ? 0 : 1;
+        $(this).attr('data-available', newAvailability);
+        updateJson(newAvailability, value);
+    });
+
     var schedule_json = {};
 
     setupScheduleJson();
-
-    $(".schedule-checkbox").change(function(e) {
-        updateJson(this);
-    });
 
     function setupScheduleJson() {
         var availabilityString = $("#id_availability").val();
         // initialize if not there yet
         if (!availabilityString) {
-            $(".schedule-checkbox").each(function() {
-                updateJson(this);
+            $(".schedule-box").each(function() {
+                var available = $(this).attr('data-available');
+                var value = $(this).attr('data-slug');
+                updateJson(available, value);
             });
         // otherwise populate
         } else {
@@ -20,21 +32,22 @@ $(document).ready(function() {
             $.each(availabilityJson, function(index, value) {
                 var key = value.day + value.time;
                 schedule_json[key] = value;
-                var available = value.availability;
-                $("#" + key)[0].checked = available ? false : true;
+                var available = parseInt(value.availability);
+                $("#" + key).attr('data-available', available ? 1 : 0);
+                if (!available) {
+                    $("#" + key).removeClass('green').addClass('red');
+                }
             });
         }
     }
 
-    function updateJson(e) {
-        var checked = e.checked;
-        var value = e.value;
+    function updateJson(available, value) {
         var day = value.slice(0,1);
         var time = value.slice(1,5);
         schedule_json[value] = {
             day: day,
             time: time,
-            availability: checked ? 0 : 1
+            availability: available ? 1 : 0
         };
         var schedule_values = [];
         $.each(schedule_json, function(k, v) {
