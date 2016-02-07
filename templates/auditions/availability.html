@@ -7,7 +7,6 @@
 
 {% block content %}
     {{num_prefsheets}} total prefs
-    <p id="notavailable"></p>
     <div id="reasons-container">
         <b>Conflicts: <span id="reasons-time"></span></b>
         <div id="reasons-perm">
@@ -20,6 +19,8 @@
         </div>
     </div>
     <div id="availability-table"></div>
+    <h3>Not Available:</h3>
+    <p id="notavailable"></p>
     <br>
     <script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
