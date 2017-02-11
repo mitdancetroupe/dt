@@ -1,0 +1,320 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE "auth_permission" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "name" varchar(50) NOT NULL,
+    "content_type_id" integer NOT NULL,
+    "codename" varchar(100) NOT NULL,
+    UNIQUE ("content_type_id", "codename")
+);
+INSERT INTO "auth_permission" VALUES(1,'Can add permission',1,'add_permission');
+INSERT INTO "auth_permission" VALUES(2,'Can change permission',1,'change_permission');
+INSERT INTO "auth_permission" VALUES(3,'Can delete permission',1,'delete_permission');
+INSERT INTO "auth_permission" VALUES(4,'Can add group',2,'add_group');
+INSERT INTO "auth_permission" VALUES(5,'Can change group',2,'change_group');
+INSERT INTO "auth_permission" VALUES(6,'Can delete group',2,'delete_group');
+INSERT INTO "auth_permission" VALUES(7,'Can add user',3,'add_user');
+INSERT INTO "auth_permission" VALUES(8,'Can change user',3,'change_user');
+INSERT INTO "auth_permission" VALUES(9,'Can delete user',3,'delete_user');
+INSERT INTO "auth_permission" VALUES(10,'Can add content type',4,'add_contenttype');
+INSERT INTO "auth_permission" VALUES(11,'Can change content type',4,'change_contenttype');
+INSERT INTO "auth_permission" VALUES(12,'Can delete content type',4,'delete_contenttype');
+INSERT INTO "auth_permission" VALUES(13,'Can add session',5,'add_session');
+INSERT INTO "auth_permission" VALUES(14,'Can change session',5,'change_session');
+INSERT INTO "auth_permission" VALUES(15,'Can delete session',5,'delete_session');
+INSERT INTO "auth_permission" VALUES(16,'Can add site',6,'add_site');
+INSERT INTO "auth_permission" VALUES(17,'Can change site',6,'change_site');
+INSERT INTO "auth_permission" VALUES(18,'Can delete site',6,'delete_site');
+INSERT INTO "auth_permission" VALUES(19,'Can add log entry',7,'add_logentry');
+INSERT INTO "auth_permission" VALUES(20,'Can change log entry',7,'change_logentry');
+INSERT INTO "auth_permission" VALUES(21,'Can delete log entry',7,'delete_logentry');
+INSERT INTO "auth_permission" VALUES(22,'Can add flat page',8,'add_flatpage');
+INSERT INTO "auth_permission" VALUES(23,'Can change flat page',8,'change_flatpage');
+INSERT INTO "auth_permission" VALUES(24,'Can delete flat page',8,'delete_flatpage');
+INSERT INTO "auth_permission" VALUES(25,'Can add user profile',9,'add_userprofile');
+INSERT INTO "auth_permission" VALUES(26,'Can change user profile',9,'change_userprofile');
+INSERT INTO "auth_permission" VALUES(27,'Can delete user profile',9,'delete_userprofile');
+INSERT INTO "auth_permission" VALUES(28,'Can add post',10,'add_post');
+INSERT INTO "auth_permission" VALUES(29,'Can change post',10,'change_post');
+INSERT INTO "auth_permission" VALUES(30,'Can delete post',10,'delete_post');
+INSERT INTO "auth_permission" VALUES(31,'Can add show',11,'add_show');
+INSERT INTO "auth_permission" VALUES(32,'Can change show',11,'change_show');
+INSERT INTO "auth_permission" VALUES(33,'Can delete show',11,'delete_show');
+INSERT INTO "auth_permission" VALUES(34,'Can add dance',12,'add_dance');
+INSERT INTO "auth_permission" VALUES(35,'Can change dance',12,'change_dance');
+INSERT INTO "auth_permission" VALUES(36,'Can delete dance',12,'delete_dance');
+INSERT INTO "auth_permission" VALUES(37,'Can add pref sheet',13,'add_prefsheet');
+INSERT INTO "auth_permission" VALUES(38,'Can change pref sheet',13,'change_prefsheet');
+INSERT INTO "auth_permission" VALUES(39,'Can delete pref sheet',13,'delete_prefsheet');
+INSERT INTO "auth_permission" VALUES(40,'Can list prefsheets',13,'can_list');
+INSERT INTO "auth_permission" VALUES(41,'Can add pref',14,'add_pref');
+INSERT INTO "auth_permission" VALUES(42,'Can change pref',14,'change_pref');
+INSERT INTO "auth_permission" VALUES(43,'Can delete pref',14,'delete_pref');
+INSERT INTO "auth_permission" VALUES(44,'Can add costume',15,'add_costume');
+INSERT INTO "auth_permission" VALUES(45,'Can change costume',15,'change_costume');
+INSERT INTO "auth_permission" VALUES(46,'Can delete costume',15,'delete_costume');
+INSERT INTO "auth_permission" VALUES(47,'Can add migration history',16,'add_migrationhistory');
+INSERT INTO "auth_permission" VALUES(48,'Can change migration history',16,'change_migrationhistory');
+INSERT INTO "auth_permission" VALUES(49,'Can delete migration history',16,'delete_migrationhistory');
+CREATE TABLE "auth_group_permissions" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "group_id" integer NOT NULL,
+    "permission_id" integer NOT NULL REFERENCES "auth_permission" ("id"),
+    UNIQUE ("group_id", "permission_id")
+);
+CREATE TABLE "auth_group" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "name" varchar(80) NOT NULL UNIQUE
+);
+CREATE TABLE "auth_user_groups" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "user_id" integer NOT NULL,
+    "group_id" integer NOT NULL REFERENCES "auth_group" ("id"),
+    UNIQUE ("user_id", "group_id")
+);
+CREATE TABLE "auth_user_user_permissions" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "user_id" integer NOT NULL,
+    "permission_id" integer NOT NULL REFERENCES "auth_permission" ("id"),
+    UNIQUE ("user_id", "permission_id")
+);
+CREATE TABLE "auth_user" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "password" varchar(128) NOT NULL,
+    "last_login" datetime NOT NULL,
+    "is_superuser" bool NOT NULL,
+    "username" varchar(30) NOT NULL UNIQUE,
+    "first_name" varchar(30) NOT NULL,
+    "last_name" varchar(30) NOT NULL,
+    "email" varchar(75) NOT NULL,
+    "is_staff" bool NOT NULL,
+    "is_active" bool NOT NULL,
+    "date_joined" datetime NOT NULL
+);
+INSERT INTO "auth_user" VALUES(1,'pbkdf2_sha256$10000$k3UeqMKae02y$/kcNE81jz4OkUFEabdtH0528Q6D9Pt4/3+yCY0wH8/Y=','2014-02-08 11:42:24',1,'bruno','Bruno','Faviero','bruno@mit.edu',1,1,'2014-02-08 11:41:04');
+INSERT INTO "auth_user" VALUES(2,'pbkdf2_sha256$10000$1PmQO04uUtJG$eVPkaiAoS8e5Fv5ZVrI3rTxg4xCoVGrvHLsGJSRyO4I=','2014-02-08 11:44:04',0,'keanu','Keanu','Delgado','delgadude@mit.edu',0,1,'2014-02-08 11:44:04');
+CREATE TABLE "django_content_type" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "name" varchar(100) NOT NULL,
+    "app_label" varchar(100) NOT NULL,
+    "model" varchar(100) NOT NULL,
+    UNIQUE ("app_label", "model")
+);
+INSERT INTO "django_content_type" VALUES(1,'permission','auth','permission');
+INSERT INTO "django_content_type" VALUES(2,'group','auth','group');
+INSERT INTO "django_content_type" VALUES(3,'user','auth','user');
+INSERT INTO "django_content_type" VALUES(4,'content type','contenttypes','contenttype');
+INSERT INTO "django_content_type" VALUES(5,'session','sessions','session');
+INSERT INTO "django_content_type" VALUES(6,'site','sites','site');
+INSERT INTO "django_content_type" VALUES(7,'log entry','admin','logentry');
+INSERT INTO "django_content_type" VALUES(8,'flat page','flatpages','flatpage');
+INSERT INTO "django_content_type" VALUES(9,'user profile','accounts','userprofile');
+INSERT INTO "django_content_type" VALUES(10,'post','blog','post');
+INSERT INTO "django_content_type" VALUES(11,'show','shows','show');
+INSERT INTO "django_content_type" VALUES(12,'dance','shows','dance');
+INSERT INTO "django_content_type" VALUES(13,'pref sheet','auditions','prefsheet');
+INSERT INTO "django_content_type" VALUES(14,'pref','auditions','pref');
+INSERT INTO "django_content_type" VALUES(15,'costume','costumes','costume');
+INSERT INTO "django_content_type" VALUES(16,'migration history','south','migrationhistory');
+CREATE TABLE "django_session" (
+    "session_key" varchar(40) NOT NULL PRIMARY KEY,
+    "session_data" text NOT NULL,
+    "expire_date" datetime NOT NULL
+);
+INSERT INTO "django_session" VALUES('83c3a8693a25abc41fc58a1292b2b498','YmUwMTQwNTE5Mzk5N2FjZmFjOWY5NjZiMjJhODM3NzIwNjFjYjZkOTqAAn1xAShVEl9hdXRoX3Vz
+ZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHED
+VQ1fYXV0aF91c2VyX2lkcQRLAXUu
+','2014-01-24 16:24:19.181843');
+INSERT INTO "django_session" VALUES('51a5c60aeb823d194e58064f3b223d2c','ODdkMzJkOTkxOGUwN2IwYzUyNTk0ODYzMDE3NWI4N2RkODkyOTJlNzqAAn1xAShVEl9hdXRoX3Vz
+ZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHED
+VQ1fYXV0aF91c2VyX2lkcQRLAnUu
+','2014-02-08 22:27:04.228787');
+INSERT INTO "django_session" VALUES('988bd8d6036810fed51baf99fb640947','ODdkMzJkOTkxOGUwN2IwYzUyNTk0ODYzMDE3NWI4N2RkODkyOTJlNzqAAn1xAShVEl9hdXRoX3Vz
+ZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHED
+VQ1fYXV0aF91c2VyX2lkcQRLAnUu
+','2014-02-09 17:16:19.520123');
+INSERT INTO "django_session" VALUES('af0bf690ef62dd0fa4da631f65e92fb9','ODdkMzJkOTkxOGUwN2IwYzUyNTk0ODYzMDE3NWI4N2RkODkyOTJlNzqAAn1xAShVEl9hdXRoX3Vz
+ZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHED
+VQ1fYXV0aF91c2VyX2lkcQRLAnUu
+','2014-02-11 09:56:17.862632');
+INSERT INTO "django_session" VALUES('abc1d2fba55279e92c870bd38795aca7','ODdkMzJkOTkxOGUwN2IwYzUyNTk0ODYzMDE3NWI4N2RkODkyOTJlNzqAAn1xAShVEl9hdXRoX3Vz
+ZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHED
+VQ1fYXV0aF91c2VyX2lkcQRLAnUu
+','2014-02-12 16:59:29.251492');
+INSERT INTO "django_session" VALUES('fabf41ff6674fe7c7168d46e5312a2a7','YzliZjUwNDA1MDA0YTFmNzgyMjQ2OTM3MmRkYWMzOWJjMDAwZmQ0MDqAAn1xAVUKdGVzdGNvb2tp
+ZVUGd29ya2VkcQJzLg==
+','2014-02-16 17:22:15.949519');
+INSERT INTO "django_session" VALUES('ae32b811a4d988ff81856d0a206c37f2','YmUwMTQwNTE5Mzk5N2FjZmFjOWY5NjZiMjJhODM3NzIwNjFjYjZkOTqAAn1xAShVEl9hdXRoX3Vz
+ZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHED
+VQ1fYXV0aF91c2VyX2lkcQRLAXUu
+','2014-02-22 11:42:24.789341');
+CREATE TABLE "django_site" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "domain" varchar(100) NOT NULL,
+    "name" varchar(50) NOT NULL
+);
+INSERT INTO "django_site" VALUES(1,'example.com','example.com');
+CREATE TABLE "django_admin_log" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "action_time" datetime NOT NULL,
+    "user_id" integer NOT NULL REFERENCES "auth_user" ("id"),
+    "content_type_id" integer REFERENCES "django_content_type" ("id"),
+    "object_id" text,
+    "object_repr" varchar(200) NOT NULL,
+    "action_flag" smallint unsigned NOT NULL,
+    "change_message" text NOT NULL
+);
+INSERT INTO "django_admin_log" VALUES(1,'2014-02-08 11:43:36.533643',1,13,'1','bruno / S14',1,'');
+INSERT INTO "django_admin_log" VALUES(2,'2014-02-08 11:44:04.954945',1,3,'2','keanu',1,'');
+INSERT INTO "django_admin_log" VALUES(3,'2014-02-08 11:44:32.017310',1,3,'1','bruno',2,'Changed password, first_name, last_name and email. Added user profile "Profile for bruno".');
+INSERT INTO "django_admin_log" VALUES(4,'2014-02-08 11:45:18.593661',1,13,'2','keanu / S14',1,'');
+INSERT INTO "django_admin_log" VALUES(5,'2014-02-08 11:46:55.126201',1,3,'2','keanu',2,'Changed password, first_name, last_name and email.');
+INSERT INTO "django_admin_log" VALUES(6,'2014-02-08 12:09:07.550304',1,13,'1','bruno / S14',2,'Changed return_if_not_placed for pref "Kristin''s dance: 1".');
+INSERT INTO "django_admin_log" VALUES(7,'2014-02-08 12:13:42.188820',1,13,'1','bruno / S14',2,'Changed accepted and return_if_not_placed for pref "Kristin''s dance: 1".');
+INSERT INTO "django_admin_log" VALUES(8,'2014-02-08 12:14:37.866176',1,13,'1','bruno / S14',2,'Changed accepted and return_if_not_placed for pref "Kristin''s dance: 1".');
+INSERT INTO "django_admin_log" VALUES(9,'2014-02-08 12:14:46.323548',1,13,'2','keanu / S14',2,'Changed accepted and return_if_not_placed for pref "Kristin''s dance: 1".');
+INSERT INTO "django_admin_log" VALUES(10,'2014-02-08 12:15:33.716687',1,13,'1','bruno / S14',2,'Changed accepted and return_if_not_placed for pref "Kristin''s dance: 1".');
+INSERT INTO "django_admin_log" VALUES(11,'2014-02-08 12:15:40.830631',1,13,'2','keanu / S14',2,'Changed accepted and return_if_not_placed for pref "Kristin''s dance: 1".');
+INSERT INTO "django_admin_log" VALUES(12,'2014-02-08 12:16:40.781986',1,13,'1','bruno / S14',2,'Changed accepted and return_if_not_placed for pref "Kristin''s dance: 1".');
+INSERT INTO "django_admin_log" VALUES(13,'2014-02-08 12:16:49.477093',1,13,'1','bruno / S14',2,'Changed accepted and return_if_not_placed for pref "Kristin''s dance: 1".');
+INSERT INTO "django_admin_log" VALUES(14,'2014-02-08 12:16:55.361212',1,13,'2','keanu / S14',2,'Changed accepted and return_if_not_placed for pref "Kristin''s dance: 1".');
+INSERT INTO "django_admin_log" VALUES(15,'2014-02-08 12:17:09.605255',1,13,'2','keanu / S14',2,'Deleted pref "Bex: 2". Deleted pref "Andre''s dance: 3".');
+INSERT INTO "django_admin_log" VALUES(16,'2014-02-08 12:18:53.159732',1,13,'2','keanu / S14',2,'Changed accepted and return_if_not_placed for pref "Kristin''s dance: 1".');
+INSERT INTO "django_admin_log" VALUES(17,'2014-02-08 12:19:36.323314',1,13,'1','bruno / S14',2,'Changed accepted for pref "Kristin''s dance: 1".');
+INSERT INTO "django_admin_log" VALUES(18,'2014-02-08 12:22:03.842143',1,13,'2','keanu / S14',2,'Changed accepted for pref "Kristin''s dance: 1".');
+INSERT INTO "django_admin_log" VALUES(19,'2014-02-08 12:22:07.567265',1,13,'1','bruno / S14',2,'Changed accepted for pref "Kristin''s dance: 1".');
+INSERT INTO "django_admin_log" VALUES(20,'2014-02-08 12:22:12.784396',1,12,'2','Kristin''s dance',2,'Changed dancers.');
+INSERT INTO "django_admin_log" VALUES(21,'2014-02-08 12:25:46.046902',1,13,'1','bruno / S14',2,'Changed accepted for pref "Kristin''s dance: 1".');
+INSERT INTO "django_admin_log" VALUES(22,'2014-02-08 12:25:52.330421',1,13,'2','keanu / S14',2,'Changed accepted for pref "Kristin''s dance: 1".');
+CREATE TABLE "django_flatpage_sites" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "flatpage_id" integer NOT NULL,
+    "site_id" integer NOT NULL REFERENCES "django_site" ("id"),
+    UNIQUE ("flatpage_id", "site_id")
+);
+CREATE TABLE "django_flatpage" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "url" varchar(100) NOT NULL,
+    "title" varchar(200) NOT NULL,
+    "content" text NOT NULL,
+    "enable_comments" bool NOT NULL,
+    "template_name" varchar(70) NOT NULL,
+    "registration_required" bool NOT NULL
+);
+CREATE TABLE "accounts_userprofile" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "user_id" integer NOT NULL UNIQUE REFERENCES "auth_user" ("id"),
+    "gender" varchar(1) NOT NULL,
+    "year" integer,
+    "affiliation" varchar(1) NOT NULL,
+    "living_group" varchar(30) NOT NULL,
+    "experience" text NOT NULL,
+    "phone_number" varchar(20) NOT NULL,
+    "photo" varchar(100) NOT NULL
+);
+INSERT INTO "accounts_userprofile" VALUES(1,2,'M',2015,'U','Maseeh','None','555-555-5555','');
+INSERT INTO "accounts_userprofile" VALUES(2,1,'M',2015,'U','also Maseeh','None','555-555-5555','');
+CREATE TABLE "blog_post" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "title" varchar(200) NOT NULL,
+    "author_id" integer NOT NULL REFERENCES "auth_user" ("id"),
+    "body" text NOT NULL,
+    "created" datetime NOT NULL,
+    "hidden" bool NOT NULL
+);
+CREATE TABLE "shows_show" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "name" varchar(255) NOT NULL,
+    "year" integer NOT NULL,
+    "semester" smallint unsigned NOT NULL,
+    "info" text NOT NULL,
+    "slug" varchar(50) NOT NULL,
+    "prefsheets_open" bool NOT NULL
+);
+INSERT INTO "shows_show" VALUES(1,'S14',2014,0,'<p>geeeeeee</p>','S14',1);
+CREATE TABLE "shows_dance_dancers" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "dance_id" integer NOT NULL,
+    "user_id" integer NOT NULL REFERENCES "auth_user" ("id"),
+    UNIQUE ("dance_id", "user_id")
+);
+INSERT INTO "shows_dance_dancers" VALUES(1,2,1);
+CREATE TABLE "shows_dance_choreographers" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "dance_id" integer NOT NULL,
+    "user_id" integer NOT NULL REFERENCES "auth_user" ("id"),
+    UNIQUE ("dance_id", "user_id")
+);
+CREATE TABLE "shows_dance" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "name" varchar(255) NOT NULL,
+    "style" varchar(255) NOT NULL,
+    "level" smallint unsigned NOT NULL,
+    "description" text NOT NULL,
+    "show_id" integer NOT NULL REFERENCES "shows_show" ("id")
+);
+INSERT INTO "shows_dance" VALUES(1,'Bruno''s Dance','Hippity hop',1,'test test',1);
+INSERT INTO "shows_dance" VALUES(2,'Kristin''s dance','contemp, of course',3,'yay',1);
+INSERT INTO "shows_dance" VALUES(3,'Andre''s dance','thug life',3,'nnnnnn',1);
+INSERT INTO "shows_dance" VALUES(4,'Bex','bitches gon'' hate',0,'',1);
+CREATE TABLE "costumes_costume_dances" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "costume_id" integer NOT NULL,
+    "dance_id" integer NOT NULL REFERENCES "shows_dance" ("id"),
+    UNIQUE ("costume_id", "dance_id")
+);
+CREATE TABLE "costumes_costume" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "name" varchar(255) NOT NULL,
+    "description" text NOT NULL,
+    "quantity" smallint unsigned NOT NULL,
+    "color" varchar(30) NOT NULL,
+    "location" varchar(20) NOT NULL,
+    "photo" varchar(100) NOT NULL
+);
+CREATE TABLE "south_migrationhistory" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "app_name" varchar(255) NOT NULL,
+    "migration" varchar(255) NOT NULL,
+    "applied" datetime NOT NULL
+);
+INSERT INTO "south_migrationhistory" VALUES(1,'auditions','0001_initial','2014-01-28 09:54:30.617824');
+INSERT INTO "south_migrationhistory" VALUES(2,'auditions','0002_auto__add_field_prefsheet_accepted_dances__add_field_prefsheet_rejecte','2014-01-28 10:22:53.220631');
+INSERT INTO "south_migrationhistory" VALUES(3,'auditions','0003_auto__add_field_pref_accepted','2014-02-08 11:09:42.619429');
+INSERT INTO "south_migrationhistory" VALUES(4,'auditions','0004_auto__add_field_pref_return_if_not_placed','2014-02-08 11:35:02.042733');
+INSERT INTO "south_migrationhistory" VALUES(5,'auditions','0005_auto__del_field_prefsheet_accepted_dances__del_field_prefsheet_rejecte','2014-02-08 13:48:23.852924');
+CREATE TABLE "auditions_pref" ("return_if_not_placed" bool NOT NULL, "pref" smallint unsigned NOT NULL, "dance_id" integer NOT NULL, "prefsheet_id" integer NOT NULL, "accepted" bool, "id" integer PRIMARY KEY);
+INSERT INTO "auditions_pref" VALUES(0,1,2,1,0,1);
+INSERT INTO "auditions_pref" VALUES(0,2,3,1,NULL,2);
+INSERT INTO "auditions_pref" VALUES(0,3,4,1,NULL,3);
+INSERT INTO "auditions_pref" VALUES(0,1,2,2,NULL,4);
+CREATE TABLE "auditions_prefsheet" ("show_id" integer NOT NULL, "user_id" integer NOT NULL, "audition_number" integer, "conflicts" text NOT NULL, "id" integer PRIMARY KEY, "desired_dances" smallint unsigned NOT NULL);
+INSERT INTO "auditions_prefsheet" VALUES(1,1,1,'none',1,3);
+INSERT INTO "auditions_prefsheet" VALUES(1,2,2,'I am never free',2,1);
+CREATE INDEX "auth_permission_37ef4eb4" ON "auth_permission" ("content_type_id");
+CREATE INDEX "auth_group_permissions_5f412f9a" ON "auth_group_permissions" ("group_id");
+CREATE INDEX "auth_group_permissions_83d7f98b" ON "auth_group_permissions" ("permission_id");
+CREATE INDEX "auth_user_groups_6340c63c" ON "auth_user_groups" ("user_id");
+CREATE INDEX "auth_user_groups_5f412f9a" ON "auth_user_groups" ("group_id");
+CREATE INDEX "auth_user_user_permissions_6340c63c" ON "auth_user_user_permissions" ("user_id");
+CREATE INDEX "auth_user_user_permissions_83d7f98b" ON "auth_user_user_permissions" ("permission_id");
+CREATE INDEX "django_session_b7b81f0c" ON "django_session" ("expire_date");
+CREATE INDEX "django_admin_log_6340c63c" ON "django_admin_log" ("user_id");
+CREATE INDEX "django_admin_log_37ef4eb4" ON "django_admin_log" ("content_type_id");
+CREATE INDEX "django_flatpage_sites_872c4601" ON "django_flatpage_sites" ("flatpage_id");
+CREATE INDEX "django_flatpage_sites_99732b5c" ON "django_flatpage_sites" ("site_id");
+CREATE INDEX "django_flatpage_c379dc61" ON "django_flatpage" ("url");
+CREATE INDEX "blog_post_e969df21" ON "blog_post" ("author_id");
+CREATE INDEX "shows_show_f52cfca0" ON "shows_show" ("slug");
+CREATE INDEX "shows_dance_dancers_2803c1b8" ON "shows_dance_dancers" ("dance_id");
+CREATE INDEX "shows_dance_dancers_6340c63c" ON "shows_dance_dancers" ("user_id");
+CREATE INDEX "shows_dance_choreographers_2803c1b8" ON "shows_dance_choreographers" ("dance_id");
+CREATE INDEX "shows_dance_choreographers_6340c63c" ON "shows_dance_choreographers" ("user_id");
+CREATE INDEX "shows_dance_1ed4440f" ON "shows_dance" ("show_id");
+CREATE INDEX "costumes_costume_dances_8ab1b06d" ON "costumes_costume_dances" ("costume_id");
+CREATE INDEX "costumes_costume_dances_2803c1b8" ON "costumes_costume_dances" ("dance_id");
+CREATE INDEX "auditions_pref_2803c1b8" ON "auditions_pref"("dance_id");
+CREATE INDEX "auditions_pref_2407c214" ON "auditions_pref"("prefsheet_id");
+CREATE INDEX "auditions_prefsheet_1ed4440f" ON "auditions_prefsheet"("show_id");
+CREATE INDEX "auditions_prefsheet_6340c63c" ON "auditions_prefsheet"("user_id");
+COMMIT;
