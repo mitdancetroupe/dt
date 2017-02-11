@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from PIL import Image
 
 class UserProfile(models.Model):
-    GENDER_CHOICES = (('M', 'Male'), ('F', 'Female'), ('N', 'Prefer Not to Answer'))
+    GENDER_CHOICES = (('M', 'Male'), ('F', 'Female'), ('N', 'Other/Prefer Not to Answer'))
     AFFILIATION_CHOICES = (('U', 'Undergraduate'), ('G', 'Graduate'),
                            ('O', 'Other'), ('N', 'Non-MIT'))
     user = models.OneToOneField(User)
@@ -15,7 +15,7 @@ class UserProfile(models.Model):
     living_group = models.CharField(max_length=30, blank=True)
     experience = models.TextField(blank=True)
     phone_number = PhoneNumberField(blank=True, help_text='An optional phone number we can use to reach you if necessary.')
-    photo = models.ImageField(upload_to=settings.DANCER_IMAGE_DIR, blank=True, help_text='An optional photo of yourself.')
+    photo = models.ImageField(upload_to=settings.DANCER_IMAGE_DIR, blank=True, help_text='An optional (but recommended) photo of yourself.')
 
     ordering = ('username',)
     def __unicode__(self):
