@@ -9,7 +9,7 @@
 <h2>{{ show }}</h2>
 {% if show.prefsheets_open %}
   {% if user.is_authenticated %}
-    <a href="{% url dt.auditions.views.prefsheet show.slug %}"><strong>Submit your prefsheet by 11:59pm here!</strong></a>
+    <a href="{% url dt.auditions.views.prefsheet show.slug %}"><strong>Submit your prefsheet by Sunday 2:00am here!</strong></a>
   {% else %}
     Preferences sheets for this show are open.
     <a href="{% url dt.accounts.views.register %}">Register</a> or
