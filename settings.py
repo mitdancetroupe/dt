@@ -68,7 +68,8 @@ STATICFILES_DIRS = (
     PROJECT_ROOT + '/static',
 )
 
-STATIC_ROOT = PROJECT_ROOT + '/sitestatic'
+# STATIC_ROOT = PROJECT_ROOT + '/sitestatic'
+STATIC_ROOT = PROJECT_ROOT + '/static'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 's'
