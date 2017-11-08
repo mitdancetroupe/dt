@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var numBgs = 6;
+    var numBgs = 7;
     var i = 0;
 
     function changeBackground() {
