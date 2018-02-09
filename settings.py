@@ -4,14 +4,15 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 PROJECT_ROOT = BASE_DIR
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = True
 
 ADMINS = (
     ('Tim Stumbaugh', 'stum@mit.edu'),
     ('Bruno Faviero', 'bfaviero@mit.edu'),
     ('Rachel Wang', 'rswang@mit.edu'),
-    ('Michele Miao', 'mqm@mit.edu')
+    ('Michele Miao', 'mqm@mit.edu'),
+    ('Andrea Bolivar', 'bolivara@mit.edu')
 )
 
 MANAGERS = ADMINS
