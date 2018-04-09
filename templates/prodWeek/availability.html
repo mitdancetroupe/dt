@@ -1,0 +1,88 @@
+{% extends "clean_base.html" %}
+{% load markup %}
+
+{% block title %}
+    Dance Selection
+{% endblock %}
+
+{% block content %}
+    {{num_prefsheets}} total prefs
+    <div id="reasons-container">
+        <b>Conflicts: <span id="reasons-time"></span></b>
+        <div id="reasons-perm">
+            <ul>
+        {% for conflict in conflicts %}
+            <li><b>{{conflict.name}}:</b> {{conflict.conflicts}}</li>
+        {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+    <div id="availability-table"></div>
+    <h3>Not Available:</h3>
+    <p id="notavailable"></p>
+    <br>
+    <script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+    <script src="{{ STATIC_URL }}js/vendor/angular.min.js"></script>
+    <script type="text/javascript">
+        var _availabilities = [];
+        var _choreographer_conflicts = [];
+        var _times = [];
+        var _days = [];
+        var _conflicts = {};
+
+        {% for availability in availabilities %}
+            var availability = {};
+            availability.name = '{{availability.name}}';
+            availability.hour = '{{availability.hour}}';
+            availability.day = '{{availability.day}}';
+            able = '{{availability.available}}';
+
+            if (able === "False") {
+                availability.unavailable = true
+            } else {
+                availability.unavailable = false
+            }
+
+            _availabilities.push(availability);
+        {% endfor %}
+        {% for availability in choreographer_availabilities %}
+            var availability = {};
+            availability.name = '{{availability.name}}';
+            availability.hour = '{{availability.hour}}';
+            availability.day = '{{availability.day}}';
+            able = '{{availability.available}}';
+
+            if (able === "False") {
+                availability.unavailable = true
+                _choreographer_conflicts.push(availability);
+            }
+        {% endfor %}
+        {% for t in times %}
+            _times.push('{{t}}')
+        {% endfor %}
+
+
+        {% for day in days %}
+            _days.push('{{day}}')
+        {% endfor %}
+
+    </script>
+    <script src="{{ STATIC_URL }}js/availabilities.js"></script>
+    <link type="text/css" rel='stylesheet' href="{{ STATIC_URL }}css/availabilities.css" />
+    <table id="scale-table" height="50px">
+        <tr>
+            <td class="zero">0</td>
+            <td class="one">1</td>
+            <td class="two">2</td>
+            <td class="three">3</td>
+            <td class="four">4</td>
+            <td class="five">5</td>
+            <td class="six">6</td>
+            <td class="seven">7</td>
+            <td class="eight">8</td>
+        </tr>
+    </table>
+{% endblock %}
+

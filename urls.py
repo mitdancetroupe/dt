@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     (r'^shows/', include('dt.shows.urls')),
     (r'^costumes/', include('dt.costumes.urls')),
     (r'^auditions/(?P<show_slug>[\w-]+)/', include('dt.auditions.urls')),
+    (r'^prodWeek/(?P<show_slug>[\w-]+)/', include('dt.prodWeek.urls')),
 
     (r'^databrowse/(.*)', databrowse.site.root),
 

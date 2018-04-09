@@ -1,0 +1,22 @@
+from django.conf.urls.defaults import *
+
+urlpatterns = patterns('dt.prodWeek.views',
+    (r'^prefsheet/$', 'prefsheet'),
+    (r'^thanks/$', 'thanks'),
+    (r'^dancesheets/$', 'dancesheets'),
+    (r'^prefsheets/$', 'prefsheets'),
+    (r'^assignments/$', 'assignments'),
+    (r'^csv/$', 'csv'),
+    (r'^emails/$', 'emails'),
+    (r'^selection/(?P<dance_id>\d+)$', 'selection'),
+    (r'^dancers/(?P<dance_id>\d+)$', 'dancers'),
+    (r'^prefs/(?P<dance_id>\d+)$', 'prefs'),
+    (r'^future_prefs/(?P<dance_id>\d+)$', 'future_prefs'),
+    (r'^accept_dancer/$', 'accept_dancer'),
+    (r'^reject_dancer/$', 'reject_dancer'),
+    (r'^return_dancer/$', 'return_dancer'),
+    (r'^finish/$', 'finish_picking'),
+    (r'^selection/$', 'select_dance'),
+    (r'^availability/(?P<dance_id>\d+)$', 'availability'),
+    (r'^availability/$', 'select_dance_for_availability'),
+)
