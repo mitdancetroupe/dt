@@ -139,7 +139,6 @@ INSTALLED_APPS = (
     'dt.blog',
     'dt.shows',
     'dt.auditions',
-    'dt.prodWeek',
     'dt.costumes',
     'dt.officers',
     'south',
