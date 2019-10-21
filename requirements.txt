@@ -1,4 +1,4 @@
-django==1.4.1
+django==1.11.23
 django-honeypot
 sorl-thumbnail
 django-tinymce
